@@ -720,51 +720,24 @@ html[lang="en"] .pt-bubble { font-family: 'Anton', 'Montserrat', sans-serif; fon
 .liquid-type__canvas { position: absolute; pointer-events: none; }
 
 /* ---------- preloader: logo reveal ----------
-   Timeline (s): 0.1–1.75 a tapered lime comet flies the swoop path into the mark, entering at
-   cruising speed and slowing into the spiral (no mid-flight sprint); 1.75–2.0 its tail draws
-   into the landing point while the mark is "written" (1.68–2.63, a thick mask stroke along its
-   centreline); 2.5–2.9 the dot pops out of the stroke end; 3.1–3.6 the overlay fades away.
-   The comet is a trail of circles on a CSS motion path (offset-path). */
-@property --pl-k { syntax: '<number>'; inherits: true; initial-value: 1; }
+   The shape animation lives in the SVG (a path morph through the traced video frames, 3.48s,
+   started by the inline script in index.html). CSS only holds the overlay for a beat after the
+   mark settles and then fades it: 3.83–4.33s. */
 html.pl-on { overflow: hidden; scrollbar-gutter: stable; }
-html.pl-hold body > :not(.preloader) { visibility: hidden; }
+/* while the reveal plays: keep the hero (and header) painted but frozen under the overlay, and hide
+   everything below the fold, so nothing repaints during the morph and un-hiding costs nothing */
+html.pl-hold main > :not(.hero), html.pl-hold .footer, html.pl-hold .sticky-get { visibility: hidden; }
+html.pl-hold .hero, html.pl-hold .hero *, html.pl-hold .site-header * { animation-play-state: paused !important; }
 .preloader {
   position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center; overflow: hidden;
   background: radial-gradient(60% 60% at 50% 50%, #2a0aa8 0%, var(--violet-900) 70%);
-  animation: pl-out .5s ease 3.1s forwards;
+  animation: pl-out .5s ease 3.83s forwards;
 }
-.pl-svg { width: 100%; height: 100%; animation: pl-zoom .5s ease-in 3.1s forwards; }
-.pl-comet { animation: pl-size 1.65s linear .1s both, pl-hide .12s linear 1.95s forwards; }
-/* comet: 50 circles ride the same motion path, each a fixed distance (0.18%) behind the one
-   in front, shrinking toward the tail, so the trail is one continuous taper */
-.pl-t {
-  offset-path: path('M-60 360C200 330 460 640 700 615C880 595 960 520 990 470C1015 428 975 410 940 435C880 480 840 545 760 548C680 551 650 470 695 422C728 387 768 405 752 463');
-  offset-rotate: 0deg; offset-distance: 0%;
-  transform: scale(var(--pl-k));
-  animation: pl-move 1.9s linear .1s both;
-}
-/* dash starts 100 units before the path (gap 3000) so neither round cap peeks out early */
-.pl-pen { fill: none; stroke: #fff; stroke-width: 112; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1000px 3000px; stroke-dashoffset: 1100px; animation: pl-write .95s cubic-bezier(.3, .35, .25, 1) 1.68s forwards; }
-.pl-full { fill: #fff; opacity: 0; animation: pl-show .2s linear 2.63s forwards; }
-.pl-dot { fill: #86f557; opacity: 0; transform-box: fill-box; transform-origin: 50% 50%; animation: pl-dot .42s cubic-bezier(.3, 1.4, .5, 1) 2.5s forwards; }
-/* head speed: constant for the first 75% of the path (0–55% of the time), then an ease-out
-   whose starting speed matches (slope ≈1.75) and only slows, into the landing at 87%; 87–100% the head waits
-   at the landing point while the tail draws in behind it */
-@keyframes pl-move {
-  0% { offset-distance: calc(0% - var(--i) * .18%); animation-timing-function: linear; }
-  55% { offset-distance: calc(75% - var(--i) * .18%); animation-timing-function: cubic-bezier(.33, .58, .67, 1); }
-  87% { offset-distance: calc(100% - var(--i) * .18%); animation-timing-function: cubic-bezier(.4, 0, .2, 1); }
-  100% { offset-distance: 100%; }
-}
-@keyframes pl-size { 0% { --pl-k: 1.25; } 40% { --pl-k: .95; } 78% { --pl-k: .62; } 100% { --pl-k: 1.5; } }
-@keyframes pl-hide { to { opacity: 0; } }
-@keyframes pl-write { to { stroke-dashoffset: 0px; } }
-@keyframes pl-show { to { opacity: 1; } }
-@keyframes pl-dot { 0% { opacity: 0; transform: translate(-30px, 40px) scale(.3); } 35% { opacity: 1; } 100% { opacity: 1; transform: none; } }
+html:not(.js) .preloader { display: none; }   /* the morph needs the script to start */
+/* the video's 1080-wide action band; full width on phones, capped on big screens */
+.pl-svg { width: min(100vw, 1180px); height: auto; aspect-ratio: 1080 / 640; overflow: visible; }
 @keyframes pl-out { to { opacity: 0; visibility: hidden; } }
-@keyframes pl-zoom { to { transform: scale(1.06); } }
-/* hold everything until the page has loaded (inline script adds .is-go), so the reveal isn't
-   competing with page start-up work; without JS it simply plays straight away */
+/* hold the fade until the page has loaded and the morph has started (inline script adds .is-go) */
 .js .preloader:not(.is-go), .js .preloader:not(.is-go) * { animation-play-state: paused !important; }
 @media (prefers-reduced-motion: reduce) { .preloader { display: none; } }
 
