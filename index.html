@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Prime NOW — ব্যাংকিং চলুক আপনার ছন্দে</title>
-  <meta name="description" content="Prime NOW — Prime Bank-এর ডিজিটাল ব্যাংক। NID আর সেলফি দিয়ে মিনিটেই অ্যাকাউন্ট, নাম্বারলেস কার্ড, DPS, Bangla QR আর NOW Buddy।">
+  <meta name="description" content="Prime NOW — আপনার ডিজিটাল ব্যাংক। NID আর সেলফি দিয়ে মিনিটেই অ্যাকাউন্ট, নাম্বারলেস কার্ড, DPS, Bangla QR আর NOW Buddy।">
   <meta name="theme-color" content="#1a0078">
   <meta property="og:title" content="Prime NOW">
   <meta property="og:description" content="Banking that moves with YOU">
@@ -30,7 +30,12 @@
     })();
   </script>
   <script src="js/i18n.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js" defer></script>
   <script src="js/main.js" defer></script>
+  <script src="js/card-fx.js" defer></script>
+  <script src="js/smooth-scroll.js" defer></script>
+  <script src="js/dps-chart.js" defer></script>
+  <script src="js/hero-parallax.js" defer></script>
 </head>
 <body>
   <a class="skip" href="#main" data-i18n="a11y.skip">মূল অংশে যান</a>
@@ -187,7 +192,7 @@
   <header class="site-header" id="top">
     <div class="wrap header-inner">
       <a class="brand" href="#top" aria-label="Prime NOW">
-        <img src="assets/logo-primenow-white.webp" alt="Prime NOW by Prime Bank" width="900" height="216">
+        <img src="assets/logo-primenow-header.webp" alt="Prime NOW" width="1084" height="160">
       </a>
       <nav class="nav" id="nav" aria-label="Main">
         <a href="#account" data-i18n="nav.account">অ্যাকাউন্ট</a>
@@ -202,7 +207,6 @@
           <button type="button" data-lang="bn" aria-pressed="true">বাংলা</button>
           <button type="button" data-lang="en" aria-pressed="false">EN</button>
         </div>
-        <a class="btn btn-lime btn-sm header-cta" href="#download" data-store="smart" data-i18n="cta.getApp">অ্যাপ নিন</a>
         <button class="menu-btn" type="button" aria-expanded="false" aria-controls="nav" data-i18n-attr="aria-label:a11y.menu" aria-label="মেনু">
           <svg class="ic"><use href="#i-menu"/></svg>
         </button>
@@ -217,7 +221,6 @@
       <div class="hero-glow" aria-hidden="true"></div>
       <div class="wrap hero-grid">
         <div class="hero-copy">
-          <p class="pill reveal"><span class="dot"></span><span data-i18n="hero.eyebrow">Prime Bank-এর ডিজিটাল ব্যাংক</span></p>
           <h1 class="reveal" data-i18n="hero.title">ব্যাংকিং চলুক <em>আপনার</em> ছন্দে</h1>
           <p class="lead reveal" data-i18n="hero.sub">শুধু NID আর একটা সেলফি — কয়েক মিনিটেই অ্যাকাউন্ট খোলা। কাগজপত্র নেই, লাইন নেই, প্রাথমিক জমাও লাগে না।</p>
 
@@ -234,21 +237,14 @@
 
           <p class="trustline reveal">
             <svg class="ic"><use href="#i-shield"/></svg>
-            <span data-i18n="hero.trust">Prime Bank PLC-এর সেবা · বাংলাদেশ ব্যাংক নিয়ন্ত্রিত</span>
+            <span data-i18n="hero.trust">বাংলাদেশ ব্যাংকের নিয়ম মেনে পরিচালিত</span>
           </p>
         </div>
 
         <div class="hero-visual" aria-hidden="true">
-          <img class="hero-card hero-card--purple" src="assets/card-purple.webp" alt="" width="450" height="714">
-          <img class="hero-phone" src="assets/app-in-hand.webp" alt="" width="640" height="1159">
-          <div class="note note--1">
-            <span class="note-ic"><svg class="ic"><use href="#i-check"/></svg></span>
-            <span><b data-i18n="chip.account">অ্যাকাউন্ট খোলা সম্পন্ন</b><small data-i18n="chip.justnow">এইমাত্র</small></span>
-          </div>
-          <div class="note note--3">
-            <span class="note-ic note-ic--ink"><svg class="ic"><use href="#i-qr"/></svg></span>
-            <span><b data-i18n="chip.qr">Bangla QR পেমেন্ট সফল</b><small data-i18n="chip.justnow">এইমাত্র</small></span>
-          </div>
+          <img class="hero-card hero-card--purple" src="assets/card-purple.webp" alt="" width="450" height="714" data-depth="22">
+          <img class="hero-card hero-card--orange" src="assets/card-orange.webp" alt="" width="450" height="714" data-depth="-16">
+          <img class="hero-phone" data-depth="6" src="assets/app-in-hand.webp" alt="" width="720" height="1075">
         </div>
       </div>
     </section>
@@ -270,7 +266,6 @@
     <section class="section section--lav" id="account">
       <div class="wrap split">
         <div class="split-copy">
-          <p class="eyebrow reveal"><svg class="ic"><use href="#i-id"/></svg><span data-i18n="kyc.eyebrow">ই-কেওয়াইসি অ্যাকাউন্ট</span></p>
           <h2 class="reveal" data-i18n="kyc.title">ব্রাঞ্চে না গিয়েই <em>অ্যাকাউন্ট</em> খুলুন</h2>
           <p class="sub reveal" data-i18n="kyc.sub">বাংলাদেশ ব্যাংকের ই-কেওয়াইসি নীতিমালা মেনে পুরোটাই ডিজিটাল। ১৮ বছর বা তার বেশি বয়সী যেকোনো বাংলাদেশি নাগরিক খুলতে পারবেন।</p>
 
@@ -290,11 +285,6 @@
               <span class="step-body"><b data-i18n="kyc.s3.t">লাইভ সেলফি দিন</b><span data-i18n="kyc.s3.d">ফেস ভেরিফিকেশনে নিশ্চিত হয়, আপনিই আপনি।</span></span>
               <span class="step-bar" aria-hidden="true"></span>
             </button></li>
-            <li><button type="button" class="step" data-step="4">
-              <span class="step-n" data-i18n="kyc.n4">০৪</span>
-              <span class="step-body"><b data-i18n="kyc.s4.t">অ্যাকাউন্ট রেডি</b><span data-i18n="kyc.s4.d">OTP যাচাই আর নমিনির তথ্য দিলেই কাজ শেষ।</span></span>
-              <span class="step-bar" aria-hidden="true"></span>
-            </button></li>
           </ol>
 
           <a class="btn btn-violet reveal" href="#download" data-store="smart"><span data-i18n="kyc.cta">এখনই অ্যাকাউন্ট খুলুন</span><svg class="ic"><use href="#i-arrow"/></svg></a>
@@ -307,7 +297,7 @@
 
               <!-- Screen 1: register -->
               <div class="scr is-active" data-screen="1">
-                <div class="scr-top"><img src="assets/logo.png" alt="" width="40" height="22"><span class="scr-prog"><i style="width:25%"></i></span></div>
+                <div class="scr-top"><img src="assets/logo.png" alt="" width="40" height="22"><span class="scr-prog"><i style="width:33%"></i></span></div>
                 <p class="scr-title" data-i18n="scr.reg.title">চলুন শুরু করি</p>
                 <div class="fld"><span data-i18n="scr.reg.name">পুরো নাম</span><b data-i18n="scr.reg.nameV">রাফি আহমেদ</b></div>
                 <div class="fld"><span data-i18n="scr.reg.phone">মোবাইল নম্বর</span><b data-i18n="scr.reg.phoneV">০১৭১২ ৩৪৫ ৬৭৮</b></div>
@@ -317,7 +307,7 @@
 
               <!-- Screen 2: NID scan -->
               <div class="scr scr--dark" data-screen="2">
-                <div class="scr-top"><img src="assets/logo.png" alt="" width="40" height="22"><span class="scr-prog"><i style="width:50%"></i></span></div>
+                <div class="scr-top"><img src="assets/logo.png" alt="" width="40" height="22"><span class="scr-prog"><i style="width:66%"></i></span></div>
                 <p class="scr-title" data-i18n="scr.nid.title">NID-এর সামনের অংশ</p>
                 <div class="nid-frame">
                   <div class="nid">
@@ -335,27 +325,12 @@
 
               <!-- Screen 3: selfie -->
               <div class="scr scr--dark" data-screen="3">
-                <div class="scr-top"><img src="assets/logo.png" alt="" width="40" height="22"><span class="scr-prog"><i style="width:75%"></i></span></div>
+                <div class="scr-top"><img src="assets/logo.png" alt="" width="40" height="22"><span class="scr-prog"><i style="width:100%"></i></span></div>
                 <p class="scr-title" data-i18n="scr.selfie.title">লাইভ সেলফি</p>
                 <div class="face-ring">
                   <div class="face"><svg viewBox="0 0 100 120"><circle cx="50" cy="44" r="24"/><path d="M12 120c2-26 18-40 38-40s36 14 38 40"/></svg></div>
                 </div>
                 <p class="scr-hint" data-i18n="scr.selfie.hint">ক্যামেরার দিকে তাকিয়ে চোখের পলক ফেলুন</p>
-              </div>
-
-              <!-- Screen 4: done -->
-              <div class="scr" data-screen="4">
-                <div class="scr-top"><img src="assets/logo.png" alt="" width="40" height="22"><span class="scr-prog"><i style="width:100%"></i></span></div>
-                <div class="done">
-                  <span class="done-ic"><svg class="ic"><use href="#i-check"/></svg></span>
-                  <p class="scr-title" data-i18n="scr.done.title">অভিনন্দন, রাফি!</p>
-                  <p class="scr-hint" data-i18n="scr.done.sub">আপনার Prime NOW অ্যাকাউন্ট প্রস্তুত</p>
-                  <div class="acct">
-                    <span data-i18n="scr.done.acct">ট্রানজেকশন অ্যাকাউন্ট</span>
-                    <b data-i18n="scr.done.no">•••• ৪৮২১</b>
-                  </div>
-                </div>
-                <span class="scr-btn" data-i18n="scr.done.btn">হোমে যান</span>
               </div>
             </div>
           </div>
@@ -364,31 +339,31 @@
     </section>
 
     <!-- ============ NUMBERLESS CARD ============ -->
-    <section class="section section--night" id="card">
+    <section class="section section--night" id="card" data-color="purple" data-fx-mode="purple">
+      <canvas class="fx fx-gl" aria-hidden="true"></canvas>
+      <canvas class="fx fx-back" aria-hidden="true"></canvas>
+      <canvas class="fx fx-sharp" aria-hidden="true"></canvas>
+      <canvas class="fx fx-front" aria-hidden="true"></canvas>
       <div class="wrap split split--rev">
         <div class="card-stage reveal" data-color="purple">
-          <div class="card-glow" aria-hidden="true"></div>
-          <img class="ybu-card" src="assets/you-be-you.webp" alt="" aria-hidden="true" width="760" height="829" loading="lazy">
-          <figure class="card-figure">
-            <img class="card-img" id="card-img" src="assets/card-purple.webp" alt="বেগুনি Prime NOW নাম্বারলেস কার্ড" width="450" height="714">
-            <figcaption class="card-tag"><svg class="ic"><use href="#i-eyeoff"/></svg><span data-i18n="card.tag">কার্ডে কোনো নম্বর নেই</span></figcaption>
-          </figure>
+          <div class="card-scene" id="card-scene">
+            <div class="scene-card"><div class="scene-float"><img class="card-img" id="card-img" src="assets/card-purple.webp" alt="Aurora — বেগুনি Prime NOW নাম্বারলেস কার্ড" width="450" height="714"></div></div>
+          </div>
           <div class="swatches" role="radiogroup" data-i18n-attr="aria-label:card.pick" aria-label="আপনার রঙ বেছে নিন">
             <button type="button" role="radio" aria-checked="true" class="swatch swatch--purple" data-color="purple">
-              <i></i><span data-i18n="card.purple">বেগুনি</span>
+              <i></i><span data-i18n="card.purple">Aurora</span>
             </button>
             <button type="button" role="radio" aria-checked="false" class="swatch swatch--orange" data-color="orange">
-              <i></i><span data-i18n="card.orange">কমলা</span>
+              <i></i><span data-i18n="card.orange">Phoenix</span>
             </button>
             <button type="button" role="radio" aria-checked="false" class="swatch swatch--black" data-color="black">
-              <i></i><span data-i18n="card.black">কালো</span>
+              <i></i><span data-i18n="card.black">Stealth</span>
             </button>
           </div>
           <p class="card-mood" id="card-mood" aria-live="polite"></p>
         </div>
 
         <div class="split-copy">
-          <p class="eyebrow eyebrow--lime reveal"><svg class="ic"><use href="#i-card"/></svg><span data-i18n="card.eyebrow">নাম্বারলেস ডেবিট কার্ড</span></p>
           <h2 class="reveal" data-i18n="card.title">বাংলাদেশের প্রথম <em>নাম্বারলেস</em> কার্ড</h2>
           <p class="sub reveal" data-i18n="card.sub">কার্ডের গায়ে নেই কোনো নম্বর, মেয়াদ বা CVV। সব তথ্য নিরাপদে থাকে শুধু আপনার অ্যাপে — কেউ উঁকি দিলেও কিছুই দেখতে পাবে না।</p>
           <ul class="feat-list reveal">
@@ -406,7 +381,6 @@
       <div class="wrap">
         <div class="head-split">
           <div>
-            <p class="eyebrow reveal"><svg class="ic"><use href="#i-swap"/></svg><span data-i18n="money.eyebrow">প্রতিদিনের লেনদেন</span></p>
             <h2 class="reveal" data-i18n="money.title">টাকা আনা-নেওয়া, একদম <em>ঝামেলাহীন</em></h2>
           </div>
           <p class="sub reveal" data-i18n="money.sub">স্ক্যান করে পে, যেকোনো জায়গা থেকে টাকা আনা, ফ্রি ট্রান্সফার আর সব বিল — এক অ্যাপেই।</p>
@@ -416,8 +390,7 @@
           <!-- Bangla QR -->
           <article class="b-tile b-qr reveal" id="bangla-qr">
             <div class="b-copy">
-              <span class="tag tag--lime"><svg class="ic"><use href="#i-scan"/></svg>Bangla QR</span>
-              <h3 data-i18n="qr.title">দোকান হোক বা বন্ধু — স্ক্যান করুন, পে করুন</h3>
+              <h3 data-i18n="qr.title">দোকান হোক বা বন্ধু — <mark>Bangla QR</mark> স্ক্যান করে পে করুন</h3>
               <p class="b-lead" data-i18n="qr.lead">Prime NOW-এ Bangla QR এখন Person to Person-ও। চায়ের দোকান থেকে বন্ধুর কাছে ধার শোধ, সব এক স্ক্যানে।</p>
               <ol class="flow">
                 <li><span data-i18n="qr.s1">Scan &amp; Pay খুলুন</span></li>
@@ -425,35 +398,28 @@
                 <li><span data-i18n="qr.s3">টাকা লিখে OTP দিন</span></li>
               </ol>
             </div>
-            <img class="b-qr-img" src="assets/bangla-qr-hands.webp" alt="" width="900" height="888" loading="lazy">
+            <img class="b-qr-img" src="assets/bangla-qr-hands.webp" alt="" width="900" height="960" loading="lazy">
           </article>
 
           <!-- Add money -->
           <article class="b-tile b-add reveal" id="add-money">
-            <span class="tag"><svg class="ic"><use href="#i-plus"/></svg><span data-i18n="add.tag">অ্যাড মানি</span></span>
             <h3 data-i18n="add.title">যেখান থেকে খুশি টাকা যোগ করুন</h3>
+            <div class="add-best">
+              <span class="add-best-ic"><svg class="ic"><use href="#i-bank"/></svg></span>
+              <span class="add-best-txt"><b data-i18n="add.src1">Prime Bank অ্যাকাউন্ট</b><span data-i18n="add.best.d">থেকে টাকা আনতে কোনো চার্জ নেই</span></span>
+              <b class="add-free" data-i18n="add.fee1">ফ্রি</b>
+            </div>
+            <p class="add-more" data-i18n="add.more">অন্য যেকোনো উৎস থেকেও</p>
             <ul class="src-list">
-              <li><span class="src-ic"><svg class="ic"><use href="#i-bank"/></svg></span><span class="src-name" data-i18n="add.src1">Prime Bank অ্যাকাউন্ট</span><b class="fee fee--free" data-i18n="add.fee1">ফ্রি</b></li>
               <li><span class="src-ic"><svg class="ic"><use href="#i-card"/></svg></span><span class="src-name" data-i18n="add.src2">Prime Bank কার্ড</span><b class="fee" data-i18n="add.fee2">১%</b></li>
               <li><span class="src-ic"><svg class="ic"><use href="#i-card"/></svg></span><span class="src-name" data-i18n="add.src3">অন্য ব্যাংকের Visa / Mastercard</span><b class="fee" data-i18n="add.fee3">১.৭%</b></li>
-              <li><span class="src-ic"><svg class="ic"><use href="#i-swap"/></svg></span><span class="src-name" data-i18n="add.src4">অন্য ব্যাংক বা MFS অ্যাপ থেকে ট্রান্সফার</span><b class="fee">NPSB · BEFTN</b></li>
+              <li><span class="src-ic"><svg class="ic"><use href="#i-swap"/></svg></span><span class="src-name" data-i18n="add.src4">অন্য ব্যাংক বা MFS অ্যাপ থেকে ট্রান্সফার</span><b class="fee fee--rail">NPSB · BEFTN</b></li>
             </ul>
-          </article>
-
-          <!-- Free transfers -->
-          <article class="b-tile b-free reveal">
-            <p class="b-big" data-i18n="tr.big">৳০</p>
-            <h3 data-i18n="tr.title">ট্রান্সফার চার্জ</h3>
-            <p data-i18n="tr.d">Prime Bank-এর ভেতরে, আর NPSB, BEFTN ও MFS ওয়ালেটে টাকা পাঠাতে কোনো চার্জ নেই।</p>
-            <div class="rails"><span>NPSB</span><span>BEFTN</span><span>MFS</span><span>Prime Bank</span></div>
           </article>
 
           <!-- Bills & recharge -->
           <article class="b-tile b-bills reveal">
-            <div class="b-bills-head">
-              <h3 data-i18n="bill.title">বিল পে ও রিচার্জ</h3>
-              <p data-i18n="bill.d">মাসের সব বিল এক জায়গায়, কয়েক ট্যাপে।</p>
-            </div>
+            <h3 data-i18n="bill.title">মাসের সব বিল, কয়েক ট্যাপেই</h3>
             <ul class="bill-grid">
               <li><span class="bi bi--1"><svg class="ic"><use href="#i-bolt"/></svg></span><span data-i18n="bill.power">বিদ্যুৎ</span></li>
               <li><span class="bi bi--2"><svg class="ic"><use href="#i-drop"/></svg></span><span data-i18n="bill.water">পানি</span></li>
@@ -471,7 +437,6 @@
     <section class="section section--lav" id="savings">
       <div class="wrap split">
         <div class="split-copy">
-          <p class="eyebrow reveal"><svg class="ic"><use href="#i-target"/></svg><span data-i18n="sav.eyebrow">DPS ও গোল সেভিংস</span></p>
           <h2 class="reveal" data-i18n="sav.title">প্রতিটা স্বপ্নের জন্য <em>আলাদা পকেট</em></h2>
           <p class="sub reveal" data-i18n="sav.sub">ঈদ, ট্রিপ কিংবা নতুন ল্যাপটপ — লক্ষ্য ঠিক করুন, কিস্তি কাটবে নিজে থেকেই। যতগুলো খুশি গোল খুলুন।</p>
 
@@ -527,13 +492,19 @@
               <button type="button" role="radio" aria-checked="false" data-m="60" data-i18n="t60">৫ বছর</button>
             </div>
             <div class="calc-result" aria-live="polite">
-              <span data-i18n="calc.result">মেয়াদ শেষে আনুমানিক পাবেন</span>
-              <b id="calc-total">৳০</b>
+              <div class="cr-top">
+                <span class="cr-label" data-i18n="calc.profit">আনুমানিক মুনাফা</span>
+                <span class="cr-rate"><span data-i18n="calc.rate">মুনাফার হার</span> <b id="calc-rate">০%</b></span>
+              </div>
+              <b class="cr-profit" id="calc-prof">৳০</b>
+              <div class="dps-chart" id="dps-chart" role="img">
+                <svg class="dps-svg" aria-hidden="true"></svg>
+                <div class="dps-tip" hidden></div>
+              </div>
             </div>
             <dl class="calc-dl">
               <div><dt data-i18n="calc.deposit">মোট জমা</dt><dd id="calc-dep">৳০</dd></div>
-              <div><dt data-i18n="calc.profit">আনুমানিক মুনাফা</dt><dd id="calc-prof" class="pos">৳০</dd></div>
-              <div><dt data-i18n="calc.rate">মুনাফার হার</dt><dd id="calc-rate">০%</dd></div>
+              <div><dt data-i18n="calc.result">মেয়াদ শেষে আনুমানিক পাবেন</dt><dd id="calc-total">৳০</dd></div>
             </dl>
             <p class="calc-note" data-i18n="calc.note">ফিক্সড DPS-এর বর্তমান হার অনুযায়ী আনুমানিক হিসাব, কর ও চার্জ বাদে। হার পরিবর্তনযোগ্য।</p>
             <a class="btn btn-violet btn-block" href="#download" data-store="smart"><span data-i18n="calc.cta">অ্যাপে গোল সেট করুন</span><svg class="ic"><use href="#i-arrow"/></svg></a>
@@ -570,7 +541,6 @@
         </div>
 
         <div class="split-copy">
-          <p class="eyebrow eyebrow--lime reveal"><svg class="ic"><use href="#i-chat"/></svg><span>NOW Buddy</span></p>
           <h2 class="reveal" data-i18n="buddy.title">হাই বলুন <em>NOW Buddy</em>-কে</h2>
           <p class="sub reveal" data-i18n="buddy.sub">আপনার ব্যাংকিং সঙ্গী। কার্ড চালু করা থেকে খরচের হিসাব — যেকোনো প্রশ্নের উত্তর মেলে অ্যাপের ভেতরেই।</p>
 
@@ -580,7 +550,7 @@
               <span><b>NOW Buddy</b><small><i class="online"></i><span data-i18n="buddy.online">অনলাইন</span></small></span>
               <span class="demo-badge" data-i18n="demo">ডেমো</span>
             </div>
-            <div class="chat-log" id="chat-log" aria-live="polite"></div>
+            <div class="chat-log" id="chat-log" aria-live="polite" data-lenis-prevent></div>
             <div class="chat-quick" id="chat-quick">
               <p data-i18n="buddy.try">একটা প্রশ্ন বেছে নিন:</p>
               <div class="qbtns"></div>
@@ -614,7 +584,6 @@
         </div>
 
         <div class="split-copy">
-          <p class="eyebrow reveal"><svg class="ic"><use href="#i-chart"/></svg><span data-i18n="ins.eyebrow">খরচের উইজেট</span></p>
           <h2 class="reveal" data-i18n="ins.title">টাকা কোথায় যাচ্ছে, <em>এক নজরে</em></h2>
           <p class="sub reveal" data-i18n="ins.sub">হোম স্ক্রিনেই খরচের হিসাব, ক্যাটাগরি ধরে নিজে থেকেই সাজানো। উইজেট লং-প্রেস করে সরান বা ছোট-বড় করুন।</p>
           <ul class="feat-list feat-list--light reveal">
@@ -627,13 +596,12 @@
     </section>
 
     <!-- ============ SECURITY / REGULATED ============ -->
-    <section class="section section--night" id="security">
+    <section class="section section--lav" id="security">
       <div class="wrap">
         <div class="sec-top">
           <div class="sec-copy">
-            <p class="eyebrow eyebrow--lime reveal"><svg class="ic"><use href="#i-shield"/></svg><span data-i18n="sec.eyebrow">নিরাপত্তা ও নিয়ন্ত্রণ</span></p>
-            <h2 class="reveal" data-i18n="sec.title">আপনার টাকা, <em>Prime Bank</em>-এর ভরসায়</h2>
-            <p class="sub reveal" data-i18n="sec.sub">Prime NOW হলো Prime Bank PLC-এর ডিজিটাল ব্যাংকিং সেবা। আপনার অ্যাকাউন্টটি Prime Bank-এর একটি ডিপোজিট অ্যাকাউন্ট, যা বাংলাদেশ ব্যাংকের নিয়মকানুন মেনে পরিচালিত হয়।</p>
+            <h2 class="reveal" data-i18n="sec.title">আপনার টাকা, <em>নিরাপদ হাতে</em></h2>
+            <p class="sub reveal" data-i18n="sec.sub">প্রতিটি লেনদেনে একাধিক স্তরের সুরক্ষা, আর পুরো সেবাটি চলে বাংলাদেশ ব্যাংকের নিয়মকানুন মেনে।</p>
           </div>
           <div class="sec-visual reveal" aria-hidden="true">
             <img src="assets/lock.webp" alt="" width="300" height="300">
@@ -644,7 +612,7 @@
           <div class="sec-card sec-card--hero reveal">
             <span class="fi"><svg class="ic"><use href="#i-bank"/></svg></span>
             <h3 data-i18n="sec.f1.t">বাংলাদেশ ব্যাংক নিয়ন্ত্রিত</h3>
-            <p data-i18n="sec.f1.d">Prime Bank PLC বাংলাদেশ ব্যাংকের লাইসেন্সপ্রাপ্ত একটি তফসিলি ব্যাংক।</p>
+            <p data-i18n="sec.f1.d">বাংলাদেশ ব্যাংকের লাইসেন্সপ্রাপ্ত তফসিলি ব্যাংকের অধীনে পরিচালিত।</p>
           </div>
           <div class="sec-card reveal">
             <span class="fi"><svg class="ic"><use href="#i-lock"/></svg></span>
@@ -663,38 +631,6 @@
           </div>
         </div>
 
-      </div>
-    </section>
-
-    <!-- ============ FAQ ============ -->
-    <section class="section" id="faq">
-      <div class="wrap faq-wrap">
-        <div class="faq-head">
-          <h2 class="reveal" data-i18n="faq.title">সাধারণ <em>প্রশ্ন</em></h2>
-          <a class="link-arrow reveal" href="https://primenow.ai/faq" target="_blank" rel="noopener"><span data-i18n="faq.all">সব প্রশ্ন দেখুন</span><svg class="ic"><use href="#i-arrow"/></svg></a>
-        </div>
-        <div class="faq-list">
-          <details class="reveal" open>
-            <summary data-i18n="faq.q1">কারা অ্যাকাউন্ট খুলতে পারবেন?</summary>
-            <p data-i18n="faq.a1">১৮ বছর বা তার বেশি বয়সী যেকোনো বাংলাদেশি নাগরিক নিজের নামে একক অ্যাকাউন্ট খুলতে পারবেন।</p>
-          </details>
-          <details class="reveal">
-            <summary data-i18n="faq.q2">কী কী কাগজ লাগবে?</summary>
-            <p data-i18n="faq.a2">আপনার NID (সামনে ও পেছনে), একটা লাইভ সেলফি, আর নমিনির ছবি ও পরিচয়পত্র (NID, জন্মনিবন্ধন বা স্কুল আইডি)।</p>
-          </details>
-          <details class="reveal">
-            <summary data-i18n="faq.q3">অ্যাকাউন্ট খুলতে কি টাকা জমা দিতে হয়?</summary>
-            <p data-i18n="faq.a3">না। কোনো প্রাথমিক জমা ছাড়াই অ্যাকাউন্ট খোলা যায়।</p>
-          </details>
-          <details class="reveal">
-            <summary data-i18n="faq.q4">কার্ড কবে হাতে পাব?</summary>
-            <p data-i18n="faq.a4">৭ কর্মদিবসের মধ্যে আপনার ঠিকানায় ফ্রি ডেলিভারি। অনলাইন কেনাকাটার জন্য কার্ড সাথে সাথেই চালু করা যায়।</p>
-          </details>
-          <details class="reveal">
-            <summary data-i18n="faq.q5">টাকা পাঠাতে চার্জ কত?</summary>
-            <p data-i18n="faq.a5">Prime NOW ও Prime Bank-এর ভেতরে এবং NPSB, BEFTN ও MFS-এ ট্রান্সফার ফ্রি। RTGS-এ ৳৪৯ (VAT সহ)।</p>
-          </details>
-        </div>
       </div>
     </section>
 
@@ -717,7 +653,6 @@
       </div>
       <div class="wrap final-grid">
         <div class="final-copy">
-          <p class="eyebrow eyebrow--lime reveal"><span data-i18n="final.title">আপনার টাকা, আপনার Prime NOW</span></p>
           <h2 class="poster-title reveal">
             <span class="pt-line"><span class="pt-brush"><span class="pt-desk">SCAN</span><span class="pt-mob">TAP</span></span><span class="pt-brush pt-now">NOW</span></span>
             <span class="pt-bubble"><span data-i18n="final.dl">ডাউনলোড করে নাও</span></span>
@@ -775,8 +710,8 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <p data-i18n="ft.copy">© ২০২৬ Prime NOW · Prime Bank PLC। সর্বস্বত্ব সংরক্ষিত।</p>
-        <p data-i18n="ft.reg">Prime Bank PLC বাংলাদেশ ব্যাংক কর্তৃক নিয়ন্ত্রিত।</p>
+        <p data-i18n="ft.copy">© ২০২৬ Prime NOW। সর্বস্বত্ব সংরক্ষিত।</p>
+        <p data-i18n="ft.reg">Prime NOW, Prime Bank PLC-এর একটি সেবা · বাংলাদেশ ব্যাংক নিয়ন্ত্রিত।</p>
       </div>
     </div>
   </footer>

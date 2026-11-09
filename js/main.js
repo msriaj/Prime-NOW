@@ -366,6 +366,14 @@
   function onScroll() { header.classList.toggle('is-scrolled', window.scrollY > 12); }
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
+  // liquid-glass sheen follows the pointer across the bar
+  var headerInner = header.querySelector('.header-inner');
+  if (headerInner && !reduceMotion) {
+    headerInner.addEventListener('pointermove', function (e) {
+      var r = headerInner.getBoundingClientRect();
+      headerInner.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100).toFixed(1) + '%');
+    });
+  }
 
   var nav = document.getElementById('nav');
   var menuBtn = document.querySelector('.menu-btn');
@@ -456,13 +464,19 @@
       if (c === color) return;
       color = c;
       stage.dataset.color = c;
+      document.getElementById('card').dataset.color = c; // section background follows the card
       clearTimeout(swapTimer);
-      img.classList.add('is-swapping');
+      // flip: turn the old card away edge-on, swap the face, turn the new one in
+      img.classList.remove('flip-in');
+      img.classList.add('flip-out');
       swapTimer = setTimeout(function () {
         img.src = SRC[c];
-        img.classList.remove('is-swapping');
+        img.classList.remove('flip-out');
+        img.classList.add('flip-in');
+        void img.offsetWidth;
+        img.classList.remove('flip-in');
         render();
-      }, reduceMotion ? 0 : 220);
+      }, reduceMotion ? 0 : 260);
     });
     onLang(render);
     render();

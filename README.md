@@ -16,7 +16,11 @@ Open http://localhost:5173. To view it from a phone on the same Wi-Fi, bind to a
 |------|---------------|
 | `index.html` | Page markup. Bangla (default) copy lives here. |
 | `js/i18n.js` | English copy for every `data-i18n` key, plus runtime strings in both languages. |
-| `js/main.js` | Language toggle, smart store links, e-KYC stepper, card picker, Add Money demo, DPS calculator, NOW Buddy live avatar (moods, eye tracking, blinks, idle) + chat, spending widget, sticky mobile bar. |
+| `js/main.js` | Language toggle, smart store links, header, e-KYC stepper, card picker (flip), DPS calculator, NOW Buddy live avatar (moods, eye tracking, blinks, idle) + chat, spending widget, sticky mobile bar. |
+| `js/card-fx.js` | Card section backgrounds per colour: Aurora (stars + northern lights), Phoenix (WebGL flames around the card + sparks), Stealth (smoke). |
+| `js/dps-chart.js` | Interest-growth chart inside the savings calculator. |
+| `js/hero-parallax.js` | Pointer parallax for the cards and phone in the hero. |
+| `js/smooth-scroll.js` | Lenis smooth scrolling (loaded from jsDelivr) and in-page anchor offsets. |
 | `css/style.css` | All styles. Brand tokens at the top (`:root`). |
 | `assets/` | Logo, card images, store badges, download QR. |
 
@@ -30,5 +34,6 @@ Open http://localhost:5173. To view it from a phone on the same Wi-Fi, bind to a
 
 - Rates, charges and eligibility are taken from primenow.ai/faq and /product-rates (Jan 2026) — confirm with the product team.
 - Names, balances, goals and spending figures are demo data.
+- The hero hand-and-phone image was generated with GPT Image; the phone screen is the real app screenshot from Prime NOW's Facebook page.
 - NOW Buddy is the official 3D body with the eyes removed (`assets/now-buddy-body.webp`) plus an SVG face in the `#tpl-buddy` template. Moods live in `MOODS` in `main.js`; mood bubble lines are `nb.say.*` in `i18n.js`. Sparkles and lines (`assets/buddy-*.webp`) are cut from the same artwork.
 - The download QR encodes `https://primenow.ai/?get=app`; `main.js` redirects phones to the right store. It works once this page is deployed at primenow.ai.
