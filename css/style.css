@@ -204,13 +204,30 @@ html[lang="bn"] .hero h1 { font-size: clamp(2.6rem, 6vw, 4.7rem); }
 .trustline .ic { color: var(--lime); }
 
 .hero-visual { position: relative; height: clamp(500px, 50vw, 640px); margin-bottom: calc(-1 * clamp(56px, 8vw, 96px)); }
-.hero-phone { position: absolute; left: 50%; bottom: 0; width: clamp(340px, 30vw, 440px); transform: translateX(-50%); filter: drop-shadow(0 40px 50px rgba(10, 0, 50, .55)); z-index: 2; }
-/* two cards tucked behind the hand: drift with the pointer (translate, js/hero-parallax.js) and float gently */
+.hero-phone { position: absolute; left: 50%; bottom: -12px; width: clamp(340px, 30vw, 440px); filter: drop-shadow(0 40px 50px rgba(10, 0, 50, .55)); z-index: 2; }
+/* two cards tucked behind the hand: drift with the pointer (--px/--py, js/hero-parallax.js) and float gently.
+   Pointing at a card's visible edge sets .hero-visual[data-peek]: that card leans out from behind the hand,
+   the phone leans away and the other card tucks in (--kx/--ky/--kr/--ks; % = of the element's own size). */
 .hero-card { position: absolute; width: clamp(130px, 13vw, 180px); border-radius: 14px; filter: drop-shadow(0 24px 30px rgba(10, 0, 50, .5)); z-index: 1;
-  translate: var(--px, 0px) var(--py, 0px); transition: translate .6s cubic-bezier(.2, .7, .3, 1); animation: cardFloat 7s ease-in-out infinite; }
-.hero-card--purple { left: 6%; top: 20%; rotate: -16deg; }
-.hero-card--orange { right: 4%; top: 30%; rotate: 13deg; animation-delay: -3.5s; }
-.hero-phone { translate: var(--px, 0px) var(--py, 0px); transition: translate .6s cubic-bezier(.2, .7, .3, 1); }
+  translate: calc(var(--px, 0px) + var(--kx, 0%)) calc(var(--py, 0px) + var(--ky, 0%));
+  rotate: calc(var(--r, 0deg) + var(--kr, 0deg)); scale: var(--ks, 1);
+  transition: translate .6s cubic-bezier(.2, .7, .3, 1), rotate .7s cubic-bezier(.34, 1.5, .64, 1), scale .7s cubic-bezier(.34, 1.5, .64, 1);
+  animation: cardFloat 7s ease-in-out infinite; }
+.hero-card--purple { left: 6%; top: 20%; --r: -16deg; }
+.hero-card--orange { right: 4%; top: 30%; --r: 13deg; animation-delay: -3.5s; }
+/* The arm is cut off at the hero's bottom edge (it spans ~45–96% of the image width there). The phone leans by
+   rotating about the middle of that cut, like a wrist (origin 70% 100%), and sits 12px below the edge so the
+   small corner lift plus the ±4px vertical parallax never bring the cut into view. Centring lives in `translate`,
+   not `transform`, because `transform` applies after `rotate` and would move the pivot off the arm. */
+.hero-phone { translate: calc(-50% + var(--px, 0px) + var(--kx, 0%)) var(--py, 0px);
+  rotate: var(--kr, 0deg); transform-origin: 70% 100%;
+  transition: translate .6s cubic-bezier(.2, .7, .3, 1), rotate .8s cubic-bezier(.34, 1.4, .64, 1); }
+.hero-visual[data-peek="purple"] .hero-card--purple { --kx: -20%; --ky: -6%; --kr: -7deg; --ks: 1.05; }
+.hero-visual[data-peek="purple"] .hero-card--orange { --kx: -7%; --ks: .96; }
+.hero-visual[data-peek="purple"] .hero-phone { --kx: 2.5%; --kr: 2deg; }
+.hero-visual[data-peek="orange"] .hero-card--orange { --kx: 20%; --ky: -6%; --kr: 7deg; --ks: 1.05; }
+.hero-visual[data-peek="orange"] .hero-card--purple { --kx: 7%; --ks: .96; }
+.hero-visual[data-peek="orange"] .hero-phone { --kx: -2.5%; --kr: -2deg; }
 @keyframes cardFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
 /* ---------- NOW Buddy: live avatar ----------
