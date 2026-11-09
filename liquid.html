@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Liquid lettering — Prime NOW</title>
+  <link rel="icon" href="assets/favicon.ico" sizes="any">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .ld {
+      min-height: 100vh; min-height: 100svh;
+      display: grid; place-items: center; align-content: center; gap: 28px;
+      padding: 72px 16px; text-align: center;
+      background: radial-gradient(60% 50% at 50% 42%, #2a12a8 0%, var(--night) 70%);
+      color: #fff; transition: background .4s;
+    }
+    .ld[data-bg="lav"] { background: var(--lav); color: var(--ink); }
+    .ld[data-bg="white"] { background: #fff; color: var(--ink); }
+    .ld__art { width: min(440px, 78vw); }
+    .ld h1 { margin: 0; font: 800 clamp(1.6rem, 4vw, 2.6rem)/1.15 var(--font-display); letter-spacing: -.02em; }
+    .ld__hint { margin: -12px 0 0; font-size: .9rem; opacity: .65; }
+    .ld__bg { display: flex; gap: 8px; }
+    .ld__bg button {
+      width: 28px; height: 28px; border-radius: 50%; cursor: pointer;
+      border: 2px solid rgba(127, 127, 160, .5);
+    }
+    .ld__bg button[aria-pressed="true"] { border-color: var(--lime); box-shadow: 0 0 0 3px rgba(136, 249, 88, .35); }
+  </style>
+  <script src="js/liquid-type.js" defer></script>
+</head>
+<body>
+  <main class="ld" data-bg="night">
+    <div class="liquid-type ld__art" data-liquid>
+      <img src="assets/you-be-you.webp" alt="You be you" width="760" height="829">
+    </div>
+    <h1>We’ll handle the rest.</h1>
+    <p class="ld__hint">Move over the letters. Tap to splash.</p>
+    <div class="ld__bg" role="group" aria-label="Background">
+      <button type="button" aria-pressed="true" data-bg="night" aria-label="Night" style="background:var(--night)"></button>
+      <button type="button" aria-pressed="false" data-bg="lav" aria-label="Lavender" style="background:var(--lav)"></button>
+      <button type="button" aria-pressed="false" data-bg="white" aria-label="White" style="background:#fff"></button>
+    </div>
+  </main>
+  <script>
+    document.querySelectorAll('.ld__bg button').forEach((b) => b.addEventListener('click', () => {
+      document.querySelector('.ld').dataset.bg = b.dataset.bg;
+      document.querySelectorAll('.ld__bg button').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+    }));
+  </script>
+</body>
+</html>
