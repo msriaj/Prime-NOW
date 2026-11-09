@@ -622,17 +622,28 @@ input[type="range"]::-moz-range-thumb { width: 16px; height: 16px; border-radius
 .spend-buddy { display: flex; gap: 10px; align-items: center; margin-top: 16px; padding: 12px; border-radius: 16px; background: var(--lav); font-size: .88rem; color: var(--ink-2); }
 
 /* ---------- security ---------- */
-.sec-top { display: grid; grid-template-columns: 1.4fr .6fr; gap: 40px; align-items: center; }
-.sec-visual { display: flex; justify-content: center; }
-.sec-visual img { width: clamp(160px, 18vw, 240px); filter: drop-shadow(0 30px 40px rgba(26, 0, 120, .22)); }
-.sec-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 48px; }
-.sec-card { padding: 24px; border-radius: var(--radius-lg); background: #fff; border: 1px solid var(--lav-200); box-shadow: var(--shadow-sm); }
-.sec-card .fi { background: var(--lav); color: var(--violet); }
-.sec-card h3 { font-size: 1.12rem; margin-top: 18px; }
-.sec-card p { color: var(--muted); font-size: .92rem; margin-top: 6px; }
-.sec-card--hero { background: linear-gradient(150deg, var(--violet) 0%, var(--violet-900) 100%); border-color: transparent; color: #fff; }
-.sec-card--hero .fi { background: var(--lime); color: var(--ink); }
-.sec-card--hero p { color: rgba(255,255,255,.85); }
+/* security: title + regulation strip on the left, the protection layers card on the right;
+   its last row is a working card-lock switch */
+.sec2 { display: grid; grid-template-columns: .9fr 1.1fr; gap: clamp(32px, 5vw, 72px); align-items: center; }
+.layers { padding: 6px 24px; border-radius: 28px; background: #fff; box-shadow: var(--shadow-sm); }
+.layers li { display: flex; align-items: center; gap: 16px; padding: 18px 0; }
+.layers li + li { border-top: 1px solid var(--lav-200); }
+.ly-ic { width: 46px; height: 46px; flex: none; border-radius: 14px; display: grid; place-items: center; background: var(--lav); color: var(--violet); transition: background-color .25s, color .25s; }
+.layers li > div, .reg div { flex: 1; min-width: 0; display: grid; gap: 2px; line-height: 1.35; }
+.layers b { font-size: 1.05rem; }
+.layers li > div > span { font-size: .9rem; color: var(--muted); }
+.reg { display: flex; align-items: center; gap: 14px; margin-top: 28px; padding: 16px 20px; border-radius: 20px; color: #fff; background: linear-gradient(150deg, var(--violet) 0%, var(--violet-900) 100%); }
+.reg-ic { width: 42px; height: 42px; flex: none; border-radius: 13px; display: grid; place-items: center; background: var(--lime); color: var(--ink); }
+.reg span:not(.reg-ic) { font-size: .88rem; color: rgba(255,255,255,.8); }
+.ld-switch { position: relative; width: 52px; height: 30px; flex: none; border: 0; padding: 0; border-radius: 999px; background: var(--lav-200); cursor: pointer; transition: background-color .25s var(--ease); }
+.ld-switch i { position: absolute; left: 3px; top: 3px; width: 24px; height: 24px; border-radius: 50%; background: #fff; box-shadow: 0 2px 6px rgba(26, 0, 120, .25); transition: transform .25s var(--ease), background-color .25s; }
+.ld-switch[aria-checked="true"] { background: var(--violet); }
+.ld-switch[aria-checked="true"] i { transform: translateX(22px); }
+.ld-switch:focus-visible { outline: 3px solid var(--violet); outline-offset: 3px; }
+.ly-lock .st-off { display: none; }
+.ly-lock.is-locked .st-on { display: none; }
+.ly-lock.is-locked .st-off { display: inline; color: #d93636; font-weight: 600; }
+.ly-lock.is-locked .ly-ic { background: #ffe8e8; color: #d93636; }
 
 /* ---------- final CTA: neon QR poster ---------- */
 .final {
@@ -761,7 +772,6 @@ html:not(.js) .preloader { display: none; }   /* the morph needs the script to s
   .b-qr .b-copy { align-self: center; padding-bottom: 36px; }
   .b-qr-img { align-self: end; margin: 0; width: 100%; }
   .b-add, .b-bills { grid-column: span 6; }
-  .sec-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 900px) {
@@ -783,7 +793,7 @@ html:not(.js) .preloader { display: none; }   /* the morph needs the script to s
   .menu-btn { display: inline-flex; }
   .header-actions { margin-left: auto; }
 
-  .hero-grid, .split, .final-grid, .sec-top { grid-template-columns: 1fr; }
+  .hero-grid, .split, .final-grid, .sec2 { grid-template-columns: 1fr; }
   .hero-copy { text-align: center; display: flex; flex-direction: column; align-items: center; }
   .head-split { grid-template-columns: 1fr; }
   .get-app { justify-content: center; }
@@ -800,7 +810,6 @@ html:not(.js) .preloader { display: none; }   /* the morph needs the script to s
   .split--rev .split-copy { order: -1; }
   #buddy .split-copy { order: -1; }
   .chat { max-width: none; }
-  .sec-visual { display: none; }
   .final-copy { text-align: center; display: flex; flex-direction: column; align-items: center; }
   .poster-title { align-items: center; }
   .pt-desk, .qr-poster { display: none; }
@@ -832,7 +841,8 @@ html:not(.js) .preloader { display: none; }   /* the morph needs the script to s
   .b-qr-img { max-width: 380px; margin: 0 auto; }
   .b-add, .b-bills { grid-column: span 12; }
   #calc .seg button { padding-inline: 4px; font-size: .8rem; white-space: nowrap; }
-  .sec-grid { grid-template-columns: 1fr; }
+  .layers { padding: 2px 16px; }
+  .layers li { gap: 12px; padding: 14px 0; }
   .phone { width: 270px; height: 560px; }
   .step { padding: 14px; gap: 12px; }
   .step-n { width: 38px; height: 38px; font-size: 1rem; }

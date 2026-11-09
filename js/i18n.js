@@ -146,7 +146,7 @@ window.PN_I18N = {
     'ins.p3': 'Tips from NOW Buddy to spend less',
 
     'sec.title': 'Your money, in <em>safe hands</em>',
-    'sec.sub': 'Several layers of protection on every transaction, and the whole service runs under Bangladesh Bank regulations.',
+    'sec.sub': 'Protection works in layers, and the controls always stay in your hands.',
     'sec.f1.t': 'Regulated by Bangladesh Bank',
     'sec.f1.d': 'Run under a scheduled bank licensed by Bangladesh Bank.',
     'sec.f2.t': 'Two-factor protection',
@@ -155,6 +155,9 @@ window.PN_I18N = {
     'sec.f3.d': 'Sign in safely with your fingerprint or face.',
     'sec.f4.t': 'Block your card in one tap',
     'sec.f4.d': 'Temporarily or permanently, right from the app.',
+    'sec.f5.t': 'Numberless card',
+    'sec.f5.d': 'No number on the card. Your details live only in your app.',
+    'sec.off': 'Card locked, no payments go through',
 
 
     'final.dl': 'Get the app',

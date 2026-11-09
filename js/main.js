@@ -520,6 +520,20 @@
   })();
 
   /* ------------------------------------------------------------------
+     Security: card-lock switch in the "block your card" row
+     ------------------------------------------------------------------ */
+  (function () {
+    var row = document.getElementById('lock-row');
+    if (!row) return;
+    var sw = row.querySelector('.ld-switch');
+    sw.addEventListener('click', function () {
+      var locked = sw.getAttribute('aria-checked') !== 'true';
+      sw.setAttribute('aria-checked', String(locked));
+      row.classList.toggle('is-locked', locked);
+    });
+  })();
+
+  /* ------------------------------------------------------------------
      DPS calculator (Fixed DPS rates from primenow.ai/product-rates, Jan 2026)
      ------------------------------------------------------------------ */
   (function () {

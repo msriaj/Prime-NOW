@@ -637,40 +637,30 @@
 
     <!-- ============ SECURITY / REGULATED ============ -->
     <section class="section section--lav" id="security">
-      <div class="wrap">
-        <div class="sec-top">
-          <div class="sec-copy">
-            <h2 class="reveal" data-i18n="sec.title">আপনার টাকা, <em>নিরাপদ হাতে</em></h2>
-            <p class="sub reveal" data-i18n="sec.sub">প্রতিটি লেনদেনে একাধিক স্তরের সুরক্ষা, আর পুরো সেবাটি চলে বাংলাদেশ ব্যাংকের নিয়মকানুন মেনে।</p>
-          </div>
-          <div class="sec-visual reveal" aria-hidden="true">
-            <img src="assets/lock.webp" alt="" width="300" height="300">
-          </div>
-        </div>
-
-        <div class="sec-grid">
-          <div class="sec-card sec-card--hero reveal">
-            <span class="fi"><svg class="ic"><use href="#i-bank"/></svg></span>
-            <h3 data-i18n="sec.f1.t">বাংলাদেশ ব্যাংক নিয়ন্ত্রিত</h3>
-            <p data-i18n="sec.f1.d">বাংলাদেশ ব্যাংকের লাইসেন্সপ্রাপ্ত তফসিলি ব্যাংকের অধীনে পরিচালিত।</p>
-          </div>
-          <div class="sec-card reveal">
-            <span class="fi"><svg class="ic"><use href="#i-lock"/></svg></span>
-            <h3 data-i18n="sec.f2.t">টু-ফ্যাক্টর সুরক্ষা</h3>
-            <p data-i18n="sec.f2.d">গুরুত্বপূর্ণ প্রতিটি লেনদেনে বাড়তি যাচাই।</p>
-          </div>
-          <div class="sec-card reveal">
-            <span class="fi"><svg class="ic"><use href="#i-finger"/></svg></span>
-            <h3 data-i18n="sec.f3.t">বায়োমেট্রিক লগইন</h3>
-            <p data-i18n="sec.f3.d">ফিঙ্গারপ্রিন্ট বা ফেস দিয়ে নিরাপদে ঢুকুন।</p>
-          </div>
-          <div class="sec-card reveal">
-            <span class="fi"><svg class="ic"><use href="#i-block"/></svg></span>
-            <h3 data-i18n="sec.f4.t">এক ট্যাপে কার্ড ব্লক</h3>
-            <p data-i18n="sec.f4.d">সাময়িক বা স্থায়ীভাবে, অ্যাপ থেকেই।</p>
+      <div class="wrap sec2">
+        <div class="sec2-copy">
+          <h2 class="reveal" data-i18n="sec.title">আপনার টাকা, <em>নিরাপদ হাতে</em></h2>
+          <p class="sub reveal" data-i18n="sec.sub">নিরাপত্তা চলে কয়েক স্তরে, আর নিয়ন্ত্রণ থাকে সবসময় আপনার হাতে।</p>
+          <div class="reg reveal">
+            <span class="reg-ic"><svg class="ic"><use href="#i-bank"/></svg></span>
+            <div><b data-i18n="sec.f1.t">বাংলাদেশ ব্যাংক নিয়ন্ত্রিত</b><span data-i18n="sec.f1.d">বাংলাদেশ ব্যাংকের লাইসেন্সপ্রাপ্ত তফসিলি ব্যাংকের অধীনে পরিচালিত।</span></div>
           </div>
         </div>
 
+        <!-- protection layers; the last row has a working card-lock switch (js/main.js) -->
+        <ul class="layers reveal">
+          <li><span class="ly-ic"><svg class="ic"><use href="#i-finger"/></svg></span><div><b data-i18n="sec.f3.t">বায়োমেট্রিক লগইন</b><span data-i18n="sec.f3.d">ফিঙ্গারপ্রিন্ট বা ফেস দিয়ে নিরাপদে ঢুকুন।</span></div></li>
+          <li><span class="ly-ic"><svg class="ic"><use href="#i-shield"/></svg></span><div><b data-i18n="sec.f2.t">টু-ফ্যাক্টর সুরক্ষা</b><span data-i18n="sec.f2.d">গুরুত্বপূর্ণ প্রতিটি লেনদেনে বাড়তি যাচাই।</span></div></li>
+          <li><span class="ly-ic"><svg class="ic"><use href="#i-eyeoff"/></svg></span><div><b data-i18n="sec.f5.t">নাম্বারলেস কার্ড</b><span data-i18n="sec.f5.d">কার্ডে কোনো নম্বর নেই, সব তথ্য থাকে শুধু আপনার অ্যাপে।</span></div></li>
+          <li class="ly-lock" id="lock-row">
+            <span class="ly-ic"><svg class="ic"><use href="#i-block"/></svg></span>
+            <div>
+              <b id="lock-label" data-i18n="sec.f4.t">এক ট্যাপে কার্ড ব্লক</b>
+              <span aria-live="polite"><span class="st-on" data-i18n="sec.f4.d">সাময়িক বা স্থায়ীভাবে, অ্যাপ থেকেই।</span><span class="st-off" data-i18n="sec.off">কার্ড লক, কোনো লেনদেন হবে না</span></span>
+            </div>
+            <button type="button" class="ld-switch" role="switch" aria-checked="false" aria-labelledby="lock-label"><i></i></button>
+          </li>
+        </ul>
       </div>
     </section>
 
