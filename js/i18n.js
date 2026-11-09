@@ -56,8 +56,9 @@ window.PN_I18N = {
     'card.title': "Bangladesh's first <em>numberless</em> card",
     'card.sub': 'No card number, expiry or CVV printed on it. Your details stay safely inside your app, so a peek over your shoulder reveals nothing.',
     'card.f2': 'Tap to pay, contactless Mastercard',
+    'card.f5': 'Annual fee waived when you make 24 transactions a year',
     'card.f4': 'No issuance fee, free home delivery in 7 working days',
-    'card.cta': 'Get your card in the app',
+    'card.cta': 'Get your card now',
 
     'money.title': 'Moving money, minus the <em>hassle</em>',
     'add.title': 'Top up from wherever you like',
