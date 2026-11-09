@@ -1,0 +1,697 @@
+<!doctype html>
+<html lang="bn">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Prime NOW — ব্যাংকিং চলুক আপনার ছন্দে</title>
+  <meta name="description" content="Prime NOW — Prime Bank-এর ডিজিটাল ব্যাংক। NID আর সেলফি দিয়ে মিনিটেই অ্যাকাউন্ট, নাম্বারলেস কার্ড, DPS, Bangla QR আর NOW Buddy।">
+  <meta name="theme-color" content="#1a0078">
+  <meta property="og:title" content="Prime NOW">
+  <meta property="og:description" content="Banking that moves with YOU">
+  <meta property="og:image" content="https://primenow.ai/prime-now-og-image.jpg">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://primenow.ai/">
+  <link rel="icon" href="assets/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script>
+    // Set language before first paint so returning English visitors don't see a Bangla flash.
+    document.documentElement.classList.add('js');
+    (function () {
+      try {
+        var q = new URLSearchParams(location.search).get('lang');
+        var l = q || localStorage.getItem('pn-lang');
+        if (l === 'en' || l === 'bn') document.documentElement.lang = l;
+      } catch (e) {}
+    })();
+  </script>
+  <script src="js/i18n.js" defer></script>
+  <script src="js/main.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main" data-i18n="a11y.skip">মূল অংশে যান</a>
+
+  <!-- Shared SVG defs + icon sprite -->
+  <svg class="sprite" width="0" height="0" aria-hidden="true" focusable="false">
+    <defs>
+      <linearGradient id="bd-grad" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#8f66ff"/>
+        <stop offset=".55" stop-color="#4100f5"/>
+        <stop offset="1" stop-color="#2a009e"/>
+      </linearGradient>
+    </defs>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7 3v5.5c0 4.5-3 8-7 9.5-4-1.5-7-5-7-9.5V6l7-3z"/><path d="M9 12l2 2 4-4"/></symbol>
+    <symbol id="i-finger" viewBox="0 0 24 24"><path d="M12 11v3.5"/><path d="M8.6 8.4A5 5 0 0 1 17 12v1.5"/><path d="M7 12v1a8 8 0 0 0 1.3 4.4"/><path d="M15.6 16.5a11 11 0 0 1-.9 3.5"/><path d="M12 3a9 9 0 0 1 9 9v1"/><path d="M3 12a9 9 0 0 1 2.6-6.4"/><path d="M12 14.5a10 10 0 0 1-1.5 5.5"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></symbol>
+    <symbol id="i-eyeoff" viewBox="0 0 24 24"><path d="M3 3l18 18"/><path d="M10.6 5.1A10 10 0 0 1 12 5c5 0 9 4.5 10 7-.4 1-1.3 2.4-2.6 3.7M6.3 6.3C4.3 7.6 2.8 9.6 2 12c1 2.5 5 7 10 7 1.8 0 3.4-.6 4.8-1.4"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></symbol>
+    <symbol id="i-tap" viewBox="0 0 24 24"><path d="M7.5 8.5a5 5 0 0 1 0 7"/><path d="M11 6a9 9 0 0 1 0 12"/><path d="M14.5 3.5a13 13 0 0 1 0 17"/></symbol>
+    <symbol id="i-block" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/></symbol>
+    <symbol id="i-truck" viewBox="0 0 24 24"><path d="M3 6h11v10H3z"/><path d="M14 9h4l3 3v4h-7"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-bank" viewBox="0 0 24 24"><path d="M3 10l9-6 9 6"/><path d="M5 10v8M9.5 10v8M14.5 10v8M19 10v8"/><path d="M3 20.5h18"/></symbol>
+    <symbol id="i-card" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="M3 10h18"/></symbol>
+    <symbol id="i-swap" viewBox="0 0 24 24"><path d="M4 8h14l-3.5-3.5M20 16H6l3.5 3.5"/></symbol>
+    <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 3L5 13.5h6L10 21l8-10.5h-6L13 3z"/></symbol>
+    <symbol id="i-qr" viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><path d="M14 14h2v2h-2zM18 18h2v2h-2zM14 19.5h1.5M19.5 14v1.5"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5h16v11H9.5L4 20z"/><path d="M8.5 10.5h.01M12 10.5h.01M15.5 10.5h.01"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24"><path d="M5 20V11M10.5 20V5M16 20v-6M21 20H3"/></symbol>
+    <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3.5l9 16H3z"/><path d="M12 10v4M12 17v.01"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+    <symbol id="i-id" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2.2"/><path d="M5.8 16a3.3 3.3 0 0 1 6.4 0M14.5 10h4M14.5 13.5h4"/></symbol>
+    <symbol id="i-camera" viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></symbol>
+    <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2"/></symbol>
+    <symbol id="i-plane" viewBox="0 0 24 24"><path d="M3 13.5l7-1.5 4.5-7.5 2 .5-2 7.5 5 1.5.5 2-6-.5-3 4.5H9l1-5-6-.5z"/></symbol>
+    <symbol id="i-laptop" viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="10" rx="1.5"/><path d="M2.5 19h19l-2-4h-15z"/></symbol>
+    <symbol id="i-bag" viewBox="0 0 24 24"><path d="M5 8h14l-1 12H6z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></symbol>
+    <symbol id="i-fb" viewBox="0 0 24 24"><path d="M14 8.5h2.5V5H14c-2.5 0-4 1.6-4 4v2H8v3.5h2V21h3.5v-6.5H16l.5-3.5h-3V9.4c0-.6.3-.9.5-.9z" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-ig" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.2 6.8h.01"/></symbol>
+    <symbol id="i-in" viewBox="0 0 24 24"><path d="M4.5 9.5h3.2V20H4.5zM6.1 4a1.85 1.85 0 1 1 0 3.7 1.85 1.85 0 0 1 0-3.7zM10 9.5h3v1.5c.5-.9 1.7-1.8 3.4-1.8 3.3 0 3.9 2.1 3.9 4.9V20H17v-5.1c0-1.2 0-2.8-1.7-2.8s-2 1.3-2 2.7V20H10z" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3.5 7l8.5 6 8.5-6"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></symbol>
+  </svg>
+
+  <!-- NOW Buddy avatar: one template, cloned wherever [data-buddy] appears -->
+  <template id="tpl-buddy">
+    <svg class="buddy-svg" viewBox="0 0 200 212" aria-hidden="true" focusable="false">
+      <ellipse class="b-shadow" cx="100" cy="203" rx="50" ry="6"/>
+      <g class="b-float">
+        <g class="b-arm-l"><rect x="10" y="112" width="34" height="22" rx="11" fill="url(#bd-grad)" transform="rotate(25 40 123)"/></g>
+        <g class="b-arm-r"><rect x="156" y="104" width="34" height="22" rx="11" fill="url(#bd-grad)" transform="rotate(-35 160 115)"/></g>
+        <path d="M104 46c3-14 10-22 20-26" stroke="#88f958" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <circle class="b-ant" cx="128" cy="18" r="10" fill="#88f958"/>
+        <rect x="30" y="44" width="140" height="148" rx="64" fill="url(#bd-grad)"/>
+        <ellipse cx="70" cy="70" rx="24" ry="12" fill="#fff" opacity=".24" transform="rotate(-28 70 70)"/>
+        <rect x="47" y="82" width="106" height="68" rx="34" fill="#140a4d"/>
+        <g class="b-eyes">
+          <ellipse cx="80" cy="111" rx="9" ry="12" fill="#88f958"/>
+          <ellipse cx="120" cy="111" rx="9" ry="12" fill="#88f958"/>
+        </g>
+        <path d="M89 131q11 8 22 0" stroke="#88f958" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+        <ellipse cx="52" cy="160" rx="9" ry="6" fill="#ff8fd0" opacity=".45"/>
+        <ellipse cx="148" cy="160" rx="9" ry="6" fill="#ff8fd0" opacity=".45"/>
+      </g>
+    </svg>
+  </template>
+
+  <!-- ============ HEADER ============ -->
+  <header class="site-header" id="top">
+    <div class="wrap header-inner">
+      <a class="brand" href="#top" aria-label="Prime NOW">
+        <img src="assets/logo-primenow-white.webp" alt="Prime NOW by Prime Bank" width="900" height="216">
+      </a>
+      <nav class="nav" id="nav" aria-label="Main">
+        <a href="#account" data-i18n="nav.account">অ্যাকাউন্ট</a>
+        <a href="#card" data-i18n="nav.card">কার্ড</a>
+        <a href="#money" data-i18n="nav.money">লেনদেন</a>
+        <a href="#savings" data-i18n="nav.savings">সঞ্চয়</a>
+        <a href="#buddy">NOW Buddy</a>
+        <a href="#security" data-i18n="nav.security">নিরাপত্তা</a>
+      </nav>
+      <div class="header-actions">
+        <div class="lang" role="group" aria-label="Language / ভাষা">
+          <button type="button" data-lang="bn" aria-pressed="true">বাংলা</button>
+          <button type="button" data-lang="en" aria-pressed="false">EN</button>
+        </div>
+        <a class="btn btn-lime btn-sm header-cta" href="#download" data-store="smart" data-i18n="cta.getApp">অ্যাপ নিন</a>
+        <button class="menu-btn" type="button" aria-expanded="false" aria-controls="nav" data-i18n-attr="aria-label:a11y.menu" aria-label="মেনু">
+          <svg class="ic"><use href="#i-menu"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- ============ HERO ============ -->
+    <section class="hero">
+      <div class="hero-glow" aria-hidden="true"></div>
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <p class="pill reveal"><span class="dot"></span><span data-i18n="hero.eyebrow">Prime Bank-এর ডিজিটাল ব্যাংক</span></p>
+          <h1 class="reveal" data-i18n="hero.title">ব্যাংকিং চলুক <em>আপনার</em> ছন্দে</h1>
+          <p class="lead reveal" data-i18n="hero.sub">শুধু NID আর একটা সেলফি — কয়েক মিনিটেই অ্যাকাউন্ট খোলা। কাগজপত্র নেই, লাইন নেই, প্রাথমিক জমাও লাগে না।</p>
+
+          <div class="get-app reveal">
+            <div class="stores">
+              <a class="store" href="https://apps.apple.com/us/app/prime-now-app/id6759029598" target="_blank" rel="noopener" data-os="ios">
+                <img src="assets/app-store-download.svg" alt="Download on the App Store" width="160" height="48">
+              </a>
+              <a class="store" href="https://play.google.com/store/apps/details?id=com.primenow.app" target="_blank" rel="noopener" data-os="android">
+                <img src="assets/google-play-download.svg" alt="Get it on Google Play" width="160" height="48">
+              </a>
+            </div>
+            <div class="qr-tile">
+              <img src="assets/qr-download.svg" alt="" width="84" height="84">
+              <p data-i18n="qr.label">ফোনের ক্যামেরায় স্ক্যান করে অ্যাপ নিন</p>
+            </div>
+          </div>
+
+          <p class="trustline reveal">
+            <svg class="ic"><use href="#i-shield"/></svg>
+            <span data-i18n="hero.trust">Prime Bank PLC-এর সেবা · বাংলাদেশ ব্যাংক নিয়ন্ত্রিত</span>
+          </p>
+        </div>
+
+        <div class="hero-visual" aria-hidden="true">
+          <img class="hero-card hero-card--purple" src="assets/card-purple.webp" alt="" width="450" height="714">
+          <img class="hero-card hero-card--orange" src="assets/card-orange.webp" alt="" width="450" height="714">
+          <img class="hero-phone" src="assets/app-mockup.webp" alt="" width="640" height="993">
+          <div class="note note--1">
+            <span class="note-ic"><svg class="ic"><use href="#i-check"/></svg></span>
+            <span><b data-i18n="chip.account">অ্যাকাউন্ট খোলা সম্পন্ন</b><small data-i18n="chip.justnow">এইমাত্র</small></span>
+          </div>
+          <div class="note note--2">
+            <span class="note-ic note-ic--violet"><svg class="ic"><use href="#i-plus"/></svg></span>
+            <span><b data-i18n="chip.added">৳১,০০০ যোগ হয়েছে</b><small data-i18n="chip.justnow">এইমাত্র</small></span>
+          </div>
+          <div class="note note--3">
+            <span class="note-ic note-ic--ink"><svg class="ic"><use href="#i-qr"/></svg></span>
+            <span><b data-i18n="chip.qr">Bangla QR পেমেন্ট সফল</b><small data-i18n="chip.justnow">এইমাত্র</small></span>
+          </div>
+          <div class="hero-buddy">
+            <div class="buddy buddy--sm buddy--wave" data-buddy></div>
+            <span class="bubble" data-i18n="buddy.hi">হাই! আমি NOW Buddy</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ FACTS ============ -->
+    <section class="facts" aria-label="Highlights">
+      <div class="wrap">
+        <ul class="facts-grid">
+          <li class="reveal"><b data-i18n="fact1.num">৳০</b><span data-i18n="fact1.label">প্রাথমিক জমা</span></li>
+          <li class="reveal"><b data-i18n="fact2.num">৪%</b><span data-i18n="fact2.label">পর্যন্ত সঞ্চয়ী মুনাফা</span></li>
+          <li class="reveal"><b data-i18n="fact3.num">৯%</b><span data-i18n="fact3.label">পর্যন্ত DPS মুনাফা</span></li>
+          <li class="reveal"><b data-i18n="fact4.num">ফ্রি</b><span data-i18n="fact4.label">NPSB, BEFTN ও MFS ট্রান্সফার</span></li>
+        </ul>
+        <p class="facts-note" data-i18n="facts.note">হার ও চার্জ পরিবর্তনযোগ্য। বিস্তারিত দেখুন <a href="https://primenow.ai/product-rates" target="_blank" rel="noopener">প্রোডাক্ট রেট</a> ও <a href="https://primenow.ai/schedule-of-charges" target="_blank" rel="noopener">চার্জের তালিকায়</a>।</p>
+      </div>
+    </section>
+
+    <!-- ============ e-KYC ============ -->
+    <section class="section section--lav" id="account">
+      <div class="wrap split">
+        <div class="split-copy">
+          <p class="eyebrow reveal"><svg class="ic"><use href="#i-id"/></svg><span data-i18n="kyc.eyebrow">ই-কেওয়াইসি অ্যাকাউন্ট</span></p>
+          <h2 class="reveal" data-i18n="kyc.title">ব্রাঞ্চে না গিয়েই অ্যাকাউন্ট খুলুন</h2>
+          <p class="sub reveal" data-i18n="kyc.sub">বাংলাদেশ ব্যাংকের ই-কেওয়াইসি নীতিমালা মেনে পুরোটাই ডিজিটাল। ১৮ বছর বা তার বেশি বয়সী যেকোনো বাংলাদেশি নাগরিক খুলতে পারবেন।</p>
+
+          <ol class="steps reveal" id="kyc-steps">
+            <li><button type="button" class="step is-active" data-step="1" aria-current="step">
+              <span class="step-n" data-i18n="kyc.n1">০১</span>
+              <span class="step-body"><b data-i18n="kyc.s1.t">অ্যাপ নিন, রেজিস্টার করুন</b><span data-i18n="kyc.s1.d">নাম, মোবাইল নম্বর আর একটা ইউজারনেম — শুরু এখানেই।</span></span>
+              <span class="step-bar" aria-hidden="true"></span>
+            </button></li>
+            <li><button type="button" class="step" data-step="2">
+              <span class="step-n" data-i18n="kyc.n2">০২</span>
+              <span class="step-body"><b data-i18n="kyc.s2.t">NID স্ক্যান করুন</b><span data-i18n="kyc.s2.d">জাতীয় পরিচয়পত্রের সামনে ও পেছনের ছবি তুলুন।</span></span>
+              <span class="step-bar" aria-hidden="true"></span>
+            </button></li>
+            <li><button type="button" class="step" data-step="3">
+              <span class="step-n" data-i18n="kyc.n3">০৩</span>
+              <span class="step-body"><b data-i18n="kyc.s3.t">লাইভ সেলফি দিন</b><span data-i18n="kyc.s3.d">ফেস ভেরিফিকেশনে নিশ্চিত হয়, আপনিই আপনি।</span></span>
+              <span class="step-bar" aria-hidden="true"></span>
+            </button></li>
+            <li><button type="button" class="step" data-step="4">
+              <span class="step-n" data-i18n="kyc.n4">০৪</span>
+              <span class="step-body"><b data-i18n="kyc.s4.t">অ্যাকাউন্ট রেডি</b><span data-i18n="kyc.s4.d">OTP যাচাই আর নমিনির তথ্য দিলেই কাজ শেষ।</span></span>
+              <span class="step-bar" aria-hidden="true"></span>
+            </button></li>
+          </ol>
+
+          <p class="need reveal"><svg class="ic"><use href="#i-check"/></svg><span data-i18n="kyc.need">যা লাগবে: আপনার NID, আর নমিনির ছবি ও পরিচয়পত্র</span></p>
+          <a class="btn btn-violet reveal" href="#download" data-store="smart"><span data-i18n="kyc.cta">এখনই অ্যাকাউন্ট খুলুন</span><svg class="ic"><use href="#i-arrow"/></svg></a>
+        </div>
+
+        <div class="split-visual reveal" aria-hidden="true">
+          <div class="phone">
+            <div class="phone-screen">
+              <span class="island"></span>
+
+              <!-- Screen 1: register -->
+              <div class="scr is-active" data-screen="1">
+                <div class="scr-top"><img src="assets/logo.png" alt="" width="40" height="22"><span class="scr-prog"><i style="width:25%"></i></span></div>
+                <p class="scr-title" data-i18n="scr.reg.title">চলুন শুরু করি</p>
+                <div class="fld"><span data-i18n="scr.reg.name">পুরো নাম</span><b data-i18n="scr.reg.nameV">রাফি আহমেদ</b></div>
+                <div class="fld"><span data-i18n="scr.reg.phone">মোবাইল নম্বর</span><b data-i18n="scr.reg.phoneV">০১৭১২ ৩৪৫ ৬৭৮</b></div>
+                <div class="fld is-focus"><span data-i18n="scr.reg.user">ইউজারনেম</span><b>rafi.now<i class="caret"></i></b></div>
+                <span class="scr-btn" data-i18n="scr.next">পরবর্তী</span>
+              </div>
+
+              <!-- Screen 2: NID scan -->
+              <div class="scr scr--dark" data-screen="2">
+                <div class="scr-top"><img src="assets/logo.png" alt="" width="40" height="22"><span class="scr-prog"><i style="width:50%"></i></span></div>
+                <p class="scr-title" data-i18n="scr.nid.title">NID-এর সামনের অংশ</p>
+                <div class="nid-frame">
+                  <div class="nid">
+                    <div class="nid-head"></div>
+                    <div class="nid-body">
+                      <span class="nid-photo"><svg class="ic"><use href="#i-user"/></svg></span>
+                      <span class="nid-lines"><i></i><i></i><i></i><i class="short"></i></span>
+                    </div>
+                  </div>
+                  <span class="scanline"></span>
+                </div>
+                <p class="scr-hint" data-i18n="scr.nid.hint">কার্ডটি ফ্রেমের ভেতরে রাখুন</p>
+                <span class="shutter"></span>
+              </div>
+
+              <!-- Screen 3: selfie -->
+              <div class="scr scr--dark" data-screen="3">
+                <div class="scr-top"><img src="assets/logo.png" alt="" width="40" height="22"><span class="scr-prog"><i style="width:75%"></i></span></div>
+                <p class="scr-title" data-i18n="scr.selfie.title">লাইভ সেলফি</p>
+                <div class="face-ring">
+                  <div class="face"><svg viewBox="0 0 100 120"><circle cx="50" cy="44" r="24"/><path d="M12 120c2-26 18-40 38-40s36 14 38 40"/></svg></div>
+                </div>
+                <p class="scr-hint" data-i18n="scr.selfie.hint">ক্যামেরার দিকে তাকিয়ে চোখের পলক ফেলুন</p>
+              </div>
+
+              <!-- Screen 4: done -->
+              <div class="scr" data-screen="4">
+                <div class="scr-top"><img src="assets/logo.png" alt="" width="40" height="22"><span class="scr-prog"><i style="width:100%"></i></span></div>
+                <div class="done">
+                  <span class="done-ic"><svg class="ic"><use href="#i-check"/></svg></span>
+                  <p class="scr-title" data-i18n="scr.done.title">অভিনন্দন, রাফি!</p>
+                  <p class="scr-hint" data-i18n="scr.done.sub">আপনার Prime NOW অ্যাকাউন্ট প্রস্তুত</p>
+                  <div class="acct">
+                    <span data-i18n="scr.done.acct">ট্রানজেকশন অ্যাকাউন্ট</span>
+                    <b data-i18n="scr.done.no">•••• ৪৮২১</b>
+                  </div>
+                </div>
+                <span class="scr-btn" data-i18n="scr.done.btn">হোমে যান</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ NUMBERLESS CARD ============ -->
+    <section class="section section--night" id="card">
+      <div class="wrap split split--rev">
+        <div class="card-stage reveal" data-color="purple">
+          <div class="card-glow" aria-hidden="true"></div>
+          <figure class="card-figure">
+            <img class="card-img" id="card-img" src="assets/card-purple.webp" alt="বেগুনি Prime NOW নাম্বারলেস কার্ড" width="450" height="714">
+            <figcaption class="card-tag"><svg class="ic"><use href="#i-eyeoff"/></svg><span data-i18n="card.tag">কার্ডে কোনো নম্বর নেই</span></figcaption>
+          </figure>
+          <div class="swatches" role="radiogroup" data-i18n-attr="aria-label:card.pick" aria-label="আপনার রঙ বেছে নিন">
+            <button type="button" role="radio" aria-checked="true" class="swatch swatch--purple" data-color="purple">
+              <i></i><span data-i18n="card.purple">বেগুনি</span>
+            </button>
+            <button type="button" role="radio" aria-checked="false" class="swatch swatch--orange" data-color="orange">
+              <i></i><span data-i18n="card.orange">কমলা</span>
+            </button>
+            <button type="button" role="radio" aria-checked="false" class="swatch swatch--black" data-color="black">
+              <i></i><span data-i18n="card.black">কালো</span>
+            </button>
+          </div>
+          <p class="card-mood" id="card-mood" aria-live="polite"></p>
+        </div>
+
+        <div class="split-copy">
+          <p class="eyebrow eyebrow--lime reveal"><svg class="ic"><use href="#i-card"/></svg><span data-i18n="card.eyebrow">নাম্বারলেস ডেবিট কার্ড</span></p>
+          <h2 class="reveal" data-i18n="card.title">বাংলাদেশের প্রথম নাম্বারলেস কার্ড</h2>
+          <p class="sub reveal" data-i18n="card.sub">কার্ডের গায়ে নেই কোনো নম্বর, মেয়াদ বা CVV। সব তথ্য নিরাপদে থাকে শুধু আপনার অ্যাপে — কেউ উঁকি দিলেও কিছুই দেখতে পাবে না।</p>
+          <ul class="feat-list reveal">
+            <li><span class="fi"><svg class="ic"><use href="#i-eyeoff"/></svg></span><span data-i18n="card.f1">নম্বর, মেয়াদ ও CVV দেখা যায় শুধু অ্যাপে</span></li>
+            <li><span class="fi"><svg class="ic"><use href="#i-tap"/></svg></span><span data-i18n="card.f2">ট্যাপ করেই পেমেন্ট — কন্ট্যাক্টলেস Mastercard</span></li>
+            <li><span class="fi"><svg class="ic"><use href="#i-block"/></svg></span><span data-i18n="card.f3">হারালে অ্যাপ থেকেই সাথে সাথে ব্লক</span></li>
+            <li><span class="fi"><svg class="ic"><use href="#i-truck"/></svg></span><span data-i18n="card.f4">ইস্যু ফি নেই, ৭ কর্মদিবসে ফ্রি হোম ডেলিভারি</span></li>
+          </ul>
+          <p class="hint-note reveal"><svg class="ic"><use href="#i-spark"/></svg><span data-i18n="card.note">কার্ডের রঙ বেছে নিতে হয় অ্যাকাউন্ট খোলার সময়ই — তাই পছন্দের রঙটা এখনই ঠিক করে ফেলুন।</span></p>
+          <a class="btn btn-lime reveal" href="#download" data-store="smart"><span data-i18n="card.cta">অ্যাপে কার্ড নিন</span><svg class="ic"><use href="#i-arrow"/></svg></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ EVERYDAY MONEY: ADD MONEY + BANGLA QR ============ -->
+    <section class="section" id="money">
+      <div class="wrap">
+        <div class="head-center">
+          <p class="eyebrow reveal"><svg class="ic"><use href="#i-swap"/></svg><span data-i18n="money.eyebrow">প্রতিদিনের লেনদেন</span></p>
+          <h2 class="reveal" data-i18n="money.title">টাকা আনা-নেওয়া, একদম ঝামেলাহীন</h2>
+        </div>
+
+        <div class="bento">
+          <!-- Add money -->
+          <article class="tile tile--add reveal" id="add-money">
+            <div class="tile-copy">
+              <span class="tag" data-i18n="add.tag">অ্যাড মানি</span>
+              <h3 data-i18n="add.title">যেখান থেকে খুশি টাকা যোগ করুন</h3>
+              <ul class="sources">
+                <li><span class="src-ic"><svg class="ic"><use href="#i-bank"/></svg></span><span data-i18n="add.src1">Prime Bank অ্যাকাউন্ট</span><b class="fee fee--free" data-i18n="add.fee1">ফ্রি</b></li>
+                <li><span class="src-ic"><svg class="ic"><use href="#i-card"/></svg></span><span data-i18n="add.src2">Prime Bank কার্ড</span><b class="fee" data-i18n="add.fee2">১%</b></li>
+                <li><span class="src-ic"><svg class="ic"><use href="#i-card"/></svg></span><span data-i18n="add.src3">অন্য ব্যাংকের Visa / Mastercard</span><b class="fee" data-i18n="add.fee3">১.৭%</b></li>
+                <li><span class="src-ic"><svg class="ic"><use href="#i-swap"/></svg></span><span data-i18n="add.src4">অন্য ব্যাংক বা MFS অ্যাপ থেকে ট্রান্সফার</span><b class="fee">NPSB · BEFTN</b></li>
+              </ul>
+            </div>
+            <div class="mini-app" aria-label="Add money demo">
+              <span class="demo-badge" data-i18n="demo">ডেমো</span>
+              <p class="mini-label" data-i18n="add.balance">ব্যালেন্স</p>
+              <p class="mini-balance" id="am-balance">৳১২,৪৫০</p>
+              <div class="chips" role="radiogroup" data-i18n-attr="aria-label:add.amount" aria-label="টাকার পরিমাণ">
+                <button type="button" role="radio" aria-checked="false" data-amt="500"></button>
+                <button type="button" role="radio" aria-checked="true" data-amt="1000"></button>
+                <button type="button" role="radio" aria-checked="false" data-amt="5000"></button>
+              </div>
+              <button type="button" class="btn btn-violet btn-block" id="am-btn"><svg class="ic"><use href="#i-plus"/></svg><span data-i18n="add.btn">টাকা যোগ করুন</span></button>
+              <p class="mini-toast" id="am-toast" role="status" aria-live="polite"></p>
+            </div>
+          </article>
+
+          <!-- Bangla QR -->
+          <article class="tile tile--qr reveal" id="bangla-qr">
+            <div class="tile-copy">
+              <span class="tag tag--lime">Bangla QR</span>
+              <h3 data-i18n="qr.title">যেকোনো দোকানে স্ক্যান করুন, পে করুন</h3>
+              <ol class="mini-steps">
+                <li data-i18n="qr.s1">অ্যাপে Scan &amp; Pay খুলুন</li>
+                <li data-i18n="qr.s2">দোকানের Bangla QR স্ক্যান করুন</li>
+                <li data-i18n="qr.s3">টাকার পরিমাণ লিখে OTP দিয়ে নিশ্চিত করুন</li>
+              </ol>
+              <p class="small-note" data-i18n="qr.own">টাকা নিতে চান? Profile → My QR থেকে নিজের QR দেখান।</p>
+            </div>
+            <div class="scanner" aria-hidden="true">
+              <div class="scan-box">
+                <svg class="fake-qr" viewBox="0 0 29 29" shape-rendering="crispEdges"></svg>
+                <span class="corner c1"></span><span class="corner c2"></span><span class="corner c3"></span><span class="corner c4"></span>
+                <span class="scanline"></span>
+              </div>
+              <p class="merchant"><svg class="ic"><use href="#i-bag"/></svg><span data-i18n="qr.merchant">রহিম টি স্টল</span></p>
+            </div>
+          </article>
+
+          <article class="tile tile--sm reveal">
+            <span class="tile-ic"><svg class="ic"><use href="#i-swap"/></svg></span>
+            <h3 data-i18n="tr.title">ফ্রি ট্রান্সফার</h3>
+            <p data-i18n="tr.d">Prime Bank-এর ভেতরে, আর NPSB, BEFTN ও MFS ওয়ালেটে পাঠাতে কোনো চার্জ নেই।</p>
+          </article>
+          <article class="tile tile--sm reveal">
+            <span class="tile-ic"><svg class="ic"><use href="#i-bolt"/></svg></span>
+            <h3 data-i18n="bill.title">বিল পে ও রিচার্জ</h3>
+            <p data-i18n="bill.d">বিদ্যুৎ, পানি, ইন্টারনেট, মোবাইল রিচার্জ — সব এক জায়গায়।</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ DPS / GOAL SAVINGS ============ -->
+    <section class="section section--lav" id="savings">
+      <div class="wrap split">
+        <div class="split-copy">
+          <p class="eyebrow reveal"><svg class="ic"><use href="#i-target"/></svg><span data-i18n="sav.eyebrow">DPS ও গোল সেভিংস</span></p>
+          <h2 class="reveal" data-i18n="sav.title">প্রতিটা স্বপ্নের জন্য আলাদা পকেট</h2>
+          <p class="sub reveal" data-i18n="sav.sub">ঈদ, ট্রিপ কিংবা নতুন ল্যাপটপ — লক্ষ্য ঠিক করুন, কিস্তি কাটবে নিজে থেকেই। যতগুলো খুশি গোল খুলুন।</p>
+
+          <div class="goals reveal">
+            <div class="goal">
+              <span class="goal-ic goal-ic--1"><svg class="ic"><use href="#i-bag"/></svg></span>
+              <div class="goal-body">
+                <p><b data-i18n="goal1">ঈদের কেনাকাটা</b><span data-i18n="goal1.amt">৳১৫,০০০ / ৳২০,০০০</span></p>
+                <span class="meter"><i style="--w:75%"></i></span>
+              </div>
+            </div>
+            <div class="goal">
+              <span class="goal-ic goal-ic--2"><svg class="ic"><use href="#i-plane"/></svg></span>
+              <div class="goal-body">
+                <p><b data-i18n="goal2">কক্সবাজার ট্রিপ</b><span data-i18n="goal2.amt">৳১৬,৮০০ / ৳৪০,০০০</span></p>
+                <span class="meter"><i style="--w:42%"></i></span>
+              </div>
+            </div>
+            <div class="goal">
+              <span class="goal-ic goal-ic--3"><svg class="ic"><use href="#i-laptop"/></svg></span>
+              <div class="goal-body">
+                <p><b data-i18n="goal3">নতুন ল্যাপটপ</b><span data-i18n="goal3.amt">৳১৬,০০০ / ৳৮০,০০০</span></p>
+                <span class="meter"><i style="--w:20%"></i></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="products reveal">
+            <div class="product">
+              <b data-i18n="fixed.t">ফিক্সড DPS</b>
+              <span data-i18n="fixed.d">প্রতি মাসে নির্দিষ্ট কিস্তি, ৮–৯% মুনাফা, মেয়াদ ৬–১২০ মাস</span>
+            </div>
+            <div class="product">
+              <b data-i18n="flexi.t">ফ্লেক্সি DPS</b>
+              <span data-i18n="flexi.d">যখন খুশি, যত খুশি জমা — ব্যালেন্স অনুযায়ী ৫.৫% পর্যন্ত মুনাফা</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="split-visual reveal">
+          <form class="calc" id="calc" onsubmit="return false">
+            <p class="calc-title" data-i18n="calc.title">কত জমবে? হিসাব করে দেখুন</p>
+            <div class="calc-row">
+              <label for="calc-amt" data-i18n="calc.monthly">মাসিক কিস্তি</label>
+              <output id="calc-amt-out" for="calc-amt">৳৫,০০০</output>
+            </div>
+            <input type="range" id="calc-amt" min="1000" max="50000" step="500" value="5000">
+            <div class="calc-row"><span id="calc-tenure-label" data-i18n="calc.tenure">মেয়াদ</span></div>
+            <div class="seg" role="radiogroup" aria-labelledby="calc-tenure-label">
+              <button type="button" role="radio" aria-checked="false" data-m="6" data-i18n="t6">৬ মাস</button>
+              <button type="button" role="radio" aria-checked="false" data-m="12" data-i18n="t12">১ বছর</button>
+              <button type="button" role="radio" aria-checked="true" data-m="36" data-i18n="t36">৩ বছর</button>
+              <button type="button" role="radio" aria-checked="false" data-m="60" data-i18n="t60">৫ বছর</button>
+            </div>
+            <div class="calc-result" aria-live="polite">
+              <span data-i18n="calc.result">মেয়াদ শেষে আনুমানিক পাবেন</span>
+              <b id="calc-total">৳০</b>
+            </div>
+            <dl class="calc-dl">
+              <div><dt data-i18n="calc.deposit">মোট জমা</dt><dd id="calc-dep">৳০</dd></div>
+              <div><dt data-i18n="calc.profit">আনুমানিক মুনাফা</dt><dd id="calc-prof" class="pos">৳০</dd></div>
+              <div><dt data-i18n="calc.rate">মুনাফার হার</dt><dd id="calc-rate">০%</dd></div>
+            </dl>
+            <p class="calc-note" data-i18n="calc.note">ফিক্সড DPS-এর বর্তমান হার অনুযায়ী আনুমানিক হিসাব, কর ও চার্জ বাদে। হার পরিবর্তনযোগ্য।</p>
+            <a class="btn btn-violet btn-block" href="#download" data-store="smart"><span data-i18n="calc.cta">অ্যাপে গোল সেট করুন</span><svg class="ic"><use href="#i-arrow"/></svg></a>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ NOW BUDDY ============ -->
+    <section class="section section--violet" id="buddy">
+      <div class="wrap split">
+        <div class="buddy-stage reveal">
+          <div class="buddy buddy--xl" data-buddy></div>
+          <ul class="buddy-points">
+            <li><svg class="ic"><use href="#i-chat"/></svg><span data-i18n="buddy.p1">সহজ বাংলায় উত্তর</span></li>
+            <li><svg class="ic"><use href="#i-chart"/></svg><span data-i18n="buddy.p2">খরচ নিয়ে স্মার্ট টিপস</span></li>
+            <li><svg class="ic"><use href="#i-spark"/></svg><span data-i18n="buddy.p3">আটকে গেলে সাথে সাথে সাহায্য</span></li>
+          </ul>
+        </div>
+
+        <div class="split-copy">
+          <p class="eyebrow eyebrow--lime reveal"><svg class="ic"><use href="#i-chat"/></svg><span>NOW Buddy</span></p>
+          <h2 class="reveal" data-i18n="buddy.title">হাই বলুন NOW Buddy-কে</h2>
+          <p class="sub reveal" data-i18n="buddy.sub">আপনার ব্যাংকিং সঙ্গী। কার্ড চালু করা থেকে খরচের হিসাব — যেকোনো প্রশ্নের উত্তর মেলে অ্যাপের ভেতরেই।</p>
+
+          <div class="chat reveal">
+            <div class="chat-head">
+              <span class="chat-av" data-buddy></span>
+              <span><b>NOW Buddy</b><small><i class="online"></i><span data-i18n="buddy.online">অনলাইন</span></small></span>
+              <span class="demo-badge" data-i18n="demo">ডেমো</span>
+            </div>
+            <div class="chat-log" id="chat-log" aria-live="polite"></div>
+            <div class="chat-quick" id="chat-quick">
+              <p data-i18n="buddy.try">একটা প্রশ্ন বেছে নিন:</p>
+              <div class="qbtns"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ EXPENDITURE WIDGET ============ -->
+    <section class="section" id="insights">
+      <div class="wrap split split--rev">
+        <div class="split-visual reveal">
+          <div class="spend" id="spend">
+            <div class="spend-head">
+              <p class="spend-title" data-i18n="w.title">মাসিক খরচ</p>
+              <div class="seg seg--sm" role="radiogroup" data-i18n-attr="aria-label:w.period" aria-label="সময়কাল">
+                <button type="button" role="radio" aria-checked="true" data-period="this" data-i18n="w.this">এই মাস</button>
+                <button type="button" role="radio" aria-checked="false" data-period="last" data-i18n="w.last">গত মাস</button>
+              </div>
+            </div>
+            <p class="spend-total"><b id="spend-total">৳০</b><span class="delta" id="spend-delta"></span></p>
+            <div class="spend-bar" id="spend-bar" role="img"></div>
+            <div class="spend-tip" id="spend-tip" hidden></div>
+            <ul class="spend-list" id="spend-list"></ul>
+            <div class="spend-buddy">
+              <span class="chat-av" data-buddy></span>
+              <p id="spend-buddy-msg"></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="split-copy">
+          <p class="eyebrow reveal"><svg class="ic"><use href="#i-chart"/></svg><span data-i18n="ins.eyebrow">খরচের উইজেট</span></p>
+          <h2 class="reveal" data-i18n="ins.title">টাকা কোথায় যাচ্ছে, এক নজরে</h2>
+          <p class="sub reveal" data-i18n="ins.sub">হোম স্ক্রিনেই খরচের হিসাব, ক্যাটাগরি ধরে নিজে থেকেই সাজানো। উইজেট লং-প্রেস করে সরান বা ছোট-বড় করুন।</p>
+          <ul class="feat-list feat-list--light reveal">
+            <li><span class="fi"><svg class="ic"><use href="#i-check"/></svg></span><span data-i18n="ins.p1">প্রতিটা লেনদেন নিজে থেকেই ক্যাটাগরিতে</span></li>
+            <li><span class="fi"><svg class="ic"><use href="#i-check"/></svg></span><span data-i18n="ins.p2">গত মাসের সাথে এক ট্যাপে তুলনা</span></li>
+            <li><span class="fi"><svg class="ic"><use href="#i-check"/></svg></span><span data-i18n="ins.p3">NOW Buddy-র কাছ থেকে খরচ কমানোর টিপস</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SECURITY / REGULATED ============ -->
+    <section class="section section--night" id="security">
+      <div class="wrap">
+        <div class="sec-top">
+          <div class="sec-copy">
+            <p class="eyebrow eyebrow--lime reveal"><svg class="ic"><use href="#i-shield"/></svg><span data-i18n="sec.eyebrow">নিরাপত্তা ও নিয়ন্ত্রণ</span></p>
+            <h2 class="reveal" data-i18n="sec.title">আপনার টাকা, Prime Bank-এর ভরসায়</h2>
+            <p class="sub reveal" data-i18n="sec.sub">Prime NOW হলো Prime Bank PLC-এর ডিজিটাল ব্যাংকিং সেবা। আপনার অ্যাকাউন্টটি Prime Bank-এর একটি ডিপোজিট অ্যাকাউন্ট, যা বাংলাদেশ ব্যাংকের নিয়মকানুন মেনে পরিচালিত হয়।</p>
+          </div>
+          <div class="sec-visual reveal" aria-hidden="true">
+            <img src="assets/lock.webp" alt="" width="300" height="300">
+          </div>
+        </div>
+
+        <div class="sec-grid">
+          <div class="sec-card sec-card--hero reveal">
+            <span class="fi"><svg class="ic"><use href="#i-bank"/></svg></span>
+            <h3 data-i18n="sec.f1.t">বাংলাদেশ ব্যাংক নিয়ন্ত্রিত</h3>
+            <p data-i18n="sec.f1.d">Prime Bank PLC বাংলাদেশ ব্যাংকের লাইসেন্সপ্রাপ্ত একটি তফসিলি ব্যাংক।</p>
+          </div>
+          <div class="sec-card reveal">
+            <span class="fi"><svg class="ic"><use href="#i-lock"/></svg></span>
+            <h3 data-i18n="sec.f2.t">টু-ফ্যাক্টর সুরক্ষা</h3>
+            <p data-i18n="sec.f2.d">গুরুত্বপূর্ণ প্রতিটি লেনদেনে বাড়তি যাচাই।</p>
+          </div>
+          <div class="sec-card reveal">
+            <span class="fi"><svg class="ic"><use href="#i-finger"/></svg></span>
+            <h3 data-i18n="sec.f3.t">বায়োমেট্রিক লগইন</h3>
+            <p data-i18n="sec.f3.d">ফিঙ্গারপ্রিন্ট বা ফেস দিয়ে নিরাপদে ঢুকুন।</p>
+          </div>
+          <div class="sec-card reveal">
+            <span class="fi"><svg class="ic"><use href="#i-block"/></svg></span>
+            <h3 data-i18n="sec.f4.t">এক ট্যাপে কার্ড ব্লক</h3>
+            <p data-i18n="sec.f4.d">সাময়িক বা স্থায়ীভাবে, অ্যাপ থেকেই।</p>
+          </div>
+        </div>
+
+        <p class="warn reveal"><svg class="ic"><use href="#i-alert"/></svg><span data-i18n="sec.warn">মনে রাখুন: Prime NOW কখনো আপনার OTP, PIN বা পাসওয়ার্ড চায় না।</span></p>
+      </div>
+    </section>
+
+    <!-- ============ FAQ ============ -->
+    <section class="section" id="faq">
+      <div class="wrap faq-wrap">
+        <div class="faq-head">
+          <h2 class="reveal" data-i18n="faq.title">সাধারণ প্রশ্ন</h2>
+          <a class="link-arrow reveal" href="https://primenow.ai/faq" target="_blank" rel="noopener"><span data-i18n="faq.all">সব প্রশ্ন দেখুন</span><svg class="ic"><use href="#i-arrow"/></svg></a>
+        </div>
+        <div class="faq-list">
+          <details class="reveal" open>
+            <summary data-i18n="faq.q1">কারা অ্যাকাউন্ট খুলতে পারবেন?</summary>
+            <p data-i18n="faq.a1">১৮ বছর বা তার বেশি বয়সী যেকোনো বাংলাদেশি নাগরিক নিজের নামে একক অ্যাকাউন্ট খুলতে পারবেন।</p>
+          </details>
+          <details class="reveal">
+            <summary data-i18n="faq.q2">কী কী কাগজ লাগবে?</summary>
+            <p data-i18n="faq.a2">আপনার NID (সামনে ও পেছনে), একটা লাইভ সেলফি, আর নমিনির ছবি ও পরিচয়পত্র (NID, জন্মনিবন্ধন বা স্কুল আইডি)।</p>
+          </details>
+          <details class="reveal">
+            <summary data-i18n="faq.q3">অ্যাকাউন্ট খুলতে কি টাকা জমা দিতে হয়?</summary>
+            <p data-i18n="faq.a3">না। কোনো প্রাথমিক জমা ছাড়াই অ্যাকাউন্ট খোলা যায়।</p>
+          </details>
+          <details class="reveal">
+            <summary data-i18n="faq.q4">কার্ড কবে হাতে পাব?</summary>
+            <p data-i18n="faq.a4">৭ কর্মদিবসের মধ্যে আপনার ঠিকানায় ফ্রি ডেলিভারি। অনলাইন কেনাকাটার জন্য কার্ড সাথে সাথেই চালু করা যায়।</p>
+          </details>
+          <details class="reveal">
+            <summary data-i18n="faq.q5">টাকা পাঠাতে চার্জ কত?</summary>
+            <p data-i18n="faq.a5">Prime NOW ও Prime Bank-এর ভেতরে এবং NPSB, BEFTN ও MFS-এ ট্রান্সফার ফ্রি। RTGS-এ ৳৪৯ (VAT সহ)।</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ FINAL CTA ============ -->
+    <section class="final" id="download">
+      <div class="wrap final-grid">
+        <div class="final-copy">
+          <h2 class="reveal" data-i18n="final.title">আপনার টাকা, আপনার Prime NOW</h2>
+          <p class="lead reveal" data-i18n="final.sub">অ্যাপ ডাউনলোড একদম ফ্রি। আজই অ্যাকাউন্ট খুলুন — লাগবে মাত্র কয়েক মিনিট।</p>
+          <div class="get-app reveal">
+            <div class="stores">
+              <a class="store" href="https://apps.apple.com/us/app/prime-now-app/id6759029598" target="_blank" rel="noopener" data-os="ios">
+                <img src="assets/app-store-download.svg" alt="Download on the App Store" width="160" height="48">
+              </a>
+              <a class="store" href="https://play.google.com/store/apps/details?id=com.primenow.app" target="_blank" rel="noopener" data-os="android">
+                <img src="assets/google-play-download.svg" alt="Get it on Google Play" width="160" height="48">
+              </a>
+            </div>
+            <div class="qr-tile">
+              <img src="assets/qr-download.svg" alt="" width="84" height="84">
+              <p data-i18n="qr.label">ফোনের ক্যামেরায় স্ক্যান করে অ্যাপ নিন</p>
+            </div>
+          </div>
+        </div>
+        <div class="final-visual reveal" aria-hidden="true">
+          <div class="buddy buddy--lg buddy--wave" data-buddy></div>
+          <span class="bubble bubble--lg" data-i18n="final.buddy">চলুন শুরু করি!</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <img src="assets/logo-primenow-white.webp" alt="Prime NOW by Prime Bank" width="900" height="216">
+          <p data-i18n="ft.tag">ব্যাংকিং চলুক আপনার ছন্দে।</p>
+          <div class="social">
+            <a href="https://www.facebook.com/YourPrimeNOW" target="_blank" rel="noopener" aria-label="Facebook"><svg class="ic"><use href="#i-fb"/></svg></a>
+            <a href="https://www.instagram.com/yourprimenow/" target="_blank" rel="noopener" aria-label="Instagram"><svg class="ic"><use href="#i-ig"/></svg></a>
+            <a href="https://www.linkedin.com/company/yourprimenow" target="_blank" rel="noopener" aria-label="LinkedIn"><svg class="ic"><use href="#i-in"/></svg></a>
+          </div>
+        </div>
+        <nav class="footer-links" aria-label="Legal">
+          <p class="ft-h" data-i18n="ft.info">তথ্য</p>
+          <a href="https://primenow.ai/faq" data-i18n="ft.faq">প্রশ্নোত্তর</a>
+          <a href="https://primenow.ai/privacy-policy" data-i18n="ft.privacy">প্রাইভেসি পলিসি</a>
+          <a href="https://primenow.ai/terms-and-conditions" data-i18n="ft.terms">শর্তাবলি</a>
+          <a href="https://primenow.ai/schedule-of-charges" data-i18n="ft.charges">চার্জের তালিকা</a>
+          <a href="https://primenow.ai/product-rates" data-i18n="ft.rates">প্রোডাক্ট রেট</a>
+        </nav>
+        <div class="footer-links">
+          <p class="ft-h" data-i18n="ft.support">সাপোর্ট</p>
+          <a href="mailto:support@primenow.ai"><svg class="ic"><use href="#i-mail"/></svg> support@primenow.ai</a>
+          <p class="ft-small" data-i18n="ft.chat">অ্যাপের ভেতরে NOW Buddy-র সাথে চ্যাট করুন।</p>
+          <p class="ft-small" data-i18n="ft.calls">অফিসিয়াল কল আসে শুধু ০৯৬৪৪২১৩০৩০ ও ০৯৬১০৯৬১০০০ নম্বর থেকে।</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p data-i18n="ft.copy">© ২০২৬ Prime NOW · Prime Bank PLC। সর্বস্বত্ব সংরক্ষিত।</p>
+        <p data-i18n="ft.reg">Prime Bank PLC বাংলাদেশ ব্যাংক কর্তৃক নিয়ন্ত্রিত।</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Mobile sticky download bar -->
+  <div class="sticky-get" id="sticky-get" aria-hidden="true">
+    <img src="assets/logo.png" alt="" width="40" height="22">
+    <span class="sg-text"><b data-i18n="sticky.title">Prime NOW অ্যাপ</b><small data-i18n="sticky.sub">ফ্রি · মিনিটেই অ্যাকাউন্ট</small></span>
+    <a class="btn btn-lime btn-sm" href="#download" data-store="smart" tabindex="-1"><svg class="ic"><use href="#i-download"/></svg><span data-i18n="sticky.btn">ডাউনলোড</span></a>
+  </div>
+</body>
+</html>
