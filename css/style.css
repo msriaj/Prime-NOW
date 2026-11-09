@@ -60,8 +60,8 @@ img, svg { display: block; max-width: 100%; }
 img { height: auto; }
 a { color: inherit; }
 button { font: inherit; color: inherit; cursor: pointer; }
-h1, h2, h3, h4 { font-family: var(--font-display); margin: 0; line-height: 1.15; font-weight: 800; }
-html[lang="bn"] h1, html[lang="bn"] h2, html[lang="bn"] h3 { line-height: 1.26; font-weight: 800; font-variation-settings: 'wdth' 104; }
+h1, h2, h3, h4 { font-family: var(--font-display); margin: 0; line-height: 1.15; font-weight: 600; }
+html[lang="bn"] h1, html[lang="bn"] h2, html[lang="bn"] h3 { line-height: 1.26; font-weight: 600; font-variation-settings: 'wdth' 104; }
 /* English display type follows the brand's social posts: condensed heavy caps */
 html[lang="en"] h1, html[lang="en"] h2 { font-family: 'Anton', 'Montserrat', sans-serif; font-weight: 400; text-transform: uppercase; letter-spacing: .01em; line-height: 1.02; }
 /* One key word per heading: lime on dark sections, lime marker on light ones */
@@ -183,10 +183,16 @@ html[lang="en"] .demo-badge { text-transform: uppercase; letter-spacing: .06em; 
     radial-gradient(60% 70% at 78% 40%, rgba(90, 36, 255, .9) 0%, rgba(65, 0, 245, 0) 70%),
     radial-gradient(80% 90% at 10% 0%, #2a0aa8 0%, rgba(42, 10, 168, 0) 60%),
     linear-gradient(180deg, var(--violet-900) 0%, #120052 100%);
+  /* Wide screens: glows follow the 1200px content column instead of the viewport edges
+     (same as above up to ~1440px). Sizes use vw — Chromium rejects % inside min() there. */
+  background:
+    radial-gradient(min(60vw, 900px) 70% at min(78%, calc(50% + 420px)) 40%, rgba(90, 36, 255, .9) 0%, rgba(65, 0, 245, 0) 70%),
+    radial-gradient(min(80vw, 1200px) 90% at max(10%, calc(50% - 600px)) 0%, #2a0aa8 0%, rgba(42, 10, 168, 0) 60%),
+    linear-gradient(180deg, var(--violet-900) 0%, #120052 100%);
   padding-top: calc(var(--header-h) + clamp(32px, 6vw, 72px));
   padding-bottom: clamp(56px, 8vw, 96px);
 }
-.hero-glow { position: absolute; width: 520px; height: 520px; right: 8%; top: 18%; border-radius: 50%; background: radial-gradient(circle, rgba(136, 249, 88, .28), rgba(136, 249, 88, 0) 65%); filter: blur(10px); pointer-events: none; }
+.hero-glow { position: absolute; width: 520px; height: 520px; right: max(8%, calc(50% - 605px)); top: 18%; border-radius: 50%; background: radial-gradient(circle, rgba(136, 249, 88, .28), rgba(136, 249, 88, 0) 65%); filter: blur(10px); pointer-events: none; }
 .hero-grid { position: relative; display: grid; grid-template-columns: 1.1fr .9fr; gap: 40px; align-items: center; }
 .hero h1 { font-size: clamp(2.6rem, 6.2vw, 5rem); margin-top: 22px; }
 html[lang="en"] .hero h1 { font-size: clamp(3.2rem, 7.4vw, 6.3rem); }
