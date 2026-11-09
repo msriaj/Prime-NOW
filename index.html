@@ -21,6 +21,12 @@
   <script>
     // Set language before first paint so returning English visitors don't see a Bangla flash.
     document.documentElement.classList.add('js');
+    // Preloader: lock scrolling while the logo reveal plays (≈3.4s); never for reduced motion.
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      // pl-hold hides the page under the overlay so its own animations don't repaint during the reveal
+      document.documentElement.classList.add('pl-on', 'pl-hold');
+      setTimeout(function () { document.documentElement.classList.remove('pl-on', 'pl-hold'); }, 7000);   // safety net
+    }
     (function () {
       try {
         var q = new URLSearchParams(location.search).get('lang');
@@ -32,12 +38,60 @@
   <script src="js/i18n.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js" defer></script>
   <script src="js/main.js" defer></script>
-  <script src="js/card-fx.js" defer></script>
   <script src="js/smooth-scroll.js" defer></script>
   <script src="js/dps-chart.js" defer></script>
   <script src="js/hero-parallax.js" defer></script>
 </head>
 <body>
+  <!-- Preloader: CSS/SVG recreation of the Prime NOW logo reveal (a lime comet swoops in and writes the mark).
+       Animation in css/style.css (.preloader); js/main.js removes it when done. Hidden for reduced motion. -->
+  <div class="preloader" aria-hidden="true">
+    <svg class="pl-svg" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <linearGradient id="pl-grad" gradientUnits="userSpaceOnUse" x1="40" y1="200" x2="260" y2="40">
+          <stop offset="0" stop-color="#44ad31"/><stop offset=".35" stop-color="#72d849"/><stop offset=".6" stop-color="#82e853"/><stop offset="1" stop-color="#8af95a"/>
+        </linearGradient>
+        <mask id="pl-mask" maskUnits="userSpaceOnUse" x="-60" y="-60" width="480" height="340">
+          <path class="pl-pen" d="M104 44L56 170L98 62C112 40 128 70 138 78C150 88 160 46 176 52C196 60 182 112 188 134C194 160 214 176 238 146C256 124 272 100 294 84" pathLength="1000"/>
+          <rect class="pl-full" x="-60" y="-60" width="480" height="340"/>
+        </mask>
+      </defs>
+      <g class="pl-comet">
+        <circle class="pl-t" style="--i:49" r="1.6" fill="#3fa82c"/> <circle class="pl-t" style="--i:48" r="1.7" fill="#40a92d"/> <circle class="pl-t" style="--i:47" r="1.7" fill="#42ab2e"/> <circle class="pl-t" style="--i:46" r="1.8" fill="#43ac2e"/> <circle class="pl-t" style="--i:45" r="2.0" fill="#44ad2f"/>
+        <circle class="pl-t" style="--i:44" r="2.1" fill="#45af30"/> <circle class="pl-t" style="--i:43" r="2.2" fill="#47b031"/> <circle class="pl-t" style="--i:42" r="2.4" fill="#48b132"/> <circle class="pl-t" style="--i:41" r="2.5" fill="#49b332"/> <circle class="pl-t" style="--i:40" r="2.7" fill="#4bb433"/>
+        <circle class="pl-t" style="--i:39" r="2.8" fill="#4cb634"/> <circle class="pl-t" style="--i:38" r="3.0" fill="#4db735"/> <circle class="pl-t" style="--i:37" r="3.2" fill="#4eb836"/> <circle class="pl-t" style="--i:36" r="3.4" fill="#50ba36"/> <circle class="pl-t" style="--i:35" r="3.6" fill="#51bb37"/>
+        <circle class="pl-t" style="--i:34" r="3.7" fill="#53bd38"/> <circle class="pl-t" style="--i:33" r="3.9" fill="#54be39"/> <circle class="pl-t" style="--i:32" r="4.1" fill="#55bf3a"/> <circle class="pl-t" style="--i:31" r="4.3" fill="#57c13b"/> <circle class="pl-t" style="--i:30" r="4.6" fill="#58c23c"/>
+        <circle class="pl-t" style="--i:29" r="4.8" fill="#59c43c"/> <circle class="pl-t" style="--i:28" r="5.0" fill="#5bc53d"/> <circle class="pl-t" style="--i:27" r="5.2" fill="#5cc73e"/> <circle class="pl-t" style="--i:26" r="5.4" fill="#5ec83f"/> <circle class="pl-t" style="--i:25" r="5.6" fill="#5fca40"/>
+        <circle class="pl-t" style="--i:24" r="5.9" fill="#60cb41"/> <circle class="pl-t" style="--i:23" r="6.1" fill="#62cd42"/> <circle class="pl-t" style="--i:22" r="6.3" fill="#63ce43"/> <circle class="pl-t" style="--i:21" r="6.6" fill="#65d044"/> <circle class="pl-t" style="--i:20" r="6.8" fill="#66d145"/>
+        <circle class="pl-t" style="--i:19" r="7.1" fill="#68d346"/> <circle class="pl-t" style="--i:18" r="7.3" fill="#69d546"/> <circle class="pl-t" style="--i:17" r="7.6" fill="#6bd647"/> <circle class="pl-t" style="--i:16" r="7.8" fill="#6dd848"/> <circle class="pl-t" style="--i:15" r="8.1" fill="#6eda49"/>
+        <circle class="pl-t" style="--i:14" r="8.3" fill="#70db4a"/> <circle class="pl-t" style="--i:13" r="8.6" fill="#71dd4b"/> <circle class="pl-t" style="--i:12" r="8.9" fill="#73df4c"/> <circle class="pl-t" style="--i:11" r="9.1" fill="#75e04d"/> <circle class="pl-t" style="--i:10" r="9.4" fill="#76e24f"/>
+        <circle class="pl-t" style="--i:9" r="9.7" fill="#78e450"/> <circle class="pl-t" style="--i:8" r="9.9" fill="#7ae651"/> <circle class="pl-t" style="--i:7" r="10.2" fill="#7ce852"/> <circle class="pl-t" style="--i:6" r="10.5" fill="#7eea53"/> <circle class="pl-t" style="--i:5" r="10.8" fill="#80ec54"/>
+        <circle class="pl-t" style="--i:4" r="11.0" fill="#82ee56"/> <circle class="pl-t" style="--i:3" r="11.3" fill="#84f057"/> <circle class="pl-t" style="--i:2" r="11.6" fill="#86f358"/> <circle class="pl-t" style="--i:1" r="11.9" fill="#89f55a"/> <circle class="pl-t" style="--i:0" r="12.2" fill="#8cf95c"/>
+      </g>
+      <g transform="translate(690 432) scale(.62)">
+        <path class="pl-body" d="M96.2 21.1 C98.7 20.7 99.7 20.9 101.5 21.2 C103.3 21.4 105.2 21.9 107.0 22.5 C108.8 23.1 110.4 23.9 112.0 24.8 C113.6 25.8 115.5 27.2 116.8 28.3 C118.0 29.5 118.7 30.3 119.6 31.5 C120.5 32.7 121.1 33.0 122.2 35.8 C123.4 38.5 125.6 45.5 126.5 47.8 C127.4 50.0 127.2 48.8 127.6 49.1 C128.0 49.4 128.0 49.9 129.0 49.6 C130.0 49.3 129.8 50.0 133.5 47.0 C137.2 44.0 146.7 35.0 151.3 31.4 C155.8 27.9 158.1 27.0 160.8 25.7 C163.4 24.3 165.0 23.9 167.2 23.4 C169.5 22.8 171.8 22.4 174.0 22.2 C176.2 22.1 178.6 22.2 180.8 22.5 C182.9 22.8 185.2 23.6 187.0 24.3 C188.8 25.1 190.0 26.0 191.2 26.9 C192.5 27.9 193.5 29.0 194.5 30.2 C195.5 31.5 196.3 32.8 197.1 34.2 C197.9 35.8 198.5 37.2 199.1 39.2 C199.6 41.3 200.1 40.6 200.6 46.5 C201.0 52.4 201.4 68.1 201.8 74.5 C202.1 80.9 202.2 81.1 203.0 84.8 C203.7 88.4 205.4 93.9 206.3 96.5 C207.2 99.1 207.9 99.4 208.6 100.5 C209.4 101.6 209.7 102.1 210.8 102.9 C211.8 103.6 213.7 104.6 215.0 104.9 C216.3 105.3 217.7 105.1 218.8 104.9 C219.8 104.8 219.1 105.3 221.5 104.2 C223.9 103.0 226.5 102.1 233.2 98.2 C240.0 94.3 255.8 84.4 262.2 80.8 C268.7 77.2 268.9 77.7 271.8 76.8 C274.6 75.9 277.3 75.6 279.2 75.5 C281.2 75.4 282.2 75.8 283.5 76.2 C284.8 76.6 286.0 77.2 287.0 78.1 C288.0 79.0 289.0 80.2 289.7 81.5 C290.4 82.8 291.0 83.5 291.3 85.8 C291.6 88.0 291.7 92.6 291.5 95.2 C291.3 97.9 290.6 99.5 289.9 101.8 C289.2 104.0 289.1 104.8 287.2 108.5 C285.2 112.2 281.4 119.0 278.5 123.8 C275.5 128.5 272.3 133.2 269.6 137.0 C266.9 140.8 265.4 142.9 262.2 146.8 C259.1 150.6 253.9 156.6 250.5 160.2 C247.2 163.8 245.4 165.6 242.2 168.4 C239.1 171.2 235.1 174.5 231.8 176.9 C228.4 179.3 225.3 181.2 222.2 182.8 C219.2 184.5 216.5 185.8 213.2 187.0 C210.0 188.1 206.7 189.2 203.0 189.7 C199.3 190.1 194.4 190.2 191.0 189.8 C187.6 189.4 185.1 188.5 182.5 187.2 C179.9 186.0 177.5 184.3 175.2 182.4 C173.0 180.5 171.3 178.7 169.2 175.8 C167.1 172.8 166.4 173.1 162.7 165.0 C159.0 156.9 150.3 134.0 147.2 127.0 C144.0 120.0 144.8 123.8 143.8 123.0 C142.7 122.2 142.0 122.0 140.8 122.1 C139.5 122.1 137.9 122.8 136.5 123.4 C135.1 124.1 134.9 123.9 132.5 125.9 C130.1 128.0 125.9 131.6 122.2 135.8 C118.4 139.9 115.7 143.0 109.9 150.8 C104.1 158.5 92.4 175.9 87.2 182.5 C82.0 189.1 81.4 188.6 78.8 190.6 C76.1 192.7 73.9 193.8 71.2 194.8 C68.6 195.8 65.5 196.5 63.0 196.8 C60.5 197.0 59.6 197.1 56.5 196.5 C53.4 195.9 47.6 194.3 44.2 193.1 C40.9 191.8 38.7 190.2 36.5 188.8 C34.3 187.3 32.8 185.9 31.2 184.2 C29.6 182.6 28.3 181.0 27.1 179.0 C25.8 177.0 24.6 174.9 23.6 172.0 C22.6 169.1 21.6 165.1 21.1 161.8 C20.7 158.4 20.8 155.0 21.0 152.0 C21.2 149.0 21.7 146.0 22.2 143.5 C22.7 141.0 22.5 141.0 23.9 136.8 C25.3 132.5 27.6 125.5 30.6 117.8 C33.5 110.0 37.8 99.2 41.7 90.5 C45.5 81.8 49.7 73.1 53.7 65.2 C57.7 57.4 62.5 48.8 65.7 43.5 C69.0 38.2 70.8 36.4 73.2 33.8 C75.5 31.1 77.5 29.5 79.8 27.8 C82.0 26.1 84.0 24.8 86.8 23.7 C89.5 22.6 93.8 21.5 96.2 21.1Z" fill="url(#pl-grad)" mask="url(#pl-mask)"/>
+        <path class="pl-dot" d="M312.5 23.1 C314.7 22.7 315.8 22.9 317.5 23.1 C319.2 23.4 321.2 23.9 322.8 24.6 C324.3 25.3 325.8 26.3 327.0 27.2 C328.2 28.2 329.2 29.2 330.2 30.5 C331.3 31.8 332.3 33.6 333.0 35.2 C333.8 36.9 334.3 38.1 334.6 40.5 C334.8 42.9 334.8 47.1 334.5 49.5 C334.3 51.9 333.7 53.2 333.1 55.0 C332.5 56.8 331.8 58.5 330.8 60.2 C329.9 62.0 328.5 64.2 327.2 65.8 C326.0 67.3 324.8 68.4 323.5 69.5 C322.2 70.5 321.4 71.2 319.8 72.0 C318.1 72.9 315.5 73.9 313.8 74.4 C312.0 74.9 310.9 74.9 309.2 75.0 C307.6 75.1 305.4 75.0 303.8 74.7 C302.1 74.4 300.6 73.9 299.2 73.3 C297.9 72.7 296.5 71.9 295.5 71.2 C294.5 70.4 294.0 70.1 293.1 69.0 C292.1 67.9 290.8 66.5 289.8 64.5 C288.8 62.5 287.7 59.2 287.2 57.2 C286.7 55.3 286.8 54.4 286.8 52.8 C286.7 51.1 286.6 49.6 287.2 47.5 C287.7 45.4 289.1 41.9 289.9 40.0 C290.8 38.1 291.3 37.4 292.4 36.0 C293.5 34.6 294.2 33.3 296.2 31.5 C298.3 29.8 301.8 27.1 304.5 25.7 C307.2 24.2 310.3 23.5 312.5 23.1Z"/>
+      </g>
+    </svg>
+  </div>
+  <script>
+    // Start the logo reveal once the page has loaded (or after 2.5s at most), on a fresh frame.
+    (function () {
+      var pl = document.querySelector('.preloader'), started = false;
+      function go() {
+        if (started || !pl) return;
+        started = true;
+        requestAnimationFrame(function () {
+          pl.classList.add('is-go');
+          // show the page again just before the overlay starts fading (3.1s), then unlock scrolling
+          setTimeout(function () { document.documentElement.classList.remove('pl-hold'); }, 2900);
+          setTimeout(function () { document.documentElement.classList.remove('pl-on'); }, 3700);
+        });
+      }
+      if (document.readyState === 'complete') go();
+      else { window.addEventListener('load', go); setTimeout(go, 2500); }
+    })();
+  </script>
   <a class="skip" href="#main" data-i18n="a11y.skip">মূল অংশে যান</a>
 
   <!-- Shared SVG defs + icon sprite -->
@@ -52,9 +106,6 @@
     <symbol id="i-truck" viewBox="0 0 24 24"><path d="M3 6h11v10H3z"/><path d="M14 9h4l3 3v4h-7"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/></symbol>
     <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
     <symbol id="i-bank" viewBox="0 0 24 24"><path d="M3 10l9-6 9 6"/><path d="M5 10v8M9.5 10v8M14.5 10v8M19 10v8"/><path d="M3 20.5h18"/></symbol>
-    <symbol id="i-card" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="M3 10h18"/></symbol>
-    <symbol id="i-swap" viewBox="0 0 24 24"><path d="M4 8h14l-3.5-3.5M20 16H6l3.5 3.5"/></symbol>
-    <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 3L5 13.5h6L10 21l8-10.5h-6L13 3z"/></symbol>
     <symbol id="i-qr" viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><path d="M14 14h2v2h-2zM18 18h2v2h-2zM14 19.5h1.5M19.5 14v1.5"/></symbol>
     <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5h16v11H9.5L4 20z"/><path d="M8.5 10.5h.01M12 10.5h.01M15.5 10.5h.01"/></symbol>
     <symbol id="i-chart" viewBox="0 0 24 24"><path d="M5 20V11M10.5 20V5M16 20v-6M21 20H3"/></symbol>
@@ -66,20 +117,15 @@
     <symbol id="i-id" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2.2"/><path d="M5.8 16a3.3 3.3 0 0 1 6.4 0M14.5 10h4M14.5 13.5h4"/></symbol>
     <symbol id="i-camera" viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></symbol>
     <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2"/></symbol>
+    <symbol id="i-bag" viewBox="0 0 24 24"><path d="M5 8h14l-1 12H6z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></symbol>
     <symbol id="i-plane" viewBox="0 0 24 24"><path d="M3 13.5l7-1.5 4.5-7.5 2 .5-2 7.5 5 1.5.5 2-6-.5-3 4.5H9l1-5-6-.5z"/></symbol>
     <symbol id="i-laptop" viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="10" rx="1.5"/><path d="M2.5 19h19l-2-4h-15z"/></symbol>
-    <symbol id="i-bag" viewBox="0 0 24 24"><path d="M5 8h14l-1 12H6z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></symbol>
     <symbol id="i-fb" viewBox="0 0 24 24"><path d="M14 8.5h2.5V5H14c-2.5 0-4 1.6-4 4v2H8v3.5h2V21h3.5v-6.5H16l.5-3.5h-3V9.4c0-.6.3-.9.5-.9z" fill="currentColor" stroke="none"/></symbol>
     <symbol id="i-ig" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.2 6.8h.01"/></symbol>
     <symbol id="i-in" viewBox="0 0 24 24"><path d="M4.5 9.5h3.2V20H4.5zM6.1 4a1.85 1.85 0 1 1 0 3.7 1.85 1.85 0 0 1 0-3.7zM10 9.5h3v1.5c.5-.9 1.7-1.8 3.4-1.8 3.3 0 3.9 2.1 3.9 4.9V20H17v-5.1c0-1.2 0-2.8-1.7-2.8s-2 1.3-2 2.7V20H10z" fill="currentColor" stroke="none"/></symbol>
     <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3.5 7l8.5 6 8.5-6"/></symbol>
     <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
     <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></symbol>
-    <symbol id="i-drop" viewBox="0 0 24 24"><path d="M12 3.5c3.5 4.2 6 7.6 6 10.5a6 6 0 0 1-12 0c0-2.9 2.5-6.3 6-10.5z"/></symbol>
-    <symbol id="i-wifi" viewBox="0 0 24 24"><path d="M2.5 9a14 14 0 0 1 19 0M5.5 12.5a9.5 9.5 0 0 1 13 0M8.7 16a5 5 0 0 1 6.6 0"/><path d="M12 19.5h.01"/></symbol>
-    <symbol id="i-cap" viewBox="0 0 24 24"><path d="M2.5 9.5L12 5l9.5 4.5L12 14z"/><path d="M6.5 11.5V16c1.5 1.5 3.5 2.2 5.5 2.2s4-.7 5.5-2.2v-4.5M21.5 9.5v5"/></symbol>
-    <symbol id="i-umbrella" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 18 0z"/><path d="M12 12v6.5a2 2 0 0 1-4 0"/></symbol>
-    <symbol id="i-phone" viewBox="0 0 24 24"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></symbol>
     <symbol id="i-scan" viewBox="0 0 24 24"><path d="M4 8V5.5A1.5 1.5 0 0 1 5.5 4H8M16 4h2.5A1.5 1.5 0 0 1 20 5.5V8M20 16v2.5a1.5 1.5 0 0 1-1.5 1.5H16M8 20H5.5A1.5 1.5 0 0 1 4 18.5V16"/><path d="M4 12h16"/></symbol>
     <!-- NOW Buddy mood icons (picker chips) -->
     <symbol id="i-m-happy" viewBox="0 0 24 24"><path d="M4.5 14a3 3 0 0 1 5.6-1.5M13.9 12.5a3 3 0 0 1 5.6 1.5"/></symbol>
@@ -339,28 +385,15 @@
     </section>
 
     <!-- ============ NUMBERLESS CARD ============ -->
-    <section class="section section--night" id="card" data-color="purple" data-fx-mode="purple">
-      <canvas class="fx fx-gl" aria-hidden="true"></canvas>
-      <canvas class="fx fx-back" aria-hidden="true"></canvas>
-      <canvas class="fx fx-sharp" aria-hidden="true"></canvas>
-      <canvas class="fx fx-front" aria-hidden="true"></canvas>
+    <section class="section section--night" id="card" data-front="purple">
       <div class="wrap split split--rev">
-        <div class="card-stage reveal" data-color="purple">
-          <div class="card-scene" id="card-scene">
-            <div class="scene-card"><div class="scene-float"><img class="card-img" id="card-img" src="assets/card-purple.webp" alt="Aurora — বেগুনি Prime NOW নাম্বারলেস কার্ড" width="450" height="714"></div></div>
+        <div class="card-stage reveal">
+          <!-- Card fan: one card in front, two behind; click turns them like a carousel (js/main.js) -->
+          <div class="card-fan" id="card-fan">
+            <img class="fan-card" data-color="purple" data-slot="c" src="assets/card-purple.webp" alt="Aurora — বেগুনি Prime NOW নাম্বারলেস কার্ড" width="450" height="714">
+            <img class="fan-card" data-color="orange" data-slot="l" src="assets/card-orange.webp" alt="Phoenix — কমলা Prime NOW নাম্বারলেস কার্ড" width="450" height="714">
+            <img class="fan-card" data-color="black" data-slot="r" src="assets/card-black.webp" alt="Stealth — কালো Prime NOW নাম্বারলেস কার্ড" width="450" height="714">
           </div>
-          <div class="swatches" role="radiogroup" data-i18n-attr="aria-label:card.pick" aria-label="আপনার রঙ বেছে নিন">
-            <button type="button" role="radio" aria-checked="true" class="swatch swatch--purple" data-color="purple">
-              <i></i><span data-i18n="card.purple">Aurora</span>
-            </button>
-            <button type="button" role="radio" aria-checked="false" class="swatch swatch--orange" data-color="orange">
-              <i></i><span data-i18n="card.orange">Phoenix</span>
-            </button>
-            <button type="button" role="radio" aria-checked="false" class="swatch swatch--black" data-color="black">
-              <i></i><span data-i18n="card.black">Stealth</span>
-            </button>
-          </div>
-          <p class="card-mood" id="card-mood" aria-live="polite"></p>
         </div>
 
         <div class="split-copy">
@@ -404,29 +437,24 @@
           <!-- Add money -->
           <article class="b-tile b-add reveal" id="add-money">
             <h3 data-i18n="add.title">যেখান থেকে খুশি টাকা যোগ করুন</h3>
-            <div class="add-best">
-              <span class="add-best-ic"><svg class="ic"><use href="#i-bank"/></svg></span>
-              <span class="add-best-txt"><b data-i18n="add.src1">Prime Bank অ্যাকাউন্ট</b><span data-i18n="add.best.d">থেকে টাকা আনতে কোনো চার্জ নেই</span></span>
-              <b class="add-free" data-i18n="add.fee1">ফ্রি</b>
-            </div>
-            <p class="add-more" data-i18n="add.more">অন্য যেকোনো উৎস থেকেও</p>
-            <ul class="src-list">
-              <li><span class="src-ic"><svg class="ic"><use href="#i-card"/></svg></span><span class="src-name" data-i18n="add.src2">Prime Bank কার্ড</span><b class="fee" data-i18n="add.fee2">১%</b></li>
-              <li><span class="src-ic"><svg class="ic"><use href="#i-card"/></svg></span><span class="src-name" data-i18n="add.src3">অন্য ব্যাংকের Visa / Mastercard</span><b class="fee" data-i18n="add.fee3">১.৭%</b></li>
-              <li><span class="src-ic"><svg class="ic"><use href="#i-swap"/></svg></span><span class="src-name" data-i18n="add.src4">অন্য ব্যাংক বা MFS অ্যাপ থেকে ট্রান্সফার</span><b class="fee fee--rail">NPSB · BEFTN</b></li>
+            <ul class="chips">
+              <li data-i18n="add.s.bank">ব্যাংক অ্যাকাউন্ট</li>
+              <li data-i18n="add.s.card">কার্ড</li>
+              <li data-i18n="add.s.mfs">MFS</li>
             </ul>
+            <p class="add-free-note"><b data-i18n="add.fee1">ফ্রি</b><span data-i18n="add.free.d">Prime Bank অ্যাকাউন্ট থেকে টাকা আনতে</span></p>
           </article>
 
           <!-- Bills & recharge -->
           <article class="b-tile b-bills reveal">
             <h3 data-i18n="bill.title">মাসের সব বিল, কয়েক ট্যাপেই</h3>
-            <ul class="bill-grid">
-              <li><span class="bi bi--1"><svg class="ic"><use href="#i-bolt"/></svg></span><span data-i18n="bill.power">বিদ্যুৎ</span></li>
-              <li><span class="bi bi--2"><svg class="ic"><use href="#i-drop"/></svg></span><span data-i18n="bill.water">পানি</span></li>
-              <li><span class="bi bi--3"><svg class="ic"><use href="#i-wifi"/></svg></span><span data-i18n="bill.isp">ইন্টারনেট</span></li>
-              <li><span class="bi bi--4"><svg class="ic"><use href="#i-phone"/></svg></span><span data-i18n="bill.mobile">মোবাইল রিচার্জ</span></li>
-              <li><span class="bi bi--5"><svg class="ic"><use href="#i-cap"/></svg></span><span data-i18n="bill.edu">শিক্ষা</span></li>
-              <li><span class="bi bi--6"><svg class="ic"><use href="#i-umbrella"/></svg></span><span data-i18n="bill.ins">ইন্স্যুরেন্স</span></li>
+            <ul class="chips">
+              <li data-i18n="bill.power">বিদ্যুৎ</li>
+              <li data-i18n="bill.water">পানি</li>
+              <li data-i18n="bill.isp">ইন্টারনেট</li>
+              <li data-i18n="bill.mobile">মোবাইল রিচার্জ</li>
+              <li data-i18n="bill.edu">শিক্ষা</li>
+              <li data-i18n="bill.ins">ইন্স্যুরেন্স</li>
             </ul>
           </article>
         </div>
@@ -440,38 +468,51 @@
           <h2 class="reveal" data-i18n="sav.title">প্রতিটা স্বপ্নের জন্য <em>আলাদা পকেট</em></h2>
           <p class="sub reveal" data-i18n="sav.sub">ঈদ, ট্রিপ কিংবা নতুন ল্যাপটপ — লক্ষ্য ঠিক করুন, কিস্তি কাটবে নিজে থেকেই। যতগুলো খুশি গোল খুলুন।</p>
 
-          <div class="goals reveal">
-            <div class="goal">
-              <span class="goal-ic goal-ic--1"><svg class="ic"><use href="#i-bag"/></svg></span>
-              <div class="goal-body">
-                <p><b data-i18n="goal1">ঈদের কেনাকাটা</b><span data-i18n="goal1.amt">৳১৫,০০০ / ৳২০,০০০</span></p>
-                <span class="meter"><i style="--w:75%"></i></span>
-              </div>
+          <!-- Savings pockets, as they look in the app: one row per goal -->
+          <div class="pocket reveal">
+            <div class="pocket-head">
+              <b data-i18n="pk.title">আমার পকেট</b>
+              <span data-i18n="pk.total">মোট জমা <b>৳৪৭,৮০০</b></span>
             </div>
-            <div class="goal">
-              <span class="goal-ic goal-ic--2"><svg class="ic"><use href="#i-plane"/></svg></span>
-              <div class="goal-body">
-                <p><b data-i18n="goal2">কক্সবাজার ট্রিপ</b><span data-i18n="goal2.amt">৳১৬,৮০০ / ৳৪০,০০০</span></p>
-                <span class="meter"><i style="--w:42%"></i></span>
+            <div class="goals">
+              <div class="goal">
+                <span class="goal-ic goal-ic--1"><svg class="ic"><use href="#i-bag"/></svg></span>
+                <div class="goal-body">
+                  <p><b data-i18n="goal1">ঈদের কেনাকাটা</b><span class="goal-pct" data-i18n="goal1.pct">৭৫%</span></p>
+                  <span class="meter"><i style="--w:75%"></i></span>
+                  <p class="goal-meta"><span data-i18n="goal1.amt">৳১৫,০০০ / ৳২০,০০০</span><span data-i18n="goal1.auto">মাসে ৳২,৫০০ অটো জমা</span></p>
+                </div>
               </div>
-            </div>
-            <div class="goal">
-              <span class="goal-ic goal-ic--3"><svg class="ic"><use href="#i-laptop"/></svg></span>
-              <div class="goal-body">
-                <p><b data-i18n="goal3">নতুন ল্যাপটপ</b><span data-i18n="goal3.amt">৳১৬,০০০ / ৳৮০,০০০</span></p>
-                <span class="meter"><i style="--w:20%"></i></span>
+              <div class="goal">
+                <span class="goal-ic goal-ic--2"><svg class="ic"><use href="#i-plane"/></svg></span>
+                <div class="goal-body">
+                  <p><b data-i18n="goal2">কক্সবাজার ট্রিপ</b><span class="goal-pct" data-i18n="goal2.pct">৪২%</span></p>
+                  <span class="meter"><i style="--w:42%"></i></span>
+                  <p class="goal-meta"><span data-i18n="goal2.amt">৳১৬,৮০০ / ৳৪০,০০০</span><span data-i18n="goal2.auto">মাসে ৳৪,০০০ অটো জমা</span></p>
+                </div>
+              </div>
+              <div class="goal">
+                <span class="goal-ic goal-ic--3"><svg class="ic"><use href="#i-laptop"/></svg></span>
+                <div class="goal-body">
+                  <p><b data-i18n="goal3">নতুন ল্যাপটপ</b><span class="goal-pct" data-i18n="goal3.pct">২০%</span></p>
+                  <span class="meter"><i style="--w:20%"></i></span>
+                  <p class="goal-meta"><span data-i18n="goal3.amt">৳১৬,০০০ / ৳৮০,০০০</span><span data-i18n="goal3.auto">মাসে ৳৮,০০০ অটো জমা</span></p>
+                </div>
               </div>
             </div>
           </div>
 
+          <!-- the two DPS products, rate first -->
           <div class="products reveal">
             <div class="product">
+              <span class="product-rate" data-i18n="fixed.rate"><b>৯%</b> পর্যন্ত মুনাফা</span>
               <b data-i18n="fixed.t">ফিক্সড DPS</b>
-              <span data-i18n="fixed.d">প্রতি মাসে নির্দিষ্ট কিস্তি, ৮–৯% মুনাফা, মেয়াদ ৬–১২০ মাস</span>
+              <span data-i18n="fixed.d">প্রতি মাসে নির্দিষ্ট কিস্তি, মেয়াদ ৬–১২০ মাস</span>
             </div>
             <div class="product">
+              <span class="product-rate" data-i18n="flexi.rate"><b>৫.৫%</b> পর্যন্ত মুনাফা</span>
               <b data-i18n="flexi.t">ফ্লেক্সি DPS</b>
-              <span data-i18n="flexi.d">যখন খুশি, যত খুশি জমা — ব্যালেন্স অনুযায়ী ৫.৫% পর্যন্ত মুনাফা</span>
+              <span data-i18n="flexi.d">যখন খুশি, যত খুশি জমা</span>
             </div>
           </div>
         </div>
@@ -484,7 +525,7 @@
               <output id="calc-amt-out" for="calc-amt">৳৫,০০০</output>
             </div>
             <input type="range" id="calc-amt" min="1000" max="50000" step="500" value="5000">
-            <div class="calc-row"><span id="calc-tenure-label" data-i18n="calc.tenure">মেয়াদ</span></div>
+            <span class="sr-only" id="calc-tenure-label" data-i18n="calc.tenure">মেয়াদ</span>
             <div class="seg" role="radiogroup" aria-labelledby="calc-tenure-label">
               <button type="button" role="radio" aria-checked="false" data-m="6" data-i18n="t6">৬ মাস</button>
               <button type="button" role="radio" aria-checked="false" data-m="12" data-i18n="t12">১ বছর</button>

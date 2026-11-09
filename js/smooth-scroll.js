@@ -16,6 +16,16 @@
   });
   window.pnLenis = lenis;
 
+  // hold scrolling while the preloader plays (index.html adds html.pl-on, main.js removes it)
+  var root = document.documentElement;
+  if (root.classList.contains('pl-on')) {
+    lenis.stop();
+    var mo = new MutationObserver(function () {
+      if (!root.classList.contains('pl-on')) { lenis.start(); mo.disconnect(); }
+    });
+    mo.observe(root, { attributes: true, attributeFilter: ['class'] });
+  }
+
   function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
   requestAnimationFrame(raf);
 

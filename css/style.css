@@ -74,6 +74,7 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .section--lav :focus-visible, .section:not(.section--night):not(.section--violet) :focus-visible { outline-color: var(--violet); }
 
 .sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 .ic { width: 1.25em; height: 1.25em; flex: none; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
 .wrap { width: 100%; max-width: 1200px; margin-inline: auto; padding-inline: clamp(16px, 4vw, 32px); }
@@ -388,57 +389,43 @@ html[lang="bn"] .hero h1 { font-size: clamp(2.6rem, 6vw, 4.7rem); }
 .face svg { width: 74%; fill: #8577d6; opacity: .85; }
 
 /* ---------- card ---------- */
-/* Section background follows the chosen card colour (colours animate via @property) */
-@property --cbg1 { syntax: '<color>'; inherits: false; initial-value: rgba(64, 34, 132, .7); }
-@property --cbg2 { syntax: '<color>'; inherits: false; initial-value: #120a33; }
-@property --cbg3 { syntax: '<color>'; inherits: false; initial-value: #03031a; }
-@property --cbg4 { syntax: '<color>'; inherits: false; initial-value: rgba(0, 0, 0, 0); }
-#card {
-  overflow: hidden;
-  --cbg1: rgba(64, 34, 132, .7); --cbg2: #120a33; --cbg3: #03031a;
-  background:
-    radial-gradient(45% 60% at 96% 6%, var(--cbg4) 0%, transparent 70%),
-    radial-gradient(60% 75% at 26% 45%, var(--cbg1) 0%, transparent 70%),
-    linear-gradient(160deg, var(--cbg2) 0%, var(--cbg3) 100%);
-  transition: --cbg1 .8s var(--ease), --cbg2 .8s var(--ease), --cbg3 .8s var(--ease), --cbg4 .8s var(--ease);
+/* Card fan (after wallester.com's card stack): one card in front, the other two smaller behind it.
+   First view: the back cards tuck in behind the front one and fan back out (once).
+   Click: the cards turn one step like a carousel (js/main.js); the card that wraps round passes behind. */
+/* Background follows the front card: a faint section tint plus a soft glow behind the fan.
+   js/main.js sets #card[data-front]; colours fade via the registered properties. */
+@property --card-bg { syntax: '<color>'; inherits: false; initial-value: #0f0a2e; }
+@property --card-glow { syntax: '<color>'; inherits: true; initial-value: rgba(112, 64, 255, .34); }
+#card { overflow: hidden; --card-bg: #0f0a2e; --card-glow: rgba(112, 64, 255, .34); background-color: var(--card-bg); transition: --card-bg .9s var(--ease), --card-glow .9s var(--ease); }
+#card[data-front="orange"] { --card-bg: #160b24; --card-glow: rgba(255, 124, 52, .28); }
+#card[data-front="black"] { --card-bg: #0b0a17; --card-glow: rgba(176, 186, 228, .15); }
+.card-stage { position: relative; display: flex; justify-content: center; isolation: isolate; }
+.card-stage::before {
+  content: ""; position: absolute; z-index: -1; left: 50%; top: 55%; width: 115%; aspect-ratio: 1; pointer-events: none;
+  transform: translate(-50%, -50%); background: radial-gradient(closest-side, var(--card-glow), rgba(0, 0, 0, 0));
 }
-#card[data-color="orange"] { --cbg1: rgba(110, 30, 40, .75); --cbg2: #2a111e; --cbg3: #12080d; }
-#card[data-color="black"] { --cbg1: rgba(46, 48, 64, .6); --cbg2: #101016; --cbg3: #050507; --cbg4: rgba(150, 156, 190, .22); }
-.card-stage { position: relative; display: flex; flex-direction: column; align-items: center; }
-/* Card scene: canvas effects (js/card-fx.js) + ghost title + tilted card */
-.card-scene { position: relative; width: 100%; max-width: 560px; aspect-ratio: 1 / 1.08; margin-inline: auto; }
-.fx { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; transition: opacity .3s var(--ease); }
-.fx-back, .fx-sharp { z-index: 0; }
-#card > .wrap { position: relative; z-index: 1; }
-.fx-front { z-index: 2; }
-.fx-back { filter: blur(10px); }
-.fx-front { filter: blur(6px); }
-#card[data-color="orange"] .fx-back { filter: blur(7px); }
-#card[data-color="orange"] .fx-front { filter: blur(4px); }
-#card[data-color="black"] .fx-back { filter: blur(14px); }
-#card.fx-switching .fx { opacity: 0; }
-/* Phoenix flames shader canvas (in front of the card), half resolution, only shown in Phoenix */
-.fx-gl { z-index: 2; opacity: 0; }
-#card[data-fx-mode="orange"] .scene-float { animation: none; }   /* keep the card still so the flames hug it */
-#card[data-fx-mode="orange"] .fx-gl { opacity: 1; }
-#card.fx-switching .fx-gl { opacity: 0; }
-.scene-card { position: absolute; left: 50.8%; top: 58.6%; width: 43.7%; z-index: 2; transform: translate(-50%, -50%) perspective(900px) rotateX(calc(8deg + var(--ty, 0deg))) rotateY(var(--tx, 0deg)) rotate(28deg); transition: transform .5s var(--ease), opacity .35s var(--ease); }
-.scene-float { animation: floaty 6s ease-in-out infinite; }
-.card-img { display: block; width: 100%; height: auto; transform: perspective(900px) rotateY(0deg); transition: transform .3s cubic-bezier(.2, .7, .3, 1), filter .6s var(--ease);
-  filter: drop-shadow(0 0 1.5px rgba(214, 186, 255, .95)) drop-shadow(0 0 26px rgba(140, 90, 255, .55)) drop-shadow(0 34px 40px rgba(0, 0, 0, .55)); }
-#card[data-color="orange"] .card-img { filter: drop-shadow(0 0 1.5px rgba(255, 210, 160, .95)) drop-shadow(0 0 28px rgba(255, 120, 40, .6)) drop-shadow(0 34px 40px rgba(0, 0, 0, .55)); }
-#card[data-color="black"] .card-img { filter: drop-shadow(0 0 1px rgba(220, 225, 245, .85)) drop-shadow(0 0 18px rgba(150, 160, 200, .25)) drop-shadow(0 34px 40px rgba(0, 0, 0, .7)); }
-/* card flip on colour change */
-.card-img.flip-out { transform: perspective(900px) rotateY(90deg); transition: transform .26s cubic-bezier(.6, 0, .9, .4); }
-.card-img.flip-in { transform: perspective(900px) rotateY(-90deg); transition: none; }
-.swatches { display: flex; gap: 10px; margin-top: 44px; padding: 6px; border-radius: 999px; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12); }
-.swatch { display: inline-flex; align-items: center; gap: 8px; border: 0; background: none; color: #fff; padding: 8px 14px 8px 8px; border-radius: 999px; font-weight: 600; font-size: .9rem; transition: background-color .2s; }
-.swatch i { width: 26px; height: 26px; border-radius: 50%; box-shadow: inset 0 0 0 2px rgba(255,255,255,.3); }
-.swatch--purple i { background: linear-gradient(135deg, #8a52ff, #3a0abe); }
-.swatch--orange i { background: linear-gradient(135deg, #ffcc1a, #f47b2a 50%, #8e4bb8); }
-.swatch--black i { background: #08090b; }
-.swatch[aria-checked="true"] { background: #fff; color: var(--ink); }
-.card-mood { margin-top: 14px; min-height: 1.6em; color: rgba(255,255,255,.7); font-size: .95rem; }
+.card-fan { position: relative; width: 100%; max-width: 540px; aspect-ratio: 1 / .84; }
+.fan-card {
+  --x: 0%; --y: 0%; --s: 1;
+  position: absolute; left: 50%; bottom: 6%; width: 46%; height: auto; display: block; cursor: pointer;
+  border-radius: 6.7% / 4.2%;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, .14), 0 30px 60px rgba(0, 0, 0, .5);
+  transform-origin: 50% 100%;
+  transform: translateX(calc(-50% + var(--x))) translateY(var(--y)) scale(var(--s));
+  transition: transform .8s cubic-bezier(.65, 0, .35, 1);
+  -webkit-user-drag: none; user-select: none;
+}
+.fan-card[data-slot="c"] { z-index: 3; }
+.fan-card[data-slot="l"] { --x: -58%; --y: 5%; --s: .86; z-index: 2; }
+.fan-card[data-slot="r"] { --x: 58%; --y: 5%; --s: .86; z-index: 1; }
+.card-fan.is-playing .fan-card[data-slot="c"] { animation: fan-front 2.8s ease-in-out; }
+.card-fan.is-playing .fan-card[data-slot="l"], .card-fan.is-playing .fan-card[data-slot="r"] { animation: fan-side 2.8s ease-in-out; }
+/* front card dips while the back two tuck in, rise, and fan back out */
+@keyframes fan-front { 29%, 57% { transform: translateX(-50%) translateY(4%) scale(.9); } }
+@keyframes fan-side {
+  29% { transform: translateX(-50%) translateY(-4%) scale(1); }
+  57% { transform: translateX(calc(-50% + var(--x))) translateY(-4%) scale(1); }
+}
 .feat-list { display: grid; gap: 14px; margin-top: 30px; }
 .feat-list li { display: flex; align-items: center; gap: 14px; font-weight: 600; }
 .fi { width: 42px; height: 42px; flex: none; border-radius: 12px; display: grid; place-items: center; background: rgba(136, 249, 88, .12); color: var(--lime); }
@@ -457,7 +444,7 @@ html[lang="bn"] .hero h1 { font-size: clamp(2.6rem, 6vw, 4.7rem); }
 .b-qr h3 mark { background: var(--lime); color: var(--ink); padding: 0 .28em; border-radius: 8px; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
 
 .b-qr {
-  grid-column: span 7; grid-row: span 2; min-height: 620px; padding-bottom: 0; color: #fff;
+  grid-column: span 7; grid-row: span 2; min-height: 560px; padding-bottom: 0; color: #fff;
   display: flex; flex-direction: column;
   background:
     radial-gradient(80% 60% at 80% 100%, rgba(136, 249, 88, .3), rgba(136, 249, 88, 0) 62%),
@@ -469,84 +456,77 @@ html[lang="bn"] .hero h1 { font-size: clamp(2.6rem, 6vw, 4.7rem); }
 .flow li { counter-increment: f; display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px 6px 6px; border-radius: 999px; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.16); font-size: .88rem; font-weight: 600; }
 .flow li::before { content: counter(f); width: 24px; height: 24px; flex: none; border-radius: 50%; display: grid; place-items: center; background: var(--lime); color: var(--ink); font-size: .78rem; font-weight: 800; }
 html[lang="bn"] .flow li::before { content: counter(f, bengali); }
-.b-qr-img { width: min(94%, 540px); margin-top: auto; align-self: flex-end; filter: drop-shadow(0 30px 40px rgba(10, 0, 50, .5)); }
+.b-qr-img { width: min(78%, 400px); margin-top: auto; align-self: flex-end; filter: drop-shadow(0 30px 40px rgba(10, 0, 50, .5)); }
 
 .b-add { grid-column: span 5; background: var(--lav); }
 .b-add { display: flex; flex-direction: column; }
-.add-best { display: flex; align-items: center; gap: 14px; margin-top: 20px; padding: 16px 16px 16px 14px; border-radius: 22px; color: #fff;
-  background: radial-gradient(120% 140% at 0% 0%, var(--violet-500) 0%, var(--violet) 45%, var(--violet-700) 100%); }
-.add-best-ic { width: 46px; height: 46px; flex: none; border-radius: 14px; display: grid; place-items: center; background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.2); }
-.add-best-ic .ic { width: 22px; height: 22px; }
-.add-best-txt { flex: 1; min-width: 0; line-height: 1.35; }
-.add-best-txt b { display: block; font-size: 1.02rem; }
-.add-best-txt span { display: block; font-size: .84rem; color: rgba(255,255,255,.8); }
-.add-free { flex: none; padding: 7px 16px; border-radius: 999px; background: var(--lime); color: var(--ink); font-weight: 800; font-size: 1rem; }
-.add-more { margin: 20px 4px 4px; font-size: .8rem; font-weight: 700; color: var(--muted); }
-html[lang="en"] .add-more { text-transform: uppercase; letter-spacing: .06em; font-size: .72rem; }
-.src-list { display: grid; }
-.src-list li { display: flex; align-items: center; gap: 12px; padding: 13px 4px; border-bottom: 1px solid var(--lav-200); font-weight: 600; font-size: .93rem; }
-.src-list li:last-child { border-bottom: 0; }
-.src-name { flex: 1; min-width: 0; }
-.src-ic { width: 36px; height: 36px; flex: none; border-radius: 12px; display: grid; place-items: center; background: #fff; border: 1px solid var(--lav-200); color: var(--violet); }
-.src-ic .ic { width: 18px; height: 18px; }
-.fee { font-size: .95rem; font-weight: 800; color: var(--ink); white-space: nowrap; font-variant-numeric: tabular-nums; }
-.fee--rail { font-size: .74rem; font-weight: 700; padding: 4px 9px; border-radius: 999px; background: #fff; border: 1px solid var(--lav-200); color: var(--ink-2); }
+.add-free-note { display: flex; align-items: center; gap: 10px; margin-top: 14px; padding: 10px 14px 10px 10px; border-radius: 16px; background: #fff; font-size: .9rem; font-weight: 600; color: var(--ink-2); }
+.add-free-note b { flex: none; padding: 4px 12px; border-radius: 999px; background: var(--lime); color: var(--ink); font-weight: 800; }
 
 
-/* same family as the Add Money card: lavender tile, violet tag, white icon chips with violet icons */
 .b-bills { grid-column: span 5; background: var(--lav); color: var(--ink); display: flex; flex-direction: column; }
-.bill-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px 12px; margin-top: 28px; }
-.bill-grid li { display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; font-weight: 600; font-size: .86rem; line-height: 1.3; color: var(--ink-2); }
-.bi { width: 56px; height: 56px; border-radius: 18px; display: grid; place-items: center; background: #fff; color: var(--violet); }
-.bi .ic { width: 24px; height: 24px; }
+/* right-hand tiles: title on top, a short row of plain text pills pinned to the bottom */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; padding-top: 22px; }
+.chips li { padding: 9px 16px; border-radius: 999px; background: #fff; font-size: .95rem; font-weight: 600; line-height: 1.2; color: var(--ink-2); }
 
 /* ---------- savings ---------- */
-.goals { display: grid; gap: 12px; margin-top: 30px; }
-.goal { display: flex; align-items: center; gap: 14px; padding: 14px 18px; border-radius: 18px; background: #fff; box-shadow: var(--shadow-sm); }
-.goal-ic { width: 44px; height: 44px; flex: none; border-radius: 14px; display: grid; place-items: center; }
+/* savings pockets card: header + one row per goal */
+.pocket { margin-top: 28px; padding: 18px 20px 6px; border-radius: 24px; background: #fff; box-shadow: var(--shadow-sm); }
+.pocket-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding-bottom: 10px; }
+.pocket-head > b { font-family: var(--font-display); font-size: 1.05rem; }
+.pocket-head span { font-size: .86rem; color: var(--muted); }
+.pocket-head span b { color: var(--ink); font-weight: 800; font-variant-numeric: tabular-nums; }
+.goals { display: grid; }
+.goal { display: flex; align-items: center; gap: 14px; padding: 12px 0; border-top: 1px solid var(--lav-200); }
+.goal-ic { width: 42px; height: 42px; flex: none; border-radius: 13px; display: grid; place-items: center; }
 .goal-ic--1 { background: #fff1e0; color: #c25a00; }
 .goal-ic--2 { background: #e2f1ff; color: #1d5fae; }
 .goal-ic--3 { background: var(--lav-200); color: var(--violet-700); }
 .goal-body { flex: 1; min-width: 0; }
-.goal-body p { display: flex; justify-content: space-between; gap: 10px; font-size: .92rem; flex-wrap: wrap; }
-.goal-body p span { color: var(--muted); font-variant-numeric: tabular-nums; }
-.meter { display: block; height: 8px; border-radius: 9px; background: var(--lav-200); margin-top: 8px; overflow: hidden; }
+.goal-body p { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; font-size: .94rem; }
+.goal-body .goal-pct { font-weight: 800; color: var(--violet-700); font-variant-numeric: tabular-nums; }
+.goal-body .goal-meta { margin-top: 6px; font-size: .78rem; color: var(--muted); flex-wrap: wrap; row-gap: 2px; font-variant-numeric: tabular-nums; }
+.meter { display: block; height: 7px; border-radius: 9px; background: var(--lav-200); margin-top: 7px; overflow: hidden; }
 .meter i { display: block; height: 100%; width: 0; border-radius: 9px; background: linear-gradient(90deg, var(--violet), var(--violet-500)); transition: width 1.2s var(--ease) .2s; }
-.is-in .meter i, .goals.is-in .meter i { width: var(--w); }
-.products { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
-.product { padding: 14px 16px; border-radius: 16px; border: 1.5px solid var(--lav-200); font-size: .88rem; color: var(--ink-2); }
-.product b { display: block; color: var(--violet-700); font-size: 1rem; margin-bottom: 2px; }
+.is-in .meter i { width: var(--w); }
+/* DPS products: rate is the headline */
+.products { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+.product { display: grid; align-content: start; gap: 2px; padding: 16px 18px; border-radius: 20px; border: 1.5px solid var(--lav-200); font-size: .84rem; color: var(--muted); }
+.product > b { color: var(--ink); font-size: .98rem; margin-top: 4px; }
+.product-rate { font-size: .8rem; font-weight: 600; color: var(--violet-700); }
+.product-rate b { font-family: var(--font-display); font-size: 1.75rem; font-weight: 800; line-height: 1; color: var(--violet); font-variant-numeric: tabular-nums; }
 
-.calc { width: 100%; max-width: 440px; background: #fff; border-radius: var(--radius-xl); padding: clamp(24px, 3vw, 34px); box-shadow: var(--shadow-lg); }
-.calc-title { font-family: var(--font-display); font-weight: 800; font-size: 1.35rem; margin-bottom: 22px; }
+.calc { width: 100%; max-width: 420px; background: #fff; border-radius: var(--radius-xl); padding: clamp(20px, 2.4vw, 26px); box-shadow: var(--shadow-lg); }
+.calc-title { font-family: var(--font-display); font-weight: 800; font-size: 1.2rem; margin-bottom: 12px; }
 .calc-row { display: flex; justify-content: space-between; align-items: baseline; font-weight: 600; color: var(--ink-2); margin-top: 6px; }
 .calc-row output { font-family: var(--font-display); font-weight: 800; font-size: 1.3rem; color: var(--ink); font-variant-numeric: tabular-nums; }
-input[type="range"] { -webkit-appearance: none; appearance: none; width: 100%; height: 8px; border-radius: 9px; margin: 14px 0 22px; background: linear-gradient(90deg, var(--violet) var(--fill, 10%), var(--lav-200) var(--fill, 10%)); outline-offset: 6px; }
+input[type="range"] { -webkit-appearance: none; appearance: none; width: 100%; height: 8px; border-radius: 9px; margin: 10px 0 16px; background: linear-gradient(90deg, var(--violet) var(--fill, 10%), var(--lav-200) var(--fill, 10%)); outline-offset: 6px; }
 input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 26px; height: 26px; border-radius: 50%; background: #fff; border: 6px solid var(--violet); box-shadow: var(--shadow-sm); cursor: grab; }
 input[type="range"]::-moz-range-thumb { width: 16px; height: 16px; border-radius: 50%; background: #fff; border: 6px solid var(--violet); cursor: grab; }
 .seg { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 4px; padding: 4px; border-radius: 14px; background: var(--lav); margin-top: 10px; }
-.seg button { border: 0; background: none; padding: 9px 6px; border-radius: 10px; font-weight: 600; font-size: .88rem; color: var(--ink-2); transition: background-color .2s, color .2s; }
+.seg button { border: 0; background: none; padding: 8px 6px; border-radius: 10px; font-weight: 600; font-size: .88rem; color: var(--ink-2); transition: background-color .2s, color .2s; }
 .seg button[aria-checked="true"] { background: #fff; color: var(--violet-700); box-shadow: var(--shadow-sm); }
-.calc-result { margin-top: 24px; padding: 18px 20px 12px; border-radius: 20px; color: #fff;
+.calc-result { margin-top: 14px; padding: 14px 16px 8px; border-radius: 20px; color: #fff;
   background: radial-gradient(120% 90% at 100% 0%, rgba(136, 249, 88, .16), transparent 60%), linear-gradient(140deg, var(--violet) 0%, var(--violet-900) 100%); }
 .cr-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
 .cr-label { font-size: .9rem; color: rgba(255,255,255,.82); font-weight: 600; }
 .cr-rate { font-size: .76rem; padding: 4px 10px; border-radius: 999px; background: rgba(255,255,255,.12); color: rgba(255,255,255,.85); white-space: nowrap; }
 .cr-rate b { color: var(--lime); font-variant-numeric: tabular-nums; }
 /* profit is the hero number */
-.cr-profit { display: block; margin-top: 4px; font-family: var(--font-display); font-size: clamp(2.3rem, 4.2vw, 2.9rem); font-weight: 800; line-height: 1.15; color: var(--lime); font-variant-numeric: tabular-nums; text-shadow: 0 0 24px rgba(136, 249, 88, .35); }
+.cr-profit { display: block; margin-top: 4px; font-family: var(--font-display); font-size: clamp(1.9rem, 3.4vw, 2.4rem); font-weight: 800; line-height: 1.15; color: var(--lime); font-variant-numeric: tabular-nums; text-shadow: 0 0 24px rgba(136, 249, 88, .35); }
 /* profit-growth chart (js/dps-chart.js) */
-.dps-chart { position: relative; margin-top: 10px; }
-.dps-svg { display: block; width: 100%; height: 132px; overflow: visible; }
+.dps-chart { position: relative; margin-top: 6px; }
+.dps-svg { display: block; width: 100%; height: 96px; overflow: visible; }
 .dps-svg .axis { font-size: 10.5px; fill: rgba(255,255,255,.62); font-family: var(--font-sans); }
 .dps-svg .grid { stroke: rgba(255,255,255,.12); stroke-width: 1; }
 .dps-tip { position: absolute; z-index: 2; pointer-events: none; transform: translate(-50%, calc(-100% - 12px)); padding: 7px 11px; border-radius: 10px; background: #fff; color: var(--ink); font-size: .78rem; line-height: 1.4; white-space: nowrap; box-shadow: var(--shadow-sm); }
 .dps-tip b { display: block; color: #1f8a17; font-variant-numeric: tabular-nums; }
-.calc-dl { margin: 14px 0 0; display: grid; gap: 8px; }
-.calc-dl div { display: flex; justify-content: space-between; font-size: .93rem; }
-.calc-dl dt { color: var(--muted); }
-.calc-dl dd { margin: 0; font-weight: 700; font-variant-numeric: tabular-nums; }
-.calc-note { margin: 14px 0 18px; font-size: .76rem; color: var(--muted); line-height: 1.5; }
+/* total deposit and maturity amount side by side */
+.calc-dl { margin: 12px 0 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.calc-dl div { display: grid; align-content: start; gap: 2px; padding: 10px 12px; border-radius: 14px; background: var(--lav); }
+.calc-dl dt { color: var(--muted); font-size: .76rem; line-height: 1.35; }
+.calc-dl dd { margin: 0; font-weight: 800; font-size: 1.02rem; font-variant-numeric: tabular-nums; }
+.calc-note { margin: 10px 0 14px; font-size: .72rem; color: var(--muted); line-height: 1.5; }
 
 /* ---------- buddy section ---------- */
 .buddy-stage { display: flex; flex-direction: column; align-items: center; gap: 26px; }
@@ -680,8 +660,6 @@ html[lang="en"] .pt-bubble { font-family: 'Anton', 'Montserrat', sans-serif; fon
 .dd-sp4 { width: 14px; left: 27%; top: 5%; animation-delay: -.6s; }
 @keyframes twinkle { from { opacity: .35; transform: scale(.85); } to { opacity: 1; transform: scale(1.05); } }
 
-/* You be You lettering behind the card */
-.swatches, .card-mood { position: relative; z-index: 4; }
 
 /* ---------- footer ---------- */
 /* footer colour matches primenow.ai */
@@ -712,10 +690,64 @@ html[lang="en"] .pt-bubble { font-family: 'Anton', 'Montserrat', sans-serif; fon
 .sg-text b { display: block; font-size: .92rem; }
 .sg-text small { font-size: .75rem; opacity: .7; }
 
+/* ---------- liquid lettering (js/liquid-type.js) ---------- */
+.liquid-type { position: relative; }
+.liquid-type > img { width: 100%; transition: opacity .3s; }
+.liquid-type.is-live > img { opacity: 0; }
+.liquid-type__canvas { position: absolute; pointer-events: none; }
+
+/* ---------- preloader: logo reveal ----------
+   Timeline (s): 0.1–1.75 a tapered lime comet flies the swoop path into the mark, entering at
+   cruising speed and slowing into the spiral (no mid-flight sprint); 1.75–2.0 its tail draws
+   into the landing point while the mark is "written" (1.68–2.63, a thick mask stroke along its
+   centreline); 2.5–2.9 the dot pops out of the stroke end; 3.1–3.6 the overlay fades away.
+   The comet is a trail of circles on a CSS motion path (offset-path). */
+@property --pl-k { syntax: '<number>'; inherits: true; initial-value: 1; }
+html.pl-on { overflow: hidden; scrollbar-gutter: stable; }
+html.pl-hold body > :not(.preloader) { visibility: hidden; }
+.preloader {
+  position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center; overflow: hidden;
+  background: radial-gradient(60% 60% at 50% 50%, #2a0aa8 0%, var(--violet-900) 70%);
+  animation: pl-out .5s ease 3.1s forwards;
+}
+.pl-svg { width: 100%; height: 100%; animation: pl-zoom .5s ease-in 3.1s forwards; }
+.pl-comet { animation: pl-size 1.65s linear .1s both, pl-hide .12s linear 1.95s forwards; }
+/* comet: 50 circles ride the same motion path, each a fixed distance (0.18%) behind the one
+   in front, shrinking toward the tail, so the trail is one continuous taper */
+.pl-t {
+  offset-path: path('M-60 360C200 330 460 640 700 615C880 595 960 520 990 470C1015 428 975 410 940 435C880 480 840 545 760 548C680 551 650 470 695 422C728 387 768 405 752 463');
+  offset-rotate: 0deg; offset-distance: 0%;
+  transform: scale(var(--pl-k));
+  animation: pl-move 1.9s linear .1s both;
+}
+/* dash starts 100 units before the path (gap 3000) so neither round cap peeks out early */
+.pl-pen { fill: none; stroke: #fff; stroke-width: 112; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1000px 3000px; stroke-dashoffset: 1100px; animation: pl-write .95s cubic-bezier(.3, .35, .25, 1) 1.68s forwards; }
+.pl-full { fill: #fff; opacity: 0; animation: pl-show .2s linear 2.63s forwards; }
+.pl-dot { fill: #86f557; opacity: 0; transform-box: fill-box; transform-origin: 50% 50%; animation: pl-dot .42s cubic-bezier(.3, 1.4, .5, 1) 2.5s forwards; }
+/* head speed: constant for the first 75% of the path (0–55% of the time), then an ease-out
+   whose starting speed matches (slope ≈1.75) and only slows, into the landing at 87%; 87–100% the head waits
+   at the landing point while the tail draws in behind it */
+@keyframes pl-move {
+  0% { offset-distance: calc(0% - var(--i) * .18%); animation-timing-function: linear; }
+  55% { offset-distance: calc(75% - var(--i) * .18%); animation-timing-function: cubic-bezier(.33, .58, .67, 1); }
+  87% { offset-distance: calc(100% - var(--i) * .18%); animation-timing-function: cubic-bezier(.4, 0, .2, 1); }
+  100% { offset-distance: 100%; }
+}
+@keyframes pl-size { 0% { --pl-k: 1.25; } 40% { --pl-k: .95; } 78% { --pl-k: .62; } 100% { --pl-k: 1.5; } }
+@keyframes pl-hide { to { opacity: 0; } }
+@keyframes pl-write { to { stroke-dashoffset: 0px; } }
+@keyframes pl-show { to { opacity: 1; } }
+@keyframes pl-dot { 0% { opacity: 0; transform: translate(-30px, 40px) scale(.3); } 35% { opacity: 1; } 100% { opacity: 1; transform: none; } }
+@keyframes pl-out { to { opacity: 0; visibility: hidden; } }
+@keyframes pl-zoom { to { transform: scale(1.06); } }
+/* hold everything until the page has loaded (inline script adds .is-go), so the reveal isn't
+   competing with page start-up work; without JS it simply plays straight away */
+.js .preloader:not(.is-go), .js .preloader:not(.is-go) * { animation-play-state: paused !important; }
+@media (prefers-reduced-motion: reduce) { .preloader { display: none; } }
+
 /* ---------- reveal + motion ---------- */
 .js .reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
 .js .reveal.is-in { opacity: 1; transform: none; }
-@keyframes floaty { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 @keyframes bob { 0%, 100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-6px) rotate(-2deg); } }
 
 @media (prefers-reduced-motion: reduce) {
@@ -803,12 +835,10 @@ html[lang="en"] .pt-bubble { font-family: 'Anton', 'Montserrat', sans-serif; fon
   .b-qr .b-copy { padding-bottom: 8px; }
   .b-qr-img { max-width: 380px; margin: 0 auto; }
   .b-add, .b-bills { grid-column: span 12; }
-  .products { grid-template-columns: 1fr; }
+  #calc .seg button { padding-inline: 4px; font-size: .8rem; white-space: nowrap; }
   .sec-grid { grid-template-columns: 1fr; }
   .phone { width: 270px; height: 560px; }
   .step { padding: 14px; gap: 12px; }
   .step-n { width: 38px; height: 38px; font-size: 1rem; }
-  .swatch { padding: 6px 12px 6px 6px; font-size: .85rem; }
-  .swatch i { width: 22px; height: 22px; }
   .footer-top { grid-template-columns: 1fr; }
 }

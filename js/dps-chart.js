@@ -15,6 +15,7 @@
   var svg = box.querySelector('.dps-svg');
   var tip = box.querySelector('.dps-tip');
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var H = 96;   // chart height; matches .dps-svg in css/style.css
 
   function lang() { return document.documentElement.lang === 'en' ? 'en' : 'bn'; }
   function T(key, vars) {
@@ -43,7 +44,7 @@
 
   function draw() {
     var vals = state.vals, n = state.n, g = state.grow;
-    var w = Math.max(200, box.clientWidth), h = 132, top = 12, bot = 22, base = h - bot;
+    var w = Math.max(200, box.clientWidth), h = H, top = 10, bot = 20, base = h - bot;
     var max = vals[n] || 1;
     function X(k) { return (k / n) * w; }
     function Y(v) { return top + (1 - (v * g) / max) * (base - top); }
@@ -90,7 +91,7 @@
   function showAt(clientX) {
     var r = svg.getBoundingClientRect(), n = state.n;
     var k = Math.max(0, Math.min(n, Math.round((clientX - r.left) / r.width * n)));
-    var w = r.width, h = 132, top = 12, base = h - 22, max = state.vals[n] || 1;
+    var w = r.width, h = H, top = 10, base = h - 20, max = state.vals[n] || 1;
     var x = (k / n) * w, y = top + (1 - state.vals[k] / max) * (base - top);
     var hx = svg.querySelector('.hx'), hd = svg.querySelector('.hd');
     if (!hx || !hd) return;

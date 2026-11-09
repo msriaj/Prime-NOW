@@ -3,6 +3,15 @@
   'use strict';
 
   var D = window.PN_I18N;
+
+  // Preloader: drop the overlay (and the scroll lock) once its fade-out finishes.
+  (function () {
+    var pl = document.querySelector('.preloader');
+    if (!pl) return;
+    function done() { pl.remove(); root.classList.remove('pl-on', 'pl-hold'); }
+    if (reduceMotion) { done(); return; }
+    pl.addEventListener('animationend', function (e) { if (e.target === pl) done(); });
+  })();
   var root = document.documentElement;
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -445,39 +454,67 @@
   })();
 
   /* ------------------------------------------------------------------
-     Numberless card colour picker
+     Numberless card fan
+     Slots: "c" front, "l" back-left, "r" back-right (positions in CSS).
+     First view: the tuck-and-fan intro plays once.
+     Click: the cards turn one step like a carousel. Right card (or the front
+     card) -> right comes to the front, front goes left, left wraps round to the
+     right. Left card -> the same the other way. The wrapping card dips and
+     passes behind the others. The section tint follows the front card.
      ------------------------------------------------------------------ */
   (function () {
-    var stage = document.querySelector('.card-stage');
-    var img = document.getElementById('card-img');
-    var mood = document.getElementById('card-mood');
-    var SRC = { purple: 'assets/card-purple.webp', orange: 'assets/card-orange.webp', black: 'assets/card-black.webp' };
-    Object.keys(SRC).forEach(function (k) { var i = new Image(); i.src = SRC[k]; });
-    var color = 'purple', swapTimer;
+    var fan = document.getElementById('card-fan');
+    if (!fan) return;
+    var section = document.getElementById('card');
+    var cards = Array.prototype.slice.call(fan.querySelectorAll('.fan-card'));
+    var POS = {   // same as the CSS slot transforms, spelt out for the wrap animation
+      l: 'translateX(-108%) translateY(5%) scale(.86)',
+      c: 'translateX(-50%) translateY(0%) scale(1)',
+      r: 'translateX(8%) translateY(5%) scale(.86)'
+    };
+    var BEHIND = 'translateX(-50%) translateY(10%) scale(.72)';
+    var EASE = 'cubic-bezier(.65, 0, .35, 1)', DUR = 800, busy = false;
 
-    function render() {
-      mood.textContent = t('card.mood.' + color);
-      img.alt = t('card.alt.' + color);
+    function render() { cards.forEach(function (el) { el.alt = t('card.alt.' + el.dataset.color); }); }
+
+    function turn(dir) {   // dir 1: right card to the front; -1: left card to the front
+      if (busy) return;
+      busy = true;
+      fan.classList.remove('is-playing');
+      var next = dir > 0 ? { r: 'c', c: 'l', l: 'r' } : { l: 'c', c: 'r', r: 'l' };
+      cards.forEach(function (el) {
+        var from = el.dataset.slot, to = next[from];
+        el.dataset.slot = to;
+        if (from !== 'c' && to !== 'c' && !reduceMotion && el.animate) {
+          el.style.zIndex = '0';   // the wrapping card travels behind the other two
+          var anim = el.animate(
+            [{ transform: POS[from] }, { transform: BEHIND, offset: 0.5 }, { transform: POS[to] }],
+            { duration: DUR, easing: EASE }
+          );
+          anim.onfinish = anim.oncancel = function () { el.style.zIndex = ''; };
+        }
+        if (to === 'c') section.dataset.front = el.dataset.color;   // background tint follows the front card
+      });
+      setTimeout(function () { busy = false; }, reduceMotion ? 0 : DUR);
     }
-    radioGroup(document.querySelector('.swatches'), function (btn) {
-      var c = btn.dataset.color;
-      if (c === color) return;
-      color = c;
-      stage.dataset.color = c;
-      document.getElementById('card').dataset.color = c; // section background follows the card
-      clearTimeout(swapTimer);
-      // flip: turn the old card away edge-on, swap the face, turn the new one in
-      img.classList.remove('flip-in');
-      img.classList.add('flip-out');
-      swapTimer = setTimeout(function () {
-        img.src = SRC[c];
-        img.classList.remove('flip-out');
-        img.classList.add('flip-in');
-        void img.offsetWidth;
-        img.classList.remove('flip-in');
-        render();
-      }, reduceMotion ? 0 : 260);
+
+    fan.addEventListener('click', function (e) {
+      var el = e.target.closest('.fan-card');
+      if (el) turn(el.dataset.slot === 'l' ? -1 : 1);
     });
+
+    // tuck-and-fan intro, once, when the stack first comes into view
+    if (!reduceMotion && 'IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (en) {
+        if (!en[0].isIntersecting) return;
+        io.disconnect();
+        fan.classList.add('is-playing');
+      }, { threshold: 0.55 });
+      io.observe(fan);
+      fan.addEventListener('animationend', function (e) {
+        if (e.target.dataset.slot === 'c') fan.classList.remove('is-playing');
+      });
+    }
     onLang(render);
     render();
   })();

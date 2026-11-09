@@ -14,10 +14,9 @@ Open http://localhost:5173. To view it from a phone on the same Wi-Fi, bind to a
 
 | Path | What it holds |
 |------|---------------|
-| `index.html` | Page markup. Bangla (default) copy lives here. |
+| `index.html` | Page markup. Bangla (default) copy lives here. Starts with the preloader: an inline SVG recreation of the Prime NOW logo-reveal video (comet swoop, then the mark is written), animated in CSS. |
 | `js/i18n.js` | English copy for every `data-i18n` key, plus runtime strings in both languages. |
-| `js/main.js` | Language toggle, smart store links, header, e-KYC stepper, card picker (flip), DPS calculator, NOW Buddy live avatar (moods, eye tracking, blinks, idle) + chat, spending widget, sticky mobile bar. |
-| `js/card-fx.js` | Card section backgrounds per colour: Aurora (stars + northern lights), Phoenix (WebGL flames around the card + sparks), Stealth (smoke). |
+| `js/main.js` | Language toggle, smart store links, header, e-KYC stepper, card fan + colour picker, DPS calculator, NOW Buddy live avatar (moods, eye tracking, blinks, idle) + chat, spending widget, sticky mobile bar. |
 | `js/dps-chart.js` | Interest-growth chart inside the savings calculator. |
 | `js/hero-parallax.js` | Pointer parallax for the cards and phone in the hero. |
 | `js/smooth-scroll.js` | Lenis smooth scrolling (loaded from jsDelivr) and in-page anchor offsets. |
