@@ -45,14 +45,6 @@
   }
 
   /* ------------------------------------------------------------------
-     NOW Buddy avatars (one SVG template, cloned)
-     ------------------------------------------------------------------ */
-  var tpl = document.getElementById('tpl-buddy');
-  document.querySelectorAll('[data-buddy]').forEach(function (el) {
-    el.appendChild(tpl.content.cloneNode(true));
-  });
-
-  /* ------------------------------------------------------------------
      i18n — Bangla is captured from the DOM, English comes from i18n.js
      ------------------------------------------------------------------ */
   var bn = {};
@@ -148,6 +140,224 @@
       });
     });
   }
+
+  /* ------------------------------------------------------------------
+     NOW Buddy — live avatar
+     Every [data-buddy] gets the template: official body + SVG face.
+     Eyes follow the pointer, blink, and the face swaps by mood.
+     ------------------------------------------------------------------ */
+  var MOODS = {
+    happy:     { eyes: 'happy',  props: 'lines stars' },
+    look:      { eyes: 'open',   props: 'lines' },
+    curious:   { eyes: 'open',   props: 'ask', gaze: [0.55, -0.85] },
+    cool:      { eyes: 'none',   mouth: 'smile', props: 'shades check lines' },
+    waiting:   { eyes: 'lid',    props: 'hourglass', gaze: [0.9, 0] },
+    savvy:     { eyes: 'lid',    props: 'coins lines', gaze: [0.75, 0] },
+    sleepy:    { eyes: 'sleep',  props: 'zzz' },
+    surprised: { eyes: 'wide',   mouth: 'o', props: 'lines' },
+    tickled:   { eyes: 'squint', mouth: 'grin', props: 'lines stars' },
+    alert:     { eyes: 'open',   props: 'brows shield', gaze: [0, 0.15] },
+    meh:       { eyes: 'lid',    props: '', gaze: [-0.9, 0] }
+  };
+  var BUDDY = {};
+  var buddies = [];
+
+  function Buddy(host) {
+    this.kind = host.getAttribute('data-buddy') || 'mini';
+    host.appendChild(document.getElementById('tpl-buddy').content.cloneNode(true));
+    this.host = host;
+    this.el = host.querySelector('.nb');
+    this.svg = this.el.querySelector('svg');
+    this.el.classList.add('nb--' + this.kind);
+    if (this.kind !== 'stage') this.svg.querySelector('.nb-props').remove();
+    this.base = 'happy';     // chosen mood
+    this.temp = null;        // short reaction on top of it
+    this.cur = '';
+    this.mirrors = [];       // avatars that copy this one's face
+    this.led = false;        // true when another avatar drives this one
+    this.visible = false;
+    this.lookUntil = 0;
+    this.lookBlock = 0;
+    this.g = { x: 0, y: 0 }; this.gp = { x: 9, y: 9 };
+    this.wander = { x: 0, y: 0, next: 0 };
+    this.onMood = null;
+    this.apply();
+    this.blinkLoop();
+    buddies.push(this);
+    BUDDY[this.kind] = this;
+  }
+  Buddy.prototype.mood = function () {
+    if (this.temp) return this.temp;
+    if (this.base === 'happy' && performance.now() < this.lookUntil) return 'look';
+    return this.base;
+  };
+  Buddy.prototype.apply = function () {
+    var m = this.mood();
+    if (m === this.cur) return;
+    this.cur = m;
+    var d = MOODS[m];
+    [this].concat(this.mirrors).forEach(function (b) {
+      var s = b.el.dataset;
+      s.mood = m; s.eyes = d.eyes; s.mouth = d.mouth || ''; s.props = d.props || '';
+    });
+    if (this.onMood) this.onMood(m);
+  };
+  Buddy.prototype.set = function (m) { this.base = m; this.apply(); };
+  Buddy.prototype.react = function (m, ms) {
+    var self = this;
+    clearTimeout(this.tt);
+    this.temp = m;
+    this.apply();
+    if (ms) this.tt = setTimeout(function () { self.temp = null; self.apply(); }, ms);
+  };
+  Buddy.prototype.calm = function () { clearTimeout(this.tt); this.temp = null; this.apply(); };
+  Buddy.prototype.squish = function () {
+    var el = this.el;
+    el.classList.remove('is-poke');
+    void el.getBoundingClientRect(); // restart the animation
+    el.classList.add('is-poke');
+  };
+  Buddy.prototype.blinkLoop = function () {
+    var self = this, st = this.el.style;
+    setTimeout(function () {
+      if (self.visible && !document.hidden) {
+        st.setProperty('--blink', '.08');
+        setTimeout(function () { st.setProperty('--blink', '1'); }, 120);
+        if (Math.random() < 0.2) { // sometimes a double blink
+          setTimeout(function () { st.setProperty('--blink', '.08'); }, 260);
+          setTimeout(function () { st.setProperty('--blink', '1'); }, 380);
+        }
+      }
+      self.blinkLoop();
+    }, 2200 + Math.random() * 3800);
+  };
+
+  document.querySelectorAll('[data-buddy]').forEach(function (host) { new Buddy(host); });
+
+  (function () {
+    var stage = BUDDY.stage;
+    // The chat header avatar wears the same face as the big one
+    if (stage && BUDDY.chat) { BUDDY.chat.led = true; stage.mirrors.push(BUDDY.chat); stage.cur = ''; stage.apply(); }
+
+    // Pointer + activity tracking
+    var ptr = { x: 0, y: 0, t: -1e6 };
+    var lastAct = performance.now();
+    var running = false;
+    function wake() {
+      lastAct = performance.now();
+      if (stage && stage.idle) { stage.idle = false; stage.react('surprised', 900); }
+    }
+    function onPtr(e) { ptr.x = e.clientX; ptr.y = e.clientY; ptr.t = performance.now(); wake(); }
+    window.addEventListener('pointermove', onPtr, { passive: true });
+    window.addEventListener('pointerdown', onPtr, { passive: true });
+    ['keydown', 'scroll', 'wheel', 'touchstart'].forEach(function (ev) { window.addEventListener(ev, wake, { passive: true }); });
+    document.addEventListener('mouseleave', function () { ptr.t = -1e6; });
+
+    function idleCheck(now) {
+      if ((stage.temp && !stage.idle) || stage.base === 'sleepy') return;
+      var idle = now - lastAct;
+      var want = idle > 26000 ? 'sleepy' : (idle > 13000 && stage.base !== 'waiting') ? 'waiting' : null;
+      if (want && stage.cur !== want) { stage.idle = true; stage.react(want); }
+    }
+
+    function frame(now) {
+      var any = false;
+      var fresh = now - ptr.t < 3500;
+      buddies.forEach(function (b) {
+        if (!b.visible) return;
+        any = true;
+        var r = b.svg.getBoundingClientRect();
+        if (!r.width) return;
+        var d = MOODS[b.cur] || {};
+        var tx = 0, ty = 0;
+        if (d.gaze) { tx = d.gaze[0]; ty = d.gaze[1]; }
+        else if (fresh) {
+          var dx = ptr.x - (r.left + r.width * 0.49), dy = ptr.y - (r.top + r.height * 0.46);
+          var dist = Math.hypot(dx, dy) || 1;
+          var k = Math.min(1, dist / Math.max(160, r.width * 1.3));
+          tx = dx / dist * k; ty = dy / dist * k;
+          // Buddy opens his eyes to watch you when you move nearby
+          if (!b.led && now > b.lookBlock && now - ptr.t < 1200 && dist < Math.max(420, r.width * 2.2)) b.lookUntil = now + 2600;
+        } else if (!reduceMotion) {
+          if (now > b.wander.next) { // idle glances
+            var centre = Math.random() < 0.4;
+            b.wander.x = centre ? 0 : Math.random() * 1.4 - 0.7;
+            b.wander.y = centre ? 0 : Math.random() * 0.9 - 0.45;
+            b.wander.next = now + 1600 + Math.random() * 2800;
+          }
+          tx = b.wander.x; ty = b.wander.y;
+        }
+        b.g.x += (tx - b.g.x) * 0.16;
+        b.g.y += (ty - b.g.y) * 0.16;
+        if (Math.abs(b.g.x - b.gp.x) > 0.002 || Math.abs(b.g.y - b.gp.y) > 0.002) {
+          b.gp.x = b.g.x; b.gp.y = b.g.y;
+          var s = b.el.style, gx = b.g.x, gy = b.g.y, tilt = reduceMotion ? 0 : 1;
+          s.setProperty('--lx', (gx * 26).toFixed(2));
+          s.setProperty('--ly', (gy * 18).toFixed(2));
+          s.setProperty('--fx', (gx * 14).toFixed(2));
+          s.setProperty('--fy', (gy * 10).toFixed(2));
+          s.setProperty('--rx', (gx * 12 * tilt).toFixed(2));
+          s.setProperty('--ry', (-gy * 9 * tilt).toFixed(2));
+        }
+        if (!b.led) b.apply(); // lets 'look' expire
+      });
+      if (stage && stage.visible) idleCheck(now);
+      running = any;
+      if (any) requestAnimationFrame(frame);
+    }
+    function kick() { if (!running) { running = true; requestAnimationFrame(frame); } }
+
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          buddies.forEach(function (b) { if (b.host === en.target) b.visible = en.isIntersecting; });
+        });
+        if (stage && stage.visible) lastAct = performance.now();
+        kick();
+      });
+      buddies.forEach(function (b) { io.observe(b.host); });
+    } else {
+      buddies.forEach(function (b) { b.visible = true; });
+      kick();
+    }
+
+    if (!stage) return;
+
+    // Poke: giggle, wake up, or get grumpy after too many
+    var pokes = [];
+    stage.host.addEventListener('click', function () {
+      var now = performance.now();
+      stage.lookBlock = now + 3000;
+      stage.lookUntil = 0;
+      stage.squish();
+      if (stage.temp === 'surprised') return; // this tap just woke him
+      pokes = pokes.filter(function (p) { return now - p < 2500; });
+      pokes.push(now);
+      if (pokes.length >= 5) { pokes = []; stage.react('meh', 2600); }
+      else stage.react('tickled', 1200);
+    });
+
+    // Mood picker
+    radioGroup(document.querySelector('.nb-chips'), function (btn) {
+      stage.idle = false;
+      lastAct = performance.now();
+      stage.lookBlock = lastAct + 3000;
+      stage.lookUntil = 0;
+      stage.calm();
+      stage.set(btn.dataset.mood);
+    });
+
+    // Speech bubble
+    var say = document.getElementById('nb-say');
+    function renderSay() {
+      say.textContent = t('nb.say.' + stage.cur);
+      say.classList.remove('is-pop');
+      void say.offsetWidth;
+      say.classList.add('is-pop');
+    }
+    stage.onMood = renderSay;
+    onLang(renderSay);
+  })();
 
   /* ------------------------------------------------------------------
      Header: scrolled state + mobile menu
@@ -259,69 +469,6 @@
   })();
 
   /* ------------------------------------------------------------------
-     Add Money demo
-     ------------------------------------------------------------------ */
-  (function () {
-    var balEl = document.getElementById('am-balance');
-    var toast = document.getElementById('am-toast');
-    var chips = document.querySelector('#add-money .chips');
-    var btn = document.getElementById('am-btn');
-    var balance = 12450, shown = balance, amount = 1000, toastTimer;
-
-    function renderChips() {
-      chips.querySelectorAll('button').forEach(function (b) { b.textContent = tk(+b.dataset.amt); });
-    }
-    function renderBalance() { balEl.textContent = tk(shown); }
-    radioGroup(chips, function (b) { amount = +b.dataset.amt; });
-
-    btn.addEventListener('click', function () {
-      var from = balance, to = balance + amount;
-      balance = to;
-      if (reduceMotion) { shown = to; renderBalance(); }
-      else {
-        var start = performance.now(), dur = 700;
-        (function step(now) {
-          var p = Math.min(1, (now - start) / dur);
-          var e = 1 - Math.pow(1 - p, 3);
-          shown = from + (to - from) * e;
-          renderBalance();
-          if (p < 1) requestAnimationFrame(step);
-        })(start);
-      }
-      toast.textContent = t('am.added', { amt: tk(amount) });
-      toast.classList.add('is-on');
-      clearTimeout(toastTimer);
-      toastTimer = setTimeout(function () { toast.classList.remove('is-on'); }, 2600);
-    });
-
-    onLang(function () { renderChips(); renderBalance(); toast.textContent = ''; toast.classList.remove('is-on'); });
-    renderChips(); renderBalance();
-  })();
-
-  /* ------------------------------------------------------------------
-     Decorative (non-scannable) QR pattern for the Bangla QR tile
-     ------------------------------------------------------------------ */
-  (function () {
-    var svg = document.querySelector('.fake-qr');
-    if (!svg) return;
-    var N = 29, seed = 7, out = [];
-    function rnd() { seed = (seed * 16807) % 2147483647; return seed / 2147483647; }
-    function inFinder(x, y) {
-      return (x < 8 && y < 8) || (x > N - 9 && y < 8) || (x < 8 && y > N - 9);
-    }
-    function finder(ox, oy) {
-      out.push('<rect x="' + ox + '" y="' + oy + '" width="7" height="1"/><rect x="' + ox + '" y="' + (oy + 6) + '" width="7" height="1"/>');
-      out.push('<rect x="' + ox + '" y="' + (oy + 1) + '" width="1" height="5"/><rect x="' + (ox + 6) + '" y="' + (oy + 1) + '" width="1" height="5"/>');
-      out.push('<rect x="' + (ox + 2) + '" y="' + (oy + 2) + '" width="3" height="3"/>');
-    }
-    finder(0, 0); finder(N - 7, 0); finder(0, N - 7);
-    for (var y = 0; y < N; y++) for (var x = 0; x < N; x++) {
-      if (!inFinder(x, y) && rnd() > 0.52) out.push('<rect x="' + x + '" y="' + y + '" width="1" height="1"/>');
-    }
-    svg.innerHTML = out.join('');
-  })();
-
-  /* ------------------------------------------------------------------
      DPS calculator (Fixed DPS rates from primenow.ai/product-rates, Jan 2026)
      ------------------------------------------------------------------ */
   (function () {
@@ -415,6 +562,7 @@
       buddyMsg.textContent = period === 'this'
         ? t('spend.tip.this', { amt: tk(SPEND.last.shop - SPEND.this.shop) })
         : t('spend.tip.last');
+      if (BUDDY.spend) BUDDY.spend.set(period === 'this' ? 'happy' : 'savvy');
     }
 
     // Hover tooltip on bar segments
@@ -448,6 +596,9 @@
     var history = [{ who: 'bot', key: 'chat.greet' }];
     var asked = [];
     var busy = false;
+    var buddy = BUDDY.stage;
+    // How Buddy feels about each answer
+    var FEEL = { '1': 'cool', '2': 'savvy', '3': 'happy', '4': 'alert' };
 
     function vars(key) {
       return key === 'chat.a2' ? { total: tk(thisTotal), pct: num(dropPct) } : null;
@@ -492,12 +643,14 @@
       typing.innerHTML = '<i></i><i></i><i></i>';
       log.appendChild(typing);
       log.scrollTop = log.scrollHeight;
+      if (buddy) buddy.react('curious');
       setTimeout(function () {
         typing.remove();
         push({ who: 'bot', key: 'chat.a' + q });
+        if (buddy) buddy.react(FEEL[q], 4500);
         busy = false;
         renderQs();
-      }, reduceMotion ? 150 : 900);
+      }, reduceMotion ? 150 : 1100);
     }
     onLang(function () { renderLog(); renderQs(); });
     renderLog(); renderQs();

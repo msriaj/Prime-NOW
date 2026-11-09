@@ -16,7 +16,7 @@
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wdth,wght@75..125,500..800&family=Anton&family=Knewave&family=Hind+Siliguri:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
   <script>
     // Set language before first paint so returning English visitors don't see a Bangla flash.
@@ -37,13 +37,6 @@
 
   <!-- Shared SVG defs + icon sprite -->
   <svg class="sprite" width="0" height="0" aria-hidden="true" focusable="false">
-    <defs>
-      <linearGradient id="bd-grad" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0" stop-color="#8f66ff"/>
-        <stop offset=".55" stop-color="#4100f5"/>
-        <stop offset="1" stop-color="#2a009e"/>
-      </linearGradient>
-    </defs>
     <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
     <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7 3v5.5c0 4.5-3 8-7 9.5-4-1.5-7-5-7-9.5V6l7-3z"/><path d="M9 12l2 2 4-4"/></symbol>
     <symbol id="i-finger" viewBox="0 0 24 24"><path d="M12 11v3.5"/><path d="M8.6 8.4A5 5 0 0 1 17 12v1.5"/><path d="M7 12v1a8 8 0 0 0 1.3 4.4"/><path d="M15.6 16.5a11 11 0 0 1-.9 3.5"/><path d="M12 3a9 9 0 0 1 9 9v1"/><path d="M3 12a9 9 0 0 1 2.6-6.4"/><path d="M12 14.5a10 10 0 0 1-1.5 5.5"/></symbol>
@@ -77,29 +70,117 @@
     <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3.5 7l8.5 6 8.5-6"/></symbol>
     <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
     <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></symbol>
+    <symbol id="i-drop" viewBox="0 0 24 24"><path d="M12 3.5c3.5 4.2 6 7.6 6 10.5a6 6 0 0 1-12 0c0-2.9 2.5-6.3 6-10.5z"/></symbol>
+    <symbol id="i-wifi" viewBox="0 0 24 24"><path d="M2.5 9a14 14 0 0 1 19 0M5.5 12.5a9.5 9.5 0 0 1 13 0M8.7 16a5 5 0 0 1 6.6 0"/><path d="M12 19.5h.01"/></symbol>
+    <symbol id="i-cap" viewBox="0 0 24 24"><path d="M2.5 9.5L12 5l9.5 4.5L12 14z"/><path d="M6.5 11.5V16c1.5 1.5 3.5 2.2 5.5 2.2s4-.7 5.5-2.2v-4.5M21.5 9.5v5"/></symbol>
+    <symbol id="i-umbrella" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 18 0z"/><path d="M12 12v6.5a2 2 0 0 1-4 0"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></symbol>
+    <symbol id="i-scan" viewBox="0 0 24 24"><path d="M4 8V5.5A1.5 1.5 0 0 1 5.5 4H8M16 4h2.5A1.5 1.5 0 0 1 20 5.5V8M20 16v2.5a1.5 1.5 0 0 1-1.5 1.5H16M8 20H5.5A1.5 1.5 0 0 1 4 18.5V16"/><path d="M4 12h16"/></symbol>
+    <!-- NOW Buddy mood icons (picker chips) -->
+    <symbol id="i-m-happy" viewBox="0 0 24 24"><path d="M4.5 14a3 3 0 0 1 5.6-1.5M13.9 12.5a3 3 0 0 1 5.6 1.5"/></symbol>
+    <symbol id="i-m-curious" viewBox="0 0 24 24"><path d="M9 8.8a3.1 3.1 0 1 1 4.4 2.9c-.9.4-1.4 1.1-1.4 2V15"/><path d="M12 19v.01"/></symbol>
+    <symbol id="i-m-cool" viewBox="0 0 24 24"><path d="M2.5 9h19"/><path d="M4 9l.9 4.2A2.5 2.5 0 0 0 7.3 15h1.4a2.5 2.5 0 0 0 2.4-2L12 10.5l.9 2.5a2.5 2.5 0 0 0 2.4 2h1.4a2.5 2.5 0 0 0 2.4-1.8L20 9"/></symbol>
+    <symbol id="i-m-waiting" viewBox="0 0 24 24"><path d="M6.5 3.5h11M6.5 20.5h11"/><path d="M8 3.5c0 4.5 4 5.5 4 8.5s-4 4-4 8.5M16 3.5c0 4.5-4 5.5-4 8.5s4 4 4 8.5"/></symbol>
+    <symbol id="i-m-savvy" viewBox="0 0 24 24"><ellipse cx="12" cy="6.5" rx="7" ry="3"/><path d="M5 6.5v5c0 1.7 3.1 3 7 3s7-1.3 7-3v-5M5 11.5v5c0 1.7 3.1 3 7 3s7-1.3 7-3v-5"/></symbol>
+    <symbol id="i-m-sleepy" viewBox="0 0 24 24"><path d="M4 10h5l-5 6h5M13 4.5h7l-7 9h7"/></symbol>
+
+    <!-- NOW Buddy face + prop paint (shared by every avatar) -->
+    <defs>
+      <linearGradient id="nb-g-ink" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2c3358"/><stop offset=".5" stop-color="#0e1226"/><stop offset="1" stop-color="#05070f"/></linearGradient>
+      <linearGradient id="nb-g-glass" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f1ff7a"/><stop offset=".5" stop-color="#6af59b"/><stop offset="1" stop-color="#38d6f2"/></linearGradient>
+      <linearGradient id="nb-g-lens" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3c2f78"/><stop offset=".45" stop-color="#0b0a20"/><stop offset="1" stop-color="#173a63"/></linearGradient>
+      <linearGradient id="nb-g-rim" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ff6fd8"/><stop offset=".5" stop-color="#ffe25c"/><stop offset="1" stop-color="#4ff0ff"/></linearGradient>
+      <linearGradient id="nb-g-sand" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe46b"/><stop offset="1" stop-color="#ff9a3c"/></linearGradient>
+      <radialGradient id="nb-g-coin" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#f4ff9e"/><stop offset=".6" stop-color="#8af36a"/><stop offset="1" stop-color="#3fd08a"/></radialGradient>
+      <filter id="nb-f-glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="9" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      <!-- Buddy's signature ^ eye, traced from the official artwork -->
+      <path id="nb-happy" d="M-89.2 23.0C-90.5 27.4 -90.8 28.7 -90.3 32.5C-89.8 36.2 -88.7 42.1 -86.3 45.6C-83.9 49.2 -79.3 52.3 -75.9 54.0C-72.6 55.7 -69.9 56.0 -66.3 55.8C-62.8 55.7 -57.8 54.4 -54.5 53.0C-51.3 51.5 -51.6 53.8 -46.8 46.9C-42.1 40.1 -31.7 19.5 -26.1 12.0C-20.6 4.4 -17.6 3.8 -13.7 1.5C-9.8 -0.9 -6.2 -1.6 -2.8 -2.0C0.5 -2.4 3.0 -2.4 6.6 -0.9C10.1 0.6 15.0 3.4 18.5 7.0C22.0 10.6 24.7 14.5 27.6 20.6C30.5 26.8 32.6 38.0 35.7 43.7C38.7 49.3 41.6 52.2 45.8 54.6C50.0 56.9 56.1 57.8 60.7 57.6C65.2 57.5 69.9 55.4 73.1 53.8C76.3 52.2 78.1 50.1 80.0 48.0C81.8 45.9 83.2 43.9 84.2 41.1C85.2 38.4 86.1 35.4 86.0 31.5C85.9 27.7 85.1 23.3 83.6 18.0C82.0 12.6 79.7 6.1 76.7 -0.4C73.6 -6.8 68.6 -15.5 65.0 -20.9C61.5 -26.3 58.9 -29.1 55.5 -32.7C52.1 -36.4 48.7 -39.7 44.8 -42.6C40.9 -45.6 36.0 -48.4 32.1 -50.4C28.2 -52.4 25.8 -53.3 21.1 -54.4C16.4 -55.5 11.1 -57.3 3.9 -56.9C-3.4 -56.5 -14.9 -54.7 -22.5 -52.2C-30.0 -49.7 -36.1 -45.4 -41.6 -41.8C-47.1 -38.1 -50.4 -35.2 -55.4 -30.1C-60.4 -25.0 -67.2 -17.3 -71.7 -11.2C-76.2 -5.1 -79.5 0.7 -82.4 6.4C-85.4 12.1 -87.9 18.7 -89.2 23.0Z"/>
+      <g id="nb-coin"><circle cy="9" r="54" fill="#27a274"/><circle r="54" fill="url(#nb-g-coin)"/><circle r="41" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="5"/><text y="24" text-anchor="middle" font-family="'Hind Siliguri', sans-serif" font-size="66" font-weight="700" fill="#15603a">৳</text></g>
+    </defs>
   </svg>
 
-  <!-- NOW Buddy avatar: one template, cloned wherever [data-buddy] appears -->
+  <!-- NOW Buddy: official 3D body (eyes removed) + a live SVG face.
+       Cloned wherever [data-buddy] appears; main.js drives mood, gaze and blinks.
+       Face frame: eyes sit at ±129.5 along the body's 13.58° tilt. -->
   <template id="tpl-buddy">
-    <svg class="buddy-svg" viewBox="0 0 200 212" aria-hidden="true" focusable="false">
-      <ellipse class="b-shadow" cx="100" cy="203" rx="50" ry="6"/>
-      <g class="b-float">
-        <g class="b-arm-l"><rect x="10" y="112" width="34" height="22" rx="11" fill="url(#bd-grad)" transform="rotate(25 40 123)"/></g>
-        <g class="b-arm-r"><rect x="156" y="104" width="34" height="22" rx="11" fill="url(#bd-grad)" transform="rotate(-35 160 115)"/></g>
-        <path d="M104 46c3-14 10-22 20-26" stroke="#88f958" stroke-width="5" fill="none" stroke-linecap="round"/>
-        <circle class="b-ant" cx="128" cy="18" r="10" fill="#88f958"/>
-        <rect x="30" y="44" width="140" height="148" rx="64" fill="url(#bd-grad)"/>
-        <ellipse cx="70" cy="70" rx="24" ry="12" fill="#fff" opacity=".24" transform="rotate(-28 70 70)"/>
-        <rect x="47" y="82" width="106" height="68" rx="34" fill="#140a4d"/>
-        <g class="b-eyes">
-          <ellipse cx="80" cy="111" rx="9" ry="12" fill="#88f958"/>
-          <ellipse cx="120" cy="111" rx="9" ry="12" fill="#88f958"/>
+    <span class="nb" data-mood="happy" data-eyes="happy" data-mouth="" data-props="lines stars">
+      <svg class="nb-svg" viewBox="0 0 820 672" aria-hidden="true" focusable="false">
+        <g class="nb-squish"><g class="nb-mood">
+          <image href="assets/now-buddy-body.webp" width="820" height="672"/>
+          <g transform="translate(402.6 310.6) rotate(13.58)"><g class="nb-face">
+            <g transform="translate(-129.5 0)">
+              <g class="ev ev-happy"><use href="#nb-happy" class="ev-rim" transform="translate(0 5)"/><use href="#nb-happy" class="ev-ink"/></g>
+              <g class="ev ev-open"><g class="nb-pupil"><ellipse rx="42" ry="55" class="ev-ink"/><circle cx="-14" cy="-22" r="13" class="ev-hl"/><circle cx="13" cy="20" r="6" class="ev-hl ev-hl--dim"/></g></g>
+              <g class="ev ev-wide"><g class="nb-pupil nb-pupil--wide"><circle r="62" class="ev-ink"/><circle cx="-21" cy="-24" r="17" class="ev-hl"/><circle cx="20" cy="22" r="8" class="ev-hl ev-hl--dim"/></g></g>
+              <g class="ev ev-lid"><g class="nb-pupil nb-pupil--lid"><path d="M-36 -12a36 36 0 0 0 72 0z" class="ev-ink"/></g><rect x="-84" y="-34" width="168" height="26" rx="13" class="ev-ink"/></g>
+              <g class="ev ev-squint"><path d="M-44 -38L32 0L-44 38" class="ev-line"/></g>
+              <g class="ev ev-sleep"><path d="M-62 -4Q0 44 62 -4" class="ev-line"/></g>
+            </g>
+            <g transform="translate(129.5 0)">
+              <g class="ev ev-happy"><use href="#nb-happy" class="ev-rim" transform="translate(0 5)"/><use href="#nb-happy" class="ev-ink"/></g>
+              <g class="ev ev-open"><g class="nb-pupil"><ellipse rx="42" ry="55" class="ev-ink"/><circle cx="-14" cy="-22" r="13" class="ev-hl"/><circle cx="13" cy="20" r="6" class="ev-hl ev-hl--dim"/></g></g>
+              <g class="ev ev-wide"><g class="nb-pupil nb-pupil--wide"><circle r="62" class="ev-ink"/><circle cx="-21" cy="-24" r="17" class="ev-hl"/><circle cx="20" cy="22" r="8" class="ev-hl ev-hl--dim"/></g></g>
+              <g class="ev ev-lid"><g class="nb-pupil nb-pupil--lid"><path d="M-36 -12a36 36 0 0 0 72 0z" class="ev-ink"/></g><rect x="-84" y="-34" width="168" height="26" rx="13" class="ev-ink"/></g>
+              <g class="ev ev-squint"><path d="M44 -38L-32 0L44 38" class="ev-line"/></g>
+              <g class="ev ev-sleep"><path d="M-62 -4Q0 44 62 -4" class="ev-line"/></g>
+            </g>
+            <g class="nb-brows"><rect x="-195" y="-114" width="120" height="24" rx="12" transform="rotate(16 -135 -102)" class="ev-ink"/><rect x="75" y="-114" width="120" height="24" rx="12" transform="rotate(-16 135 -102)" class="ev-ink"/></g>
+            <g class="mo mo-smile"><path d="M-42 94Q0 128 42 94" class="ev-line ev-line--thin"/></g>
+            <g class="mo mo-o"><ellipse cy="104" rx="17" ry="21" class="ev-ink"/></g>
+            <g class="mo mo-grin"><path d="M-54 82Q0 160 54 82Z" class="ev-ink"/><path d="M-22 110Q0 98 22 110Q0 122 -22 110Z" fill="#ff7aa8"/></g>
+            <g class="nb-shades">
+              <path class="sh-lens" d="M-240 -52Q-238 -64 -226 -64H-40Q-26 -64 -28 -50L-38 22Q-46 64 -92 64H-170Q-216 64 -226 26Z"/>
+              <path class="sh-lens" d="M240 -52Q238 -64 226 -64H40Q26 -64 28 -50L38 22Q46 64 92 64H170Q216 64 226 26Z"/>
+              <path class="sh-bridge" d="M-30 -46Q0 -60 30 -46"/>
+              <path class="sh-glare" d="M-196 -46L-214 26M-170 -46L-180 -8M62 -46L44 26M88 -46L78 -8"/>
+            </g>
+          </g></g>
+        </g></g>
+        <g class="nb-props">
+          <g class="pr pr-lines"><image class="pr-anim" href="assets/buddy-lines.webp" x="788" y="2" width="188" height="197"/></g>
+          <g class="pr pr-star1"><image class="pr-anim" href="assets/buddy-star-pink.webp" x="605" y="-155" width="167" height="194"/></g>
+          <g class="pr pr-star2"><image class="pr-anim" href="assets/buddy-star-gold.webp" x="-108" y="476" width="142" height="166"/></g>
+          <g transform="translate(808 -46)"><g class="pr pr-ask"><g class="pr-anim">
+            <path d="M-58.5 51.6A78 78 0 1 1 -28 72.8L-96 100Z" fill="url(#nb-g-glass)" filter="url(#nb-f-glow)"/>
+            <path d="M-58.5 51.6A78 78 0 1 1 -28 72.8L-96 100Z" fill="none" stroke="#fff" stroke-opacity=".7" stroke-width="5" stroke-linejoin="round"/>
+            <path d="M-50 -44A66 66 0 0 1 6 -66" fill="none" stroke="#fff" stroke-opacity=".85" stroke-width="9" stroke-linecap="round"/>
+            <text y="36" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="104" font-weight="800" fill="#121629">?</text>
+          </g></g></g>
+          <g transform="translate(748 574)"><g class="pr pr-check"><g class="pr-anim">
+            <circle r="80" fill="url(#nb-g-glass)" filter="url(#nb-f-glow)"/>
+            <circle r="80" fill="none" stroke="#fff" stroke-opacity=".75" stroke-width="5"/>
+            <path d="M-50 -30A62 62 0 0 1 8 -64" fill="none" stroke="#fff" stroke-opacity=".8" stroke-width="9" stroke-linecap="round"/>
+            <path d="M-34 9L-8 35L38 -19" fill="none" stroke="#1b8a5a" stroke-opacity=".35" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M-34 4L-8 30L38 -24" fill="none" stroke="#fff" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>
+          </g></g></g>
+          <g transform="translate(892 392)"><g class="pr pr-hg"><g class="pr-anim hg">
+            <path d="M-58 -104C-58 -40 -12 -20 -12 0C-12 20 -58 40 -58 104H58C58 40 12 20 12 0C12 -20 58 -40 58 -104Z" fill="#fff" fill-opacity=".22" stroke="#fff" stroke-opacity=".75" stroke-width="5"/>
+            <path class="hg-top" d="M-44 -64C-36 -32 -8 -16 -6 0H6C8 -16 36 -32 44 -64Z" fill="url(#nb-g-sand)"/>
+            <path class="hg-bot" d="M-52 100C-42 62 -10 50 0 48C10 50 42 62 52 100Z" fill="url(#nb-g-sand)"/>
+            <path class="hg-flow" d="M0 2V92" stroke="#ffc24d" stroke-width="5" stroke-linecap="round" stroke-dasharray="8 10"/>
+            <rect x="-80" y="-134" width="160" height="30" rx="15" fill="url(#nb-g-rim)" filter="url(#nb-f-glow)"/>
+            <rect x="-80" y="104" width="160" height="30" rx="15" fill="url(#nb-g-rim)" filter="url(#nb-f-glow)"/>
+          </g></g></g>
+          <g class="pr pr-coins">
+            <g transform="translate(-34 430) rotate(-18) scale(1.3)"><g class="pr-anim"><use href="#nb-coin"/></g></g>
+            <g transform="translate(872 368) rotate(16) scale(1.15)"><g class="pr-anim pr-anim--2"><use href="#nb-coin"/></g></g>
+            <g transform="translate(712 650) scale(1.25)"><g class="pr-anim pr-anim--3">
+              <ellipse cy="40" rx="64" ry="24" fill="#27a274"/><ellipse cy="28" rx="64" ry="24" fill="url(#nb-g-coin)"/>
+              <ellipse cy="12" rx="64" ry="24" fill="#27a274"/><ellipse rx="64" ry="24" fill="url(#nb-g-coin)"/>
+              <ellipse rx="46" ry="15" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="4"/>
+            </g></g>
+          </g>
+          <g transform="translate(720 60)"><g class="pr pr-zzz" fill="#c9ff5c" font-family="Knewave, 'Anek Bangla', sans-serif" filter="url(#nb-f-glow)">
+            <text class="z z1" font-size="84">z</text><text class="z z2" x="64" y="-76" font-size="110">z</text><text class="z z3" x="146" y="-166" font-size="140">Z</text>
+          </g></g>
+          <g transform="translate(856 486)"><g class="pr pr-shield"><g class="pr-anim">
+            <path d="M0 -100L80 -70V-4C80 50 44 84 0 102C-44 84 -80 50 -80 -4V-70Z" fill="url(#nb-g-glass)" filter="url(#nb-f-glow)"/>
+            <path d="M0 -100L80 -70V-4C80 50 44 84 0 102C-44 84 -80 50 -80 -4V-70Z" fill="none" stroke="#fff" stroke-opacity=".75" stroke-width="5" stroke-linejoin="round"/>
+            <rect x="-11" y="-56" width="22" height="70" rx="11" fill="#fff"/><circle cy="44" r="13" fill="#fff"/>
+          </g></g></g>
         </g>
-        <path d="M89 131q11 8 22 0" stroke="#88f958" stroke-width="4.5" fill="none" stroke-linecap="round"/>
-        <ellipse cx="52" cy="160" rx="9" ry="6" fill="#ff8fd0" opacity=".45"/>
-        <ellipse cx="148" cy="160" rx="9" ry="6" fill="#ff8fd0" opacity=".45"/>
-      </g>
-    </svg>
+      </svg>
+    </span>
   </template>
 
   <!-- ============ HEADER ============ -->
@@ -149,10 +230,6 @@
                 <img src="assets/google-play-download.svg" alt="Get it on Google Play" width="160" height="48">
               </a>
             </div>
-            <div class="qr-tile">
-              <img src="assets/qr-download.svg" alt="" width="84" height="84">
-              <p data-i18n="qr.label">ফোনের ক্যামেরায় স্ক্যান করে অ্যাপ নিন</p>
-            </div>
           </div>
 
           <p class="trustline reveal">
@@ -163,23 +240,14 @@
 
         <div class="hero-visual" aria-hidden="true">
           <img class="hero-card hero-card--purple" src="assets/card-purple.webp" alt="" width="450" height="714">
-          <img class="hero-card hero-card--orange" src="assets/card-orange.webp" alt="" width="450" height="714">
-          <img class="hero-phone" src="assets/app-mockup.webp" alt="" width="640" height="993">
+          <img class="hero-phone" src="assets/app-in-hand.webp" alt="" width="640" height="1159">
           <div class="note note--1">
             <span class="note-ic"><svg class="ic"><use href="#i-check"/></svg></span>
             <span><b data-i18n="chip.account">অ্যাকাউন্ট খোলা সম্পন্ন</b><small data-i18n="chip.justnow">এইমাত্র</small></span>
           </div>
-          <div class="note note--2">
-            <span class="note-ic note-ic--violet"><svg class="ic"><use href="#i-plus"/></svg></span>
-            <span><b data-i18n="chip.added">৳১,০০০ যোগ হয়েছে</b><small data-i18n="chip.justnow">এইমাত্র</small></span>
-          </div>
           <div class="note note--3">
             <span class="note-ic note-ic--ink"><svg class="ic"><use href="#i-qr"/></svg></span>
             <span><b data-i18n="chip.qr">Bangla QR পেমেন্ট সফল</b><small data-i18n="chip.justnow">এইমাত্র</small></span>
-          </div>
-          <div class="hero-buddy">
-            <div class="buddy buddy--sm buddy--wave" data-buddy></div>
-            <span class="bubble" data-i18n="buddy.hi">হাই! আমি NOW Buddy</span>
           </div>
         </div>
       </div>
@@ -203,7 +271,7 @@
       <div class="wrap split">
         <div class="split-copy">
           <p class="eyebrow reveal"><svg class="ic"><use href="#i-id"/></svg><span data-i18n="kyc.eyebrow">ই-কেওয়াইসি অ্যাকাউন্ট</span></p>
-          <h2 class="reveal" data-i18n="kyc.title">ব্রাঞ্চে না গিয়েই অ্যাকাউন্ট খুলুন</h2>
+          <h2 class="reveal" data-i18n="kyc.title">ব্রাঞ্চে না গিয়েই <em>অ্যাকাউন্ট</em> খুলুন</h2>
           <p class="sub reveal" data-i18n="kyc.sub">বাংলাদেশ ব্যাংকের ই-কেওয়াইসি নীতিমালা মেনে পুরোটাই ডিজিটাল। ১৮ বছর বা তার বেশি বয়সী যেকোনো বাংলাদেশি নাগরিক খুলতে পারবেন।</p>
 
           <ol class="steps reveal" id="kyc-steps">
@@ -229,7 +297,6 @@
             </button></li>
           </ol>
 
-          <p class="need reveal"><svg class="ic"><use href="#i-check"/></svg><span data-i18n="kyc.need">যা লাগবে: আপনার NID, আর নমিনির ছবি ও পরিচয়পত্র</span></p>
           <a class="btn btn-violet reveal" href="#download" data-store="smart"><span data-i18n="kyc.cta">এখনই অ্যাকাউন্ট খুলুন</span><svg class="ic"><use href="#i-arrow"/></svg></a>
         </div>
 
@@ -301,6 +368,7 @@
       <div class="wrap split split--rev">
         <div class="card-stage reveal" data-color="purple">
           <div class="card-glow" aria-hidden="true"></div>
+          <img class="ybu-card" src="assets/you-be-you.webp" alt="" aria-hidden="true" width="760" height="829" loading="lazy">
           <figure class="card-figure">
             <img class="card-img" id="card-img" src="assets/card-purple.webp" alt="বেগুনি Prime NOW নাম্বারলেস কার্ড" width="450" height="714">
             <figcaption class="card-tag"><svg class="ic"><use href="#i-eyeoff"/></svg><span data-i18n="card.tag">কার্ডে কোনো নম্বর নেই</span></figcaption>
@@ -321,86 +389,79 @@
 
         <div class="split-copy">
           <p class="eyebrow eyebrow--lime reveal"><svg class="ic"><use href="#i-card"/></svg><span data-i18n="card.eyebrow">নাম্বারলেস ডেবিট কার্ড</span></p>
-          <h2 class="reveal" data-i18n="card.title">বাংলাদেশের প্রথম নাম্বারলেস কার্ড</h2>
+          <h2 class="reveal" data-i18n="card.title">বাংলাদেশের প্রথম <em>নাম্বারলেস</em> কার্ড</h2>
           <p class="sub reveal" data-i18n="card.sub">কার্ডের গায়ে নেই কোনো নম্বর, মেয়াদ বা CVV। সব তথ্য নিরাপদে থাকে শুধু আপনার অ্যাপে — কেউ উঁকি দিলেও কিছুই দেখতে পাবে না।</p>
           <ul class="feat-list reveal">
-            <li><span class="fi"><svg class="ic"><use href="#i-eyeoff"/></svg></span><span data-i18n="card.f1">নম্বর, মেয়াদ ও CVV দেখা যায় শুধু অ্যাপে</span></li>
             <li><span class="fi"><svg class="ic"><use href="#i-tap"/></svg></span><span data-i18n="card.f2">ট্যাপ করেই পেমেন্ট — কন্ট্যাক্টলেস Mastercard</span></li>
-            <li><span class="fi"><svg class="ic"><use href="#i-block"/></svg></span><span data-i18n="card.f3">হারালে অ্যাপ থেকেই সাথে সাথে ব্লক</span></li>
             <li><span class="fi"><svg class="ic"><use href="#i-truck"/></svg></span><span data-i18n="card.f4">ইস্যু ফি নেই, ৭ কর্মদিবসে ফ্রি হোম ডেলিভারি</span></li>
           </ul>
-          <p class="hint-note reveal"><svg class="ic"><use href="#i-spark"/></svg><span data-i18n="card.note">কার্ডের রঙ বেছে নিতে হয় অ্যাকাউন্ট খোলার সময়ই — তাই পছন্দের রঙটা এখনই ঠিক করে ফেলুন।</span></p>
           <a class="btn btn-lime reveal" href="#download" data-store="smart"><span data-i18n="card.cta">অ্যাপে কার্ড নিন</span><svg class="ic"><use href="#i-arrow"/></svg></a>
         </div>
       </div>
     </section>
 
-    <!-- ============ EVERYDAY MONEY: ADD MONEY + BANGLA QR ============ -->
-    <section class="section" id="money">
+    <!-- ============ EVERYDAY MONEY: BANGLA QR + ADD MONEY + TRANSFERS + BILLS ============ -->
+    <section class="section section--money" id="money">
+      <div class="money-blob" aria-hidden="true"></div>
       <div class="wrap">
-        <div class="head-center">
-          <p class="eyebrow reveal"><svg class="ic"><use href="#i-swap"/></svg><span data-i18n="money.eyebrow">প্রতিদিনের লেনদেন</span></p>
-          <h2 class="reveal" data-i18n="money.title">টাকা আনা-নেওয়া, একদম ঝামেলাহীন</h2>
+        <div class="head-split">
+          <div>
+            <p class="eyebrow reveal"><svg class="ic"><use href="#i-swap"/></svg><span data-i18n="money.eyebrow">প্রতিদিনের লেনদেন</span></p>
+            <h2 class="reveal" data-i18n="money.title">টাকা আনা-নেওয়া, একদম <em>ঝামেলাহীন</em></h2>
+          </div>
+          <p class="sub reveal" data-i18n="money.sub">স্ক্যান করে পে, যেকোনো জায়গা থেকে টাকা আনা, ফ্রি ট্রান্সফার আর সব বিল — এক অ্যাপেই।</p>
         </div>
 
         <div class="bento">
-          <!-- Add money -->
-          <article class="tile tile--add reveal" id="add-money">
-            <div class="tile-copy">
-              <span class="tag" data-i18n="add.tag">অ্যাড মানি</span>
-              <h3 data-i18n="add.title">যেখান থেকে খুশি টাকা যোগ করুন</h3>
-              <ul class="sources">
-                <li><span class="src-ic"><svg class="ic"><use href="#i-bank"/></svg></span><span data-i18n="add.src1">Prime Bank অ্যাকাউন্ট</span><b class="fee fee--free" data-i18n="add.fee1">ফ্রি</b></li>
-                <li><span class="src-ic"><svg class="ic"><use href="#i-card"/></svg></span><span data-i18n="add.src2">Prime Bank কার্ড</span><b class="fee" data-i18n="add.fee2">১%</b></li>
-                <li><span class="src-ic"><svg class="ic"><use href="#i-card"/></svg></span><span data-i18n="add.src3">অন্য ব্যাংকের Visa / Mastercard</span><b class="fee" data-i18n="add.fee3">১.৭%</b></li>
-                <li><span class="src-ic"><svg class="ic"><use href="#i-swap"/></svg></span><span data-i18n="add.src4">অন্য ব্যাংক বা MFS অ্যাপ থেকে ট্রান্সফার</span><b class="fee">NPSB · BEFTN</b></li>
-              </ul>
-            </div>
-            <div class="mini-app" aria-label="Add money demo">
-              <span class="demo-badge" data-i18n="demo">ডেমো</span>
-              <p class="mini-label" data-i18n="add.balance">ব্যালেন্স</p>
-              <p class="mini-balance" id="am-balance">৳১২,৪৫০</p>
-              <div class="chips" role="radiogroup" data-i18n-attr="aria-label:add.amount" aria-label="টাকার পরিমাণ">
-                <button type="button" role="radio" aria-checked="false" data-amt="500"></button>
-                <button type="button" role="radio" aria-checked="true" data-amt="1000"></button>
-                <button type="button" role="radio" aria-checked="false" data-amt="5000"></button>
-              </div>
-              <button type="button" class="btn btn-violet btn-block" id="am-btn"><svg class="ic"><use href="#i-plus"/></svg><span data-i18n="add.btn">টাকা যোগ করুন</span></button>
-              <p class="mini-toast" id="am-toast" role="status" aria-live="polite"></p>
-            </div>
-          </article>
-
           <!-- Bangla QR -->
-          <article class="tile tile--qr reveal" id="bangla-qr">
-            <div class="tile-copy">
-              <span class="tag tag--lime">Bangla QR</span>
-              <h3 data-i18n="qr.title">যেকোনো দোকানে স্ক্যান করুন, পে করুন</h3>
-              <ol class="mini-steps">
-                <li data-i18n="qr.s1">অ্যাপে Scan &amp; Pay খুলুন</li>
-                <li data-i18n="qr.s2">দোকানের Bangla QR স্ক্যান করুন</li>
-                <li data-i18n="qr.s3">টাকার পরিমাণ লিখে OTP দিয়ে নিশ্চিত করুন</li>
+          <article class="b-tile b-qr reveal" id="bangla-qr">
+            <div class="b-copy">
+              <span class="tag tag--lime"><svg class="ic"><use href="#i-scan"/></svg>Bangla QR</span>
+              <h3 data-i18n="qr.title">দোকান হোক বা বন্ধু — স্ক্যান করুন, পে করুন</h3>
+              <p class="b-lead" data-i18n="qr.lead">Prime NOW-এ Bangla QR এখন Person to Person-ও। চায়ের দোকান থেকে বন্ধুর কাছে ধার শোধ, সব এক স্ক্যানে।</p>
+              <ol class="flow">
+                <li><span data-i18n="qr.s1">Scan &amp; Pay খুলুন</span></li>
+                <li><span data-i18n="qr.s2">Bangla QR স্ক্যান করুন</span></li>
+                <li><span data-i18n="qr.s3">টাকা লিখে OTP দিন</span></li>
               </ol>
-              <p class="small-note" data-i18n="qr.own">টাকা নিতে চান? Profile → My QR থেকে নিজের QR দেখান।</p>
             </div>
-            <div class="scanner" aria-hidden="true">
-              <div class="scan-box">
-                <svg class="fake-qr" viewBox="0 0 29 29" shape-rendering="crispEdges"></svg>
-                <span class="corner c1"></span><span class="corner c2"></span><span class="corner c3"></span><span class="corner c4"></span>
-                <span class="scanline"></span>
-              </div>
-              <p class="merchant"><svg class="ic"><use href="#i-bag"/></svg><span data-i18n="qr.merchant">রহিম টি স্টল</span></p>
-            </div>
+            <img class="b-qr-img" src="assets/bangla-qr-hands.webp" alt="" width="900" height="888" loading="lazy">
           </article>
 
-          <article class="tile tile--sm reveal">
-            <span class="tile-ic"><svg class="ic"><use href="#i-swap"/></svg></span>
-            <h3 data-i18n="tr.title">ফ্রি ট্রান্সফার</h3>
-            <p data-i18n="tr.d">Prime Bank-এর ভেতরে, আর NPSB, BEFTN ও MFS ওয়ালেটে পাঠাতে কোনো চার্জ নেই।</p>
+          <!-- Add money -->
+          <article class="b-tile b-add reveal" id="add-money">
+            <span class="tag"><svg class="ic"><use href="#i-plus"/></svg><span data-i18n="add.tag">অ্যাড মানি</span></span>
+            <h3 data-i18n="add.title">যেখান থেকে খুশি টাকা যোগ করুন</h3>
+            <ul class="src-list">
+              <li><span class="src-ic"><svg class="ic"><use href="#i-bank"/></svg></span><span class="src-name" data-i18n="add.src1">Prime Bank অ্যাকাউন্ট</span><b class="fee fee--free" data-i18n="add.fee1">ফ্রি</b></li>
+              <li><span class="src-ic"><svg class="ic"><use href="#i-card"/></svg></span><span class="src-name" data-i18n="add.src2">Prime Bank কার্ড</span><b class="fee" data-i18n="add.fee2">১%</b></li>
+              <li><span class="src-ic"><svg class="ic"><use href="#i-card"/></svg></span><span class="src-name" data-i18n="add.src3">অন্য ব্যাংকের Visa / Mastercard</span><b class="fee" data-i18n="add.fee3">১.৭%</b></li>
+              <li><span class="src-ic"><svg class="ic"><use href="#i-swap"/></svg></span><span class="src-name" data-i18n="add.src4">অন্য ব্যাংক বা MFS অ্যাপ থেকে ট্রান্সফার</span><b class="fee">NPSB · BEFTN</b></li>
+            </ul>
           </article>
-          <article class="tile tile--sm reveal">
-            <span class="tile-ic"><svg class="ic"><use href="#i-bolt"/></svg></span>
-            <h3 data-i18n="bill.title">বিল পে ও রিচার্জ</h3>
-            <p data-i18n="bill.d">বিদ্যুৎ, পানি, ইন্টারনেট, মোবাইল রিচার্জ — সব এক জায়গায়।</p>
+
+          <!-- Free transfers -->
+          <article class="b-tile b-free reveal">
+            <p class="b-big" data-i18n="tr.big">৳০</p>
+            <h3 data-i18n="tr.title">ট্রান্সফার চার্জ</h3>
+            <p data-i18n="tr.d">Prime Bank-এর ভেতরে, আর NPSB, BEFTN ও MFS ওয়ালেটে টাকা পাঠাতে কোনো চার্জ নেই।</p>
+            <div class="rails"><span>NPSB</span><span>BEFTN</span><span>MFS</span><span>Prime Bank</span></div>
+          </article>
+
+          <!-- Bills & recharge -->
+          <article class="b-tile b-bills reveal">
+            <div class="b-bills-head">
+              <h3 data-i18n="bill.title">বিল পে ও রিচার্জ</h3>
+              <p data-i18n="bill.d">মাসের সব বিল এক জায়গায়, কয়েক ট্যাপে।</p>
+            </div>
+            <ul class="bill-grid">
+              <li><span class="bi bi--1"><svg class="ic"><use href="#i-bolt"/></svg></span><span data-i18n="bill.power">বিদ্যুৎ</span></li>
+              <li><span class="bi bi--2"><svg class="ic"><use href="#i-drop"/></svg></span><span data-i18n="bill.water">পানি</span></li>
+              <li><span class="bi bi--3"><svg class="ic"><use href="#i-wifi"/></svg></span><span data-i18n="bill.isp">ইন্টারনেট</span></li>
+              <li><span class="bi bi--4"><svg class="ic"><use href="#i-phone"/></svg></span><span data-i18n="bill.mobile">মোবাইল রিচার্জ</span></li>
+              <li><span class="bi bi--5"><svg class="ic"><use href="#i-cap"/></svg></span><span data-i18n="bill.edu">শিক্ষা</span></li>
+              <li><span class="bi bi--6"><svg class="ic"><use href="#i-umbrella"/></svg></span><span data-i18n="bill.ins">ইন্স্যুরেন্স</span></li>
+            </ul>
           </article>
         </div>
       </div>
@@ -411,7 +472,7 @@
       <div class="wrap split">
         <div class="split-copy">
           <p class="eyebrow reveal"><svg class="ic"><use href="#i-target"/></svg><span data-i18n="sav.eyebrow">DPS ও গোল সেভিংস</span></p>
-          <h2 class="reveal" data-i18n="sav.title">প্রতিটা স্বপ্নের জন্য আলাদা পকেট</h2>
+          <h2 class="reveal" data-i18n="sav.title">প্রতিটা স্বপ্নের জন্য <em>আলাদা পকেট</em></h2>
           <p class="sub reveal" data-i18n="sav.sub">ঈদ, ট্রিপ কিংবা নতুন ল্যাপটপ — লক্ষ্য ঠিক করুন, কিস্তি কাটবে নিজে থেকেই। যতগুলো খুশি গোল খুলুন।</p>
 
           <div class="goals reveal">
@@ -485,7 +546,22 @@
     <section class="section section--violet" id="buddy">
       <div class="wrap split">
         <div class="buddy-stage reveal">
-          <div class="buddy buddy--xl" data-buddy></div>
+          <div class="nb-stage">
+            <p class="nb-say" id="nb-say">হাই! আমি NOW Buddy</p>
+            <button class="nb-poke buddy buddy--xl" type="button" data-buddy="stage" data-i18n-attr="aria-label:nb.poke" aria-label="NOW Buddy-কে ট্যাপ করুন"></button>
+          </div>
+          <div class="nb-moods">
+            <p class="nb-moods-label" id="nb-moods-label" data-i18n="nb.pick">Buddy-র মুড বদলে দিন</p>
+            <div class="nb-chips" role="radiogroup" aria-labelledby="nb-moods-label">
+              <button type="button" role="radio" aria-checked="true" data-mood="happy"><svg class="ic"><use href="#i-m-happy"/></svg><span data-i18n="nb.m.happy">হাসিখুশি</span></button>
+              <button type="button" role="radio" aria-checked="false" data-mood="curious"><svg class="ic"><use href="#i-m-curious"/></svg><span data-i18n="nb.m.curious">কৌতূহলী</span></button>
+              <button type="button" role="radio" aria-checked="false" data-mood="cool"><svg class="ic"><use href="#i-m-cool"/></svg><span data-i18n="nb.m.cool">কুল</span></button>
+              <button type="button" role="radio" aria-checked="false" data-mood="waiting"><svg class="ic"><use href="#i-m-waiting"/></svg><span data-i18n="nb.m.waiting">অপেক্ষায়</span></button>
+              <button type="button" role="radio" aria-checked="false" data-mood="savvy"><svg class="ic"><use href="#i-m-savvy"/></svg><span data-i18n="nb.m.savvy">হিসেবি</span></button>
+              <button type="button" role="radio" aria-checked="false" data-mood="sleepy"><svg class="ic"><use href="#i-m-sleepy"/></svg><span data-i18n="nb.m.sleepy">ঘুমঘুম</span></button>
+            </div>
+            <p class="nb-hint" data-i18n="nb.hint">কার্সর নাড়ান, Buddy-কে ট্যাপ করুন, বা চ্যাটে প্রশ্ন করুন</p>
+          </div>
           <ul class="buddy-points">
             <li><svg class="ic"><use href="#i-chat"/></svg><span data-i18n="buddy.p1">সহজ বাংলায় উত্তর</span></li>
             <li><svg class="ic"><use href="#i-chart"/></svg><span data-i18n="buddy.p2">খরচ নিয়ে স্মার্ট টিপস</span></li>
@@ -495,12 +571,12 @@
 
         <div class="split-copy">
           <p class="eyebrow eyebrow--lime reveal"><svg class="ic"><use href="#i-chat"/></svg><span>NOW Buddy</span></p>
-          <h2 class="reveal" data-i18n="buddy.title">হাই বলুন NOW Buddy-কে</h2>
+          <h2 class="reveal" data-i18n="buddy.title">হাই বলুন <em>NOW Buddy</em>-কে</h2>
           <p class="sub reveal" data-i18n="buddy.sub">আপনার ব্যাংকিং সঙ্গী। কার্ড চালু করা থেকে খরচের হিসাব — যেকোনো প্রশ্নের উত্তর মেলে অ্যাপের ভেতরেই।</p>
 
           <div class="chat reveal">
             <div class="chat-head">
-              <span class="chat-av" data-buddy></span>
+              <span class="chat-av" data-buddy="chat"></span>
               <span><b>NOW Buddy</b><small><i class="online"></i><span data-i18n="buddy.online">অনলাইন</span></small></span>
               <span class="demo-badge" data-i18n="demo">ডেমো</span>
             </div>
@@ -531,7 +607,7 @@
             <div class="spend-tip" id="spend-tip" hidden></div>
             <ul class="spend-list" id="spend-list"></ul>
             <div class="spend-buddy">
-              <span class="chat-av" data-buddy></span>
+              <span class="chat-av" data-buddy="spend"></span>
               <p id="spend-buddy-msg"></p>
             </div>
           </div>
@@ -539,7 +615,7 @@
 
         <div class="split-copy">
           <p class="eyebrow reveal"><svg class="ic"><use href="#i-chart"/></svg><span data-i18n="ins.eyebrow">খরচের উইজেট</span></p>
-          <h2 class="reveal" data-i18n="ins.title">টাকা কোথায় যাচ্ছে, এক নজরে</h2>
+          <h2 class="reveal" data-i18n="ins.title">টাকা কোথায় যাচ্ছে, <em>এক নজরে</em></h2>
           <p class="sub reveal" data-i18n="ins.sub">হোম স্ক্রিনেই খরচের হিসাব, ক্যাটাগরি ধরে নিজে থেকেই সাজানো। উইজেট লং-প্রেস করে সরান বা ছোট-বড় করুন।</p>
           <ul class="feat-list feat-list--light reveal">
             <li><span class="fi"><svg class="ic"><use href="#i-check"/></svg></span><span data-i18n="ins.p1">প্রতিটা লেনদেন নিজে থেকেই ক্যাটাগরিতে</span></li>
@@ -556,7 +632,7 @@
         <div class="sec-top">
           <div class="sec-copy">
             <p class="eyebrow eyebrow--lime reveal"><svg class="ic"><use href="#i-shield"/></svg><span data-i18n="sec.eyebrow">নিরাপত্তা ও নিয়ন্ত্রণ</span></p>
-            <h2 class="reveal" data-i18n="sec.title">আপনার টাকা, Prime Bank-এর ভরসায়</h2>
+            <h2 class="reveal" data-i18n="sec.title">আপনার টাকা, <em>Prime Bank</em>-এর ভরসায়</h2>
             <p class="sub reveal" data-i18n="sec.sub">Prime NOW হলো Prime Bank PLC-এর ডিজিটাল ব্যাংকিং সেবা। আপনার অ্যাকাউন্টটি Prime Bank-এর একটি ডিপোজিট অ্যাকাউন্ট, যা বাংলাদেশ ব্যাংকের নিয়মকানুন মেনে পরিচালিত হয়।</p>
           </div>
           <div class="sec-visual reveal" aria-hidden="true">
@@ -587,7 +663,6 @@
           </div>
         </div>
 
-        <p class="warn reveal"><svg class="ic"><use href="#i-alert"/></svg><span data-i18n="sec.warn">মনে রাখুন: Prime NOW কখনো আপনার OTP, PIN বা পাসওয়ার্ড চায় না।</span></p>
       </div>
     </section>
 
@@ -595,7 +670,7 @@
     <section class="section" id="faq">
       <div class="wrap faq-wrap">
         <div class="faq-head">
-          <h2 class="reveal" data-i18n="faq.title">সাধারণ প্রশ্ন</h2>
+          <h2 class="reveal" data-i18n="faq.title">সাধারণ <em>প্রশ্ন</em></h2>
           <a class="link-arrow reveal" href="https://primenow.ai/faq" target="_blank" rel="noopener"><span data-i18n="faq.all">সব প্রশ্ন দেখুন</span><svg class="ic"><use href="#i-arrow"/></svg></a>
         </div>
         <div class="faq-list">
@@ -625,10 +700,28 @@
 
     <!-- ============ FINAL CTA ============ -->
     <section class="final" id="download">
+      <div class="doodles" aria-hidden="true">
+        <svg class="dd dd--y dd-crown" viewBox="0 0 64 50"><path d="M7 42 10 15l12 13 10-21 10 21 12-13 3 27z"/><circle cx="10" cy="10" r="3"/><circle cx="32" cy="4" r="3"/><circle cx="54" cy="10" r="3"/></svg>
+        <svg class="dd dd--y dd-ticks" viewBox="0 0 40 40"><path d="M8 26 4 30M14 14l-4-7M28 8l2-6"/></svg>
+        <svg class="dd dd--y dd-star1" viewBox="0 0 48 48"><path d="M24 4l5.9 12.6 13.8 1.7-10.2 9.4 2.7 13.7L24 34.6l-12.2 6.8 2.7-13.7L4.3 18.3l13.8-1.7z"/></svg>
+        <svg class="dd dd--p dd-star2" viewBox="0 0 48 48"><path d="M24 4l5.9 12.6 13.8 1.7-10.2 9.4 2.7 13.7L24 34.6l-12.2 6.8 2.7-13.7L4.3 18.3l13.8-1.7z"/></svg>
+        <svg class="dd dd--p dd-star3" viewBox="0 0 48 48"><path d="M24 4l5.9 12.6 13.8 1.7-10.2 9.4 2.7 13.7L24 34.6l-12.2 6.8 2.7-13.7L4.3 18.3l13.8-1.7z"/></svg>
+        <svg class="dd dd--p dd-bolt1" viewBox="0 0 48 56"><path d="M4 6l24 14-9 6 25 26-30-15 9-6z"/></svg>
+        <svg class="dd dd--y dd-bolt2" viewBox="0 0 40 60"><path d="M30 2 8 30h13L12 58l24-32H23z"/></svg>
+        <svg class="dd dd--p dd-burst" viewBox="0 0 60 50"><path d="M6 30 14 4M18 40 52 8M30 46 58 36"/></svg>
+        <svg class="dd dd--y dd-lines" viewBox="0 0 60 50"><path d="M4 26 52 4M10 44 46 18M36 46l10-10"/></svg>
+        <svg class="dd dd--w dd-sp1" viewBox="0 0 24 24"><path d="M12 1c1 7 4 10 11 11-7 1-10 4-11 11-1-7-4-10-11-11 7-1 10-4 11-11z"/></svg>
+        <svg class="dd dd--w dd-sp2" viewBox="0 0 24 24"><path d="M12 1c1 7 4 10 11 11-7 1-10 4-11 11-1-7-4-10-11-11 7-1 10-4 11-11z"/></svg>
+        <svg class="dd dd--w dd-sp3" viewBox="0 0 24 24"><path d="M12 1c1 7 4 10 11 11-7 1-10 4-11 11-1-7-4-10-11-11 7-1 10-4 11-11z"/></svg>
+        <svg class="dd dd--w dd-sp4" viewBox="0 0 24 24"><path d="M12 1c1 7 4 10 11 11-7 1-10 4-11 11-1-7-4-10-11-11 7-1 10-4 11-11z"/></svg>
+      </div>
       <div class="wrap final-grid">
         <div class="final-copy">
-          <h2 class="reveal" data-i18n="final.title">আপনার টাকা, আপনার Prime NOW</h2>
-          <p class="lead reveal" data-i18n="final.sub">অ্যাপ ডাউনলোড একদম ফ্রি। আজই অ্যাকাউন্ট খুলুন — লাগবে মাত্র কয়েক মিনিট।</p>
+          <p class="eyebrow eyebrow--lime reveal"><span data-i18n="final.title">আপনার টাকা, আপনার Prime NOW</span></p>
+          <h2 class="poster-title reveal">
+            <span class="pt-line"><span class="pt-brush"><span class="pt-desk">SCAN</span><span class="pt-mob">TAP</span></span><span class="pt-brush pt-now">NOW</span></span>
+            <span class="pt-bubble"><span data-i18n="final.dl">ডাউনলোড করে নাও</span></span>
+          </h2>
           <div class="get-app reveal">
             <div class="stores">
               <a class="store" href="https://apps.apple.com/us/app/prime-now-app/id6759029598" target="_blank" rel="noopener" data-os="ios">
@@ -638,15 +731,16 @@
                 <img src="assets/google-play-download.svg" alt="Get it on Google Play" width="160" height="48">
               </a>
             </div>
-            <div class="qr-tile">
-              <img src="assets/qr-download.svg" alt="" width="84" height="84">
-              <p data-i18n="qr.label">ফোনের ক্যামেরায় স্ক্যান করে অ্যাপ নিন</p>
-            </div>
           </div>
         </div>
-        <div class="final-visual reveal" aria-hidden="true">
-          <div class="buddy buddy--lg buddy--wave" data-buddy></div>
-          <span class="bubble bubble--lg" data-i18n="final.buddy">চলুন শুরু করি!</span>
+        <div class="final-visual reveal">
+          <div class="qr-poster">
+            <div class="qr-frame">
+              <img src="assets/qr-download.svg" data-i18n-attr="alt:qr.alt" alt="Prime NOW অ্যাপ ডাউনলোডের QR কোড" width="260" height="260">
+              <i class="qc qc1"></i><i class="qc qc2"></i><i class="qc qc3"></i><i class="qc qc4"></i>
+            </div>
+            <p class="qr-cap" data-i18n="qr.label">ফোনের ক্যামেরায় স্ক্যান করে অ্যাপ নিন</p>
+          </div>
         </div>
       </div>
     </section>
