@@ -4,14 +4,6 @@
 
   var D = window.PN_I18N;
 
-  // Preloader: drop the overlay (and the scroll lock) once its fade-out finishes.
-  (function () {
-    var pl = document.querySelector('.preloader');
-    if (!pl) return;
-    function done() { pl.remove(); root.classList.remove('pl-on', 'pl-hold'); }
-    if (reduceMotion) { done(); return; }
-    pl.addEventListener('animationend', function (e) { if (e.target === pl) done(); });
-  })();
   var root = document.documentElement;
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -46,7 +38,7 @@
     a.rel = 'noopener';
   });
   if (OS !== 'other') {
-    // Put the visitor's own store first and give it a ring.
+    // Put the visitor's own store first.
     document.querySelectorAll('.stores').forEach(function (wrap) {
       var mine = wrap.querySelector('[data-os="' + OS + '"]');
       if (mine) { wrap.prepend(mine); mine.classList.add('is-mine'); }
@@ -372,9 +364,21 @@
      Header: scrolled state + mobile menu
      ------------------------------------------------------------------ */
   var header = document.querySelector('.site-header');
-  function onScroll() { header.classList.toggle('is-scrolled', window.scrollY > 12); }
+  // Phones only: scrolling down slides the bar off screen; any scroll up brings it back.
+  // It stays put near the top, while the mobile menu is open, or while it holds focus.
+  var mobileMQ = window.matchMedia('(max-width: 900px)');
+  var lastY = window.scrollY;
+  function onScroll() {
+    var y = window.scrollY;
+    header.classList.toggle('is-scrolled', y > 12);
+    var dy = y - lastY;
+    if (Math.abs(dy) < 6) return;                 // ignore tiny jitters
+    var keep = !mobileMQ.matches || y < 120 || nav.classList.contains('is-open') || header.contains(document.activeElement);
+    header.classList.toggle('is-hidden', dy > 0 && !keep);
+    lastY = y;
+  }
   window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
+  header.addEventListener('focusin', function () { header.classList.remove('is-hidden'); });
   // liquid-glass sheen follows the pointer across the bar
   var headerInner = header.querySelector('.header-inner');
   if (headerInner && !reduceMotion) {
@@ -394,6 +398,7 @@
   menuBtn.addEventListener('click', function () { setMenu(!nav.classList.contains('is-open')); });
   nav.addEventListener('click', function (e) { if (e.target.closest('a')) setMenu(false); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setMenu(false); });
+  onScroll();
 
   /* ------------------------------------------------------------------
      Reveal on scroll (minimal: fade + 18px rise, once)

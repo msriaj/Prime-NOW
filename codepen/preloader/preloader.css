@@ -1,0 +1,21 @@
+/* Prime NOW preloader: logo reveal
+   The shape animation lives in the SVG (path morph, 3.48s, started by the JS).
+   CSS holds the overlay for a beat after the mark settles, then fades it: 3.83–4.33s. */
+html.pl-on { overflow: hidden; }
+
+.preloader {
+  position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center; overflow: hidden;
+  background: radial-gradient(60% 60% at 50% 50%, #2a0aa8 0%, #1a0078 70%);
+  animation: pl-out .5s ease 3.83s forwards;
+}
+/* the video's 1080-wide action band; full width on phones, capped on big screens */
+.pl-svg { width: min(100vw, 1180px); height: auto; aspect-ratio: 1080 / 640; overflow: visible; }
+@keyframes pl-out { to { opacity: 0; visibility: hidden; } }
+/* hold the fade until the morph has started (JS adds .is-go) */
+.preloader:not(.is-go), .preloader:not(.is-go) * { animation-play-state: paused !important; }
+@media (prefers-reduced-motion: reduce) { .preloader { display: none; } }
+
+/* ---- demo page only (not part of the preloader) ---- */
+body { margin: 0; font-family: system-ui, sans-serif; background: #f6f3ff; color: #131927; }
+.demo-page { min-height: 100vh; display: grid; place-content: center; gap: 16px; text-align: center; }
+#replay { font: inherit; font-weight: 600; padding: 12px 22px; border: 0; border-radius: 999px; background: #4100f5; color: #fff; cursor: pointer; }
