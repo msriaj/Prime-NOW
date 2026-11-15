@@ -914,3 +914,8 @@ main > .section, .final, .footer { content-visibility: auto; contain-intrinsic-s
   #buddy .qbtns { margin-inline: -14px; padding-inline: 14px; }
   #buddy .chat-quick p { margin-bottom: 6px; }
 }
+
+/* LAB (temporary, PageSpeed bisect; switched on by ?lab=... in the URL) */
+html.lab-hero main > :not(.hero), html.lab-hero .footer, html.lab-hero .sticky-get { display: none !important; }
+html.lab-noanim *, html.lab-noanim *::before, html.lab-noanim *::after { animation: none !important; transition: none !important; }
+html.lab-noimg .hero-visual { display: none !important; }

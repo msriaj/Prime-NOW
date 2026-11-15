@@ -31,6 +31,15 @@
   <script>
     // Set language before first paint so returning English visitors don't see a Bangla flash.
     document.documentElement.classList.add('js');
+    // LAB (temporary, PageSpeed bisect): ?lab=nojs,hero,noanim,noimg,nofont adds html.lab-* switches
+    (function () {
+      try {
+        var lab = new URLSearchParams(location.search).get('lab');
+        if (!lab) return;
+        lab.split(',').forEach(function (k) { document.documentElement.classList.add('lab-' + k); });
+        if (/\bnofont\b/.test(lab)) document.querySelectorAll('link[href*="fonts.googleapis.com/css2"]').forEach(function (l) { l.remove(); });
+      } catch (e) {}
+    })();
     (function () {
       try {
         var q = new URLSearchParams(location.search).get('lang');
@@ -45,6 +54,7 @@
     // Non-critical scripts (smooth scroll, DPS chart, hero parallax) load after the page's load
     // event, so they stay off the first-paint / LCP path. Lenis is self-hosted (no extra origin).
     window.addEventListener('load', function () {
+      if (document.documentElement.classList.contains('lab-nojs')) return;   // LAB
       function add(src, next) {
         var s = document.createElement('script');
         s.src = src;

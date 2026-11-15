@@ -1,6 +1,7 @@
 /* Prime NOW — page behaviour. Plain JS, no dependencies. */
 (function () {
   'use strict';
+  if (document.documentElement.classList.contains('lab-nojs')) return;   // LAB (temporary)
 
   var D = window.PN_I18N;
 
