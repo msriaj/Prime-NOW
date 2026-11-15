@@ -1,6 +1,6 @@
 /*
  * Prime NOW — Lenis smooth scrolling (https://github.com/darkroomengineering/lenis).
- * Loaded from the CDN in index.html before this file. Skipped for prefers-reduced-motion,
+ * Lenis is self-hosted (js/vendor/lenis.min.js); index.html loads both after the page load event. Skipped for prefers-reduced-motion,
  * and the page simply falls back to native scrolling if Lenis fails to load.
  * In-page links (#account, #download …) glide to their section, clear of the fixed header.
  * Inner scroll areas marked data-lenis-prevent (the NOW Buddy chat) keep native scrolling.

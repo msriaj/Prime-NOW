@@ -40,11 +40,22 @@
     })();
   </script>
   <script src="js/i18n.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js" defer></script>
   <script src="js/main.js" defer></script>
-  <script src="js/smooth-scroll.js" defer></script>
-  <script src="js/dps-chart.js" defer></script>
-  <script src="js/hero-parallax.js" defer></script>
+  <script>
+    // Non-critical scripts (smooth scroll, DPS chart, hero parallax) load after the page's load
+    // event, so they stay off the first-paint / LCP path. Lenis is self-hosted (no extra origin).
+    window.addEventListener('load', function () {
+      function add(src, next) {
+        var s = document.createElement('script');
+        s.src = src;
+        if (next) s.onload = s.onerror = next;
+        document.body.appendChild(s);
+      }
+      add('js/vendor/lenis.min.js', function () { add('js/smooth-scroll.js'); });
+      add('js/dps-chart.js');
+      add('js/hero-parallax.js');
+    });
+  </script>
 </head>
 <body>
   <a class="skip" href="#main" data-i18n="a11y.skip">মূল অংশে যান</a>
