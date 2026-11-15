@@ -16,11 +16,9 @@
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- Fonts load without blocking the first paint (display=swap shows fallback text meanwhile).
-       Anek Bangla is asked for one weight per request: Google then serves a ~55KB static file,
-       while a multi-weight request gets the full ~156KB variable font. -->
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@600&family=Anton&family=Knewave&family=Hind+Siliguri:wght@400;600;700&family=Montserrat:wght@400;600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <!-- TEST (LCP): web fonts load after the page load event (see the loader script below); system
+       fonts show until then. Anek Bangla is asked for one weight per request: Google then serves
+       a ~55KB static file, while a multi-weight request gets the full ~156KB variable font. -->
   <noscript>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@600&family=Anton&family=Knewave&family=Hind+Siliguri:wght@400;600;700&family=Montserrat:wght@400;600;700;800&display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@800&display=swap">
@@ -45,6 +43,13 @@
     // Non-critical scripts (smooth scroll, DPS chart, hero parallax) load after the page's load
     // event, so they stay off the first-paint / LCP path. Lenis is self-hosted (no extra origin).
     window.addEventListener('load', function () {
+      ['https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@600&family=Anton&family=Knewave&family=Hind+Siliguri:wght@400;600;700&family=Montserrat:wght@400;600;700;800&display=swap',
+       'https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@800&display=swap'].forEach(function (href) {
+        var l = document.createElement('link');
+        l.rel = 'stylesheet';
+        l.href = href;
+        document.head.appendChild(l);
+      });
       function add(src, next) {
         var s = document.createElement('script');
         s.src = src;
