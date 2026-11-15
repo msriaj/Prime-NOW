@@ -3,6 +3,23 @@
    Brand: electric violet + lime, Montserrat (Latin) with Anek Bangla / Hind Siliguri (Bangla)
    ========================================================================== */
 
+/* ---------- fonts (self-hosted) ----------
+   Subsets of the Google Fonts families (SIL Open Font License), cut with the Google Fonts `text=`
+   option to the characters the page uses (index.html, i18n.js, main.js) plus the rest of the common
+   Bangla letters. New characters outside the subset fall back to the next font in the stack;
+   re-download the files if the copy changes a lot. Hero fonts are preloaded in index.html. */
+@font-face { font-family: 'Anek Bangla'; font-style: normal; font-weight: 600; font-display: swap; src: url(../assets/fonts/anek-bangla-600.woff2) format('woff2'); }
+@font-face { font-family: 'Anek Bangla'; font-style: normal; font-weight: 800; font-display: swap; src: url(../assets/fonts/anek-bangla-800.woff2) format('woff2'); }
+@font-face { font-family: 'Hind Siliguri'; font-style: normal; font-weight: 400; font-display: swap; src: url(../assets/fonts/hind-siliguri-400.woff2) format('woff2'); }
+@font-face { font-family: 'Hind Siliguri'; font-style: normal; font-weight: 600; font-display: swap; src: url(../assets/fonts/hind-siliguri-600.woff2) format('woff2'); }
+@font-face { font-family: 'Hind Siliguri'; font-style: normal; font-weight: 700; font-display: swap; src: url(../assets/fonts/hind-siliguri-700.woff2) format('woff2'); }
+@font-face { font-family: 'Montserrat'; font-style: normal; font-weight: 400; font-display: swap; src: url(../assets/fonts/montserrat-400.woff2) format('woff2'); }
+@font-face { font-family: 'Montserrat'; font-style: normal; font-weight: 600; font-display: swap; src: url(../assets/fonts/montserrat-600.woff2) format('woff2'); }
+@font-face { font-family: 'Montserrat'; font-style: normal; font-weight: 700; font-display: swap; src: url(../assets/fonts/montserrat-700.woff2) format('woff2'); }
+@font-face { font-family: 'Montserrat'; font-style: normal; font-weight: 800; font-display: swap; src: url(../assets/fonts/montserrat-800.woff2) format('woff2'); }
+@font-face { font-family: 'Anton'; font-style: normal; font-weight: 400; font-display: swap; src: url(../assets/fonts/anton-400.woff2) format('woff2'); }
+@font-face { font-family: 'Knewave'; font-style: normal; font-weight: 400; font-display: swap; src: url(../assets/fonts/knewave-400.woff2) format('woff2'); }
+
 :root {
   --violet: #4100f5;
   --violet-500: #5a24ff;

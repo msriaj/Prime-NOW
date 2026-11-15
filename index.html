@@ -14,17 +14,11 @@
   <link rel="icon" href="assets/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- Fonts load without blocking the first paint (display=swap shows fallback text meanwhile).
-       Anek Bangla is asked for one weight per request: Google then serves a ~55KB static file,
-       while a multi-weight request gets the full ~156KB variable font. -->
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@600&family=Anton&family=Knewave&family=Hind+Siliguri:wght@400;600;700&family=Montserrat:wght@400;600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@600&family=Anton&family=Knewave&family=Hind+Siliguri:wght@400;600;700&family=Montserrat:wght@400;600;700;800&display=swap">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@800&display=swap">
-  </noscript>
+  <!-- Fonts are self-hosted subsets (assets/fonts, @font-face in css/style.css). The three the hero
+       uses start downloading right away; the rest load when text that needs them is rendered. -->
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/anek-bangla-600.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/hind-siliguri-400.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/montserrat-400.woff2" crossorigin>
   <!-- the hero phone is the LCP image: start it alongside the CSS -->
   <link rel="preload" as="image" href="assets/app-in-hand.webp" imagesrcset="assets/app-in-hand-400.webp 400w, assets/app-in-hand-560.webp 560w, assets/app-in-hand.webp 720w" imagesizes="(max-width: 600px) 280px, (max-width: 900px) 310px, clamp(340px, 30vw, 440px)" fetchpriority="high">
   <link rel="stylesheet" href="css/style.css">
@@ -37,8 +31,6 @@
         var lab = new URLSearchParams(location.search).get('lab');
         if (!lab) return;
         lab.split(',').forEach(function (k) { document.documentElement.classList.add('lab-' + k); });
-        if (/\bnofont\b/.test(lab)) document.querySelectorAll('link[href*="fonts.googleapis.com/css2"]').forEach(function (l) { l.remove(); });
-        if (/\bfontopt\b/.test(lab)) document.querySelectorAll('link[href*="fonts.googleapis.com/css2"]').forEach(function (l) { l.href = l.href.replace('display=swap', 'display=optional'); });
       } catch (e) {}
     })();
     (function () {
