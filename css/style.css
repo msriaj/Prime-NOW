@@ -63,7 +63,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 h1, h2, h3, h4 { font-family: var(--font-display); margin: 0; line-height: 1.15; font-weight: 600; }
 html[lang="bn"] h1, html[lang="bn"] h2, html[lang="bn"] h3 { line-height: 1.26; font-weight: 600; }
 /* English display type follows the brand's social posts: condensed heavy caps */
-html[lang="en"] h1, html[lang="en"] h2 { font-family: 'Anton', 'Montserrat', sans-serif; font-weight: 400; text-transform: uppercase; letter-spacing: .01em; line-height: 1.02; }
+html[lang="en"] h1, html[lang="en"] h2 { font-family: 'Anton', Impact, 'Arial Narrow', sans-serif-condensed, 'Montserrat', sans-serif; font-weight: 400; text-transform: uppercase; letter-spacing: .01em; line-height: 1.02; }
 /* One key word per heading: lime on dark sections, lime marker on light ones */
 h1 em, h2 em { font-style: normal; }
 h2 em { background: linear-gradient(transparent 58%, var(--lime) 58%, var(--lime) 92%, transparent 92%); -webkit-box-decoration-break: clone; box-decoration-break: clone; padding: 0 .06em; }
@@ -681,7 +681,7 @@ input[type="range"]::-moz-range-thumb { width: 16px; height: 16px; border-radius
 .pt-mob { display: none; }
 .pt-bubble { position: relative; display: inline-block; margin: 22px 0 34px .5em; padding: .1em .55em .22em; border-radius: 22px; background: var(--lime); color: var(--ink); font-family: 'Montserrat', 'Anek Bangla', sans-serif; font-weight: 800; font-size: clamp(1.9rem, 4.2vw, 3.4rem); line-height: 1.15; transform: rotate(-4deg); box-shadow: 10px 10px 0 #0b0618; }
 .pt-bubble::after { content: ''; position: absolute; right: 18%; bottom: -24px; width: 0; height: 0; border-style: solid; border-width: 0 26px 26px 0; border-color: transparent var(--lime) transparent transparent; }
-html[lang="en"] .pt-bubble { font-family: 'Anton', 'Montserrat', sans-serif; font-weight: 400; text-transform: uppercase; }
+html[lang="en"] .pt-bubble { font-family: 'Anton', Impact, 'Arial Narrow', sans-serif-condensed, 'Montserrat', sans-serif; font-weight: 400; text-transform: uppercase; }
 .final-visual { position: relative; display: flex; justify-content: center; }
 .qr-poster { display: flex; flex-direction: column; align-items: center; gap: 16px; transform: rotate(2deg); }
 .qr-frame { position: relative; padding: 24px; }
@@ -845,6 +845,10 @@ html[lang="en"] .pt-bubble { font-family: 'Anton', 'Montserrat', sans-serif; fon
 }
 
 @media (max-width: 600px) {
+  /* Keep 3 lines' room for the hero subtitle. With the system font it wraps to 3 lines, with
+     Hind Siliguri sometimes 2 (e.g. 412px). Without this, the font swap lifts the phone image,
+     shows more of it, and the browser records a later, larger LCP (plus a small layout shift). */
+  .hero .lead { min-height: 3lh; }
   html[lang="bn"] body { font-size: 1rem; }
   .lang button { padding: 6px 10px; }
   .store img { height: 46px; }
