@@ -781,6 +781,11 @@ html[lang="en"] .pt-bubble { font-family: 'Anton', Impact, 'Arial Narrow', sans-
 .liquid-type.is-live > img { opacity: 0; }
 .liquid-type__canvas { position: absolute; pointer-events: none; }
 
+/* ---------- render below-the-fold sections lazily ----------
+   The browser skips style, layout and paint for these until they near the viewport, so the first
+   frame only has to handle the hero. `auto` remembers each section's real height once rendered. */
+main > .section, .final, .footer { content-visibility: auto; contain-intrinsic-size: auto 900px; }
+
 /* ---------- reveal + motion ---------- */
 .js .reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
 .js .reveal.is-in { opacity: 1; transform: none; }
