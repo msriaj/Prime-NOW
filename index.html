@@ -38,6 +38,7 @@
         if (!lab) return;
         lab.split(',').forEach(function (k) { document.documentElement.classList.add('lab-' + k); });
         if (/\bnofont\b/.test(lab)) document.querySelectorAll('link[href*="fonts.googleapis.com/css2"]').forEach(function (l) { l.remove(); });
+        if (/\bfontopt\b/.test(lab)) document.querySelectorAll('link[href*="fonts.googleapis.com/css2"]').forEach(function (l) { l.href = l.href.replace('display=swap', 'display=optional'); });
       } catch (e) {}
     })();
     (function () {
