@@ -32,22 +32,7 @@
     var target = id === '#top' ? 0 : document.querySelector(id);
     if (target === null) return;
     e.preventDefault();
-    // Sections render lazily (content-visibility: auto in style.css), so the ones passed on the
-    // way take their real height mid-scroll and the first landing can be off. Re-aim on arrival,
-    // a couple of times at most, until the section sits where it should.
-    var tries = 0;
-    function go() {
-      lenis.scrollTo(target, {
-        offset: target === 0 ? 0 : headerOffset(),
-        duration: tries ? 0.5 : undefined,
-        onComplete: function () {
-          if (target === 0 || ++tries > 2) return;
-          var off = target.getBoundingClientRect().top + headerOffset();
-          if (Math.abs(off) > 4) go();
-        }
-      });
-    }
-    go();
+    lenis.scrollTo(target, { offset: target === 0 ? 0 : headerOffset() });
     if (history.replaceState) history.replaceState(null, '', id);
   });
 })();
