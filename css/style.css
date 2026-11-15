@@ -816,8 +816,6 @@ html[lang="en"] .pt-bubble { font-family: 'Anton', 'Montserrat', sans-serif; fon
   .qr-tile { display: none; }
   .hero-visual { height: 470px; max-width: 460px; width: 100%; margin-inline: auto; }
   .hero-phone { width: 310px; }
-  /* TEST (LCP): no live drop-shadow filters on the hero images on phones */
-  .hero-phone, .hero-card { filter: none; }
   .hero-card { width: 118px; }
   .hero-card--purple { left: 6%; top: 22%; }
   .hero-card--orange { right: 6%; top: 30%; }
