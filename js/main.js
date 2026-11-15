@@ -7,6 +7,20 @@
   var root = document.documentElement;
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  /* Below-the-fold widgets (NOW Buddy, e-KYC stepper, card fan, DPS, spending, chat) are queued
+     with later() and run after the first paint, in slices of ~40ms, so the hero (and its LCP
+     image) can paint before this work instead of waiting behind it. */
+  var laterQueue = [];
+  function later(fn) { laterQueue.push(fn); }
+  function drainLater() {
+    var t0 = performance.now();
+    while (laterQueue.length) {
+      laterQueue.shift()();
+      if (performance.now() - t0 > 40) { setTimeout(drainLater, 0); return; }
+    }
+  }
+  function startLater() { requestAnimationFrame(function () { setTimeout(drainLater, 0); }); }
+
   var STORE = {
     ios: 'https://apps.apple.com/us/app/prime-now-app/id6759029598',
     android: 'https://play.google.com/store/apps/details?id=com.primenow.app'
@@ -233,9 +247,9 @@
     }, 2200 + Math.random() * 3800);
   };
 
-  document.querySelectorAll('[data-buddy]').forEach(function (host) { new Buddy(host); });
+  later(function () { document.querySelectorAll('[data-buddy]').forEach(function (host) { new Buddy(host); }); });
 
-  (function () {
+  later(function () {
     var stage = BUDDY.stage;
     // The chat header avatar wears the same face as the big one
     if (stage && BUDDY.chat) { BUDDY.chat.led = true; stage.mirrors.push(BUDDY.chat); stage.cur = ''; stage.apply(); }
@@ -358,7 +372,7 @@
     }
     stage.onMood = renderSay;
     onLang(renderSay);
-  })();
+  });
 
   /* ------------------------------------------------------------------
      Header: scrolled state + mobile menu
@@ -367,7 +381,7 @@
   // Phones only: scrolling down slides the bar off screen; any scroll up brings it back.
   // It stays put near the top, while the mobile menu is open, or while it holds focus.
   var mobileMQ = window.matchMedia('(max-width: 900px)');
-  var lastY = window.scrollY;
+  var lastY = 0;                                 // read on the first frame, not during startup (forces layout)
   function onScroll() {
     var y = window.scrollY;
     header.classList.toggle('is-scrolled', y > 12);
@@ -398,7 +412,7 @@
   menuBtn.addEventListener('click', function () { setMenu(!nav.classList.contains('is-open')); });
   nav.addEventListener('click', function (e) { if (e.target.closest('a')) setMenu(false); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setMenu(false); });
-  onScroll();
+  requestAnimationFrame(function () { lastY = window.scrollY; onScroll(); });
 
   /* ------------------------------------------------------------------
      Reveal on scroll (minimal: fade + 18px rise, once)
@@ -423,7 +437,7 @@
   /* ------------------------------------------------------------------
      e-KYC stepper — auto-advances while in view, stops once the user clicks
      ------------------------------------------------------------------ */
-  (function () {
+  later(function () {
     var steps = Array.prototype.slice.call(document.querySelectorAll('#kyc-steps .step'));
     var screens = document.querySelectorAll('.scr');
     var STEP_MS = 4200;
@@ -456,7 +470,7 @@
         if (inView) go(cur); else { clearTimeout(timer); steps.forEach(function (b) { b.classList.remove('is-timing'); }); }
       }, { threshold: 0.35 }).observe(document.getElementById('account'));
     }
-  })();
+  });
 
   /* ------------------------------------------------------------------
      Numberless card fan
@@ -467,7 +481,7 @@
      right. Left card -> the same the other way. The wrapping card dips and
      passes behind the others. The section tint follows the front card.
      ------------------------------------------------------------------ */
-  (function () {
+  later(function () {
     var fan = document.getElementById('card-fan');
     if (!fan) return;
     var section = document.getElementById('card');
@@ -522,12 +536,12 @@
     }
     onLang(render);
     render();
-  })();
+  });
 
   /* ------------------------------------------------------------------
      Security: card-lock switch in the "block your card" row
      ------------------------------------------------------------------ */
-  (function () {
+  later(function () {
     var row = document.getElementById('lock-row');
     if (!row) return;
     var sw = row.querySelector('.ld-switch');
@@ -536,12 +550,12 @@
       sw.setAttribute('aria-checked', String(locked));
       row.classList.toggle('is-locked', locked);
     });
-  })();
+  });
 
   /* ------------------------------------------------------------------
      DPS calculator (Fixed DPS rates from primenow.ai/product-rates, Jan 2026)
      ------------------------------------------------------------------ */
-  (function () {
+  later(function () {
     var range = document.getElementById('calc-amt');
     var out = document.getElementById('calc-amt-out');
     var totalEl = document.getElementById('calc-total');
@@ -569,7 +583,7 @@
     radioGroup(document.querySelector('#calc .seg'), function (b) { months = +b.dataset.m; render(); });
     onLang(render);
     render();
-  })();
+  });
 
   /* ------------------------------------------------------------------
      Spending widget data (shared with NOW Buddy's answer)
@@ -591,7 +605,7 @@
   var thisTotal = sum(SPEND.this), lastTotal = sum(SPEND.last);
   var dropPct = Math.round((lastTotal - thisTotal) / lastTotal * 100);
 
-  (function () {
+  later(function () {
     var wrap = document.getElementById('spend');
     var bar = document.getElementById('spend-bar');
     var list = document.getElementById('spend-list');
@@ -654,12 +668,12 @@
     radioGroup(wrap.querySelector('.seg'), function (b) { period = b.dataset.period; tip.hidden = true; render(); });
     onLang(render);
     render();
-  })();
+  });
 
   /* ------------------------------------------------------------------
      NOW Buddy chat demo
      ------------------------------------------------------------------ */
-  (function () {
+  later(function () {
     var log = document.getElementById('chat-log');
     var qwrap = document.querySelector('#chat-quick .qbtns');
     var QS = ['1', '2', '3', '4'];
@@ -724,7 +738,7 @@
     }
     onLang(function () { renderLog(); renderQs(); });
     renderLog(); renderQs();
-  })();
+  });
 
   /* ------------------------------------------------------------------
      Mobile sticky download bar — hidden over the hero and the final CTA
@@ -752,6 +766,9 @@
   /* ------------------------------------------------------------------
      Initial language (from <head> script / localStorage / ?lang=)
      ------------------------------------------------------------------ */
+  // Text swaps now (no Bangla flash for English visitors); the deferred widgets render in
+  // the current language once they have run, so their listeners fire at the end of the queue.
   if (lang === 'en') applyLang('en');
-  else listeners.forEach(function (fn) { fn(); });
+  later(function () { listeners.forEach(function (fn) { fn(); }); });
+  startLater();
 })();

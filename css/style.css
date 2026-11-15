@@ -213,6 +213,12 @@ html[lang="bn"] .hero h1 { font-size: clamp(2.6rem, 6vw, 4.7rem); }
 .lead { font-size: clamp(1.05rem, 1.6vw, 1.25rem); color: rgba(255,255,255,.82); margin-top: 22px; max-width: 32em; }
 .trustline { display: flex; align-items: center; gap: 10px; margin-top: 28px; font-size: .9rem; color: rgba(255,255,255,.75); }
 .trustline .ic { color: var(--lime); }
+/* hero copy fades up with CSS from the first paint (not gated on JS like .reveal) */
+.hero-copy > * { animation: hero-in .7s var(--ease) both; }
+.hero-copy > :nth-child(2) { animation-delay: .07s; }
+.hero-copy > :nth-child(3) { animation-delay: .14s; }
+.hero-copy > :nth-child(4) { animation-delay: .21s; }
+@keyframes hero-in { from { opacity: 0; transform: translateY(18px); } }
 
 .hero-visual { position: relative; height: clamp(500px, 50vw, 640px); margin-bottom: calc(-1 * clamp(56px, 8vw, 96px)); }
 .hero-phone { position: absolute; left: 50%; bottom: -12px; width: clamp(340px, 30vw, 440px); filter: drop-shadow(0 40px 50px rgba(10, 0, 50, .55)); z-index: 2; }
