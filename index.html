@@ -16,7 +16,7 @@
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wdth,wght@75..125,500..800&family=Anton&family=Knewave&family=Hind+Siliguri:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@600..800&family=Anton&family=Knewave&family=Hind+Siliguri:wght@400;600;700&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
   <script>
     // Set language before first paint so returning English visitors don't see a Bangla flash.
@@ -184,7 +184,7 @@
   <header class="site-header" id="top">
     <div class="wrap header-inner">
       <a class="brand" href="#top" aria-label="Prime NOW">
-        <img src="assets/logo-primenow-header.webp" alt="Prime NOW" width="1084" height="160">
+        <img src="assets/logo-primenow-header.webp" alt="Prime NOW" width="340" height="50">
       </a>
       <nav class="nav" id="nav" aria-label="Main">
         <a href="#account" data-i18n="nav.account">অ্যাকাউন্ট</a>
@@ -236,7 +236,7 @@
         <div class="hero-visual" aria-hidden="true">
           <img class="hero-card hero-card--purple" src="assets/card-purple.webp" alt="" width="450" height="714" data-depth="22" data-peek="purple">
           <img class="hero-card hero-card--orange" src="assets/card-orange.webp" alt="" width="450" height="714" data-depth="-16" data-peek="orange">
-          <img class="hero-phone" data-depth="6" src="assets/app-in-hand.webp" alt="" width="720" height="1075">
+          <img class="hero-phone" data-depth="6" src="assets/app-in-hand.webp" srcset="assets/app-in-hand-400.webp 400w, assets/app-in-hand-560.webp 560w, assets/app-in-hand.webp 720w" sizes="(max-width: 600px) 280px, (max-width: 900px) 310px, clamp(340px, 30vw, 440px)" fetchpriority="high" alt="" width="720" height="1075">
         </div>
       </div>
     </section>
@@ -289,7 +289,7 @@
 
               <!-- Screen 1: register -->
               <div class="scr is-active" data-screen="1">
-                <div class="scr-top"><img src="assets/logo.png" alt="" width="40" height="22"><span class="scr-prog"><i style="width:33%"></i></span></div>
+                <div class="scr-top"><img src="assets/logo.png" alt="" width="40" height="22" loading="lazy" decoding="async"><span class="scr-prog"><i style="width:33%"></i></span></div>
                 <p class="scr-title" data-i18n="scr.reg.title">চলুন শুরু করি</p>
                 <div class="fld"><span data-i18n="scr.reg.name">পুরো নাম</span><b data-i18n="scr.reg.nameV">রাফি আহমেদ</b></div>
                 <div class="fld"><span data-i18n="scr.reg.phone">মোবাইল নম্বর</span><b data-i18n="scr.reg.phoneV">০১৭১২ ৩৪৫ ৬৭৮</b></div>
@@ -299,7 +299,7 @@
 
               <!-- Screen 2: NID scan -->
               <div class="scr scr--dark" data-screen="2">
-                <div class="scr-top"><img src="assets/logo.png" alt="" width="40" height="22"><span class="scr-prog"><i style="width:66%"></i></span></div>
+                <div class="scr-top"><img src="assets/logo.png" alt="" width="40" height="22" loading="lazy" decoding="async"><span class="scr-prog"><i style="width:66%"></i></span></div>
                 <p class="scr-title" data-i18n="scr.nid.title">NID-এর সামনের অংশ</p>
                 <div class="nid-frame">
                   <div class="nid">
@@ -317,7 +317,7 @@
 
               <!-- Screen 3: selfie -->
               <div class="scr scr--dark" data-screen="3">
-                <div class="scr-top"><img src="assets/logo.png" alt="" width="40" height="22"><span class="scr-prog"><i style="width:100%"></i></span></div>
+                <div class="scr-top"><img src="assets/logo.png" alt="" width="40" height="22" loading="lazy" decoding="async"><span class="scr-prog"><i style="width:100%"></i></span></div>
                 <p class="scr-title" data-i18n="scr.selfie.title">লাইভ সেলফি</p>
                 <div class="face-ring">
                   <div class="face"><svg viewBox="0 0 100 120"><circle cx="50" cy="44" r="24"/><path d="M12 120c2-26 18-40 38-40s36 14 38 40"/></svg></div>
@@ -336,9 +336,9 @@
         <div class="card-stage reveal">
           <!-- Card fan: one card in front, two behind; click turns them like a carousel (js/main.js) -->
           <div class="card-fan" id="card-fan">
-            <img class="fan-card" data-color="purple" data-slot="c" src="assets/card-purple.webp" alt="Aurora — বেগুনি Prime NOW নাম্বারলেস কার্ড" width="450" height="714">
-            <img class="fan-card" data-color="orange" data-slot="l" src="assets/card-orange.webp" alt="Phoenix — কমলা Prime NOW নাম্বারলেস কার্ড" width="450" height="714">
-            <img class="fan-card" data-color="black" data-slot="r" src="assets/card-black.webp" alt="Stealth — কালো Prime NOW নাম্বারলেস কার্ড" width="450" height="714">
+            <img class="fan-card" data-color="purple" data-slot="c" src="assets/card-purple.webp" alt="Aurora — বেগুনি Prime NOW নাম্বারলেস কার্ড" width="450" height="714" loading="lazy" decoding="async">
+            <img class="fan-card" data-color="orange" data-slot="l" src="assets/card-orange.webp" alt="Phoenix — কমলা Prime NOW নাম্বারলেস কার্ড" width="450" height="714" loading="lazy" decoding="async">
+            <img class="fan-card" data-color="black" data-slot="r" src="assets/card-black.webp" alt="Stealth — কালো Prime NOW নাম্বারলেস কার্ড" width="450" height="714" loading="lazy" decoding="async">
           </div>
         </div>
 
@@ -649,7 +649,7 @@
         <div class="final-visual reveal">
           <div class="qr-poster">
             <div class="qr-frame">
-              <img src="assets/qr-download.svg" data-i18n-attr="alt:qr.alt" alt="Prime NOW অ্যাপ ডাউনলোডের QR কোড" width="260" height="260">
+              <img src="assets/qr-download.svg" data-i18n-attr="alt:qr.alt" alt="Prime NOW অ্যাপ ডাউনলোডের QR কোড" width="260" height="260" loading="lazy" decoding="async">
               <i class="qc qc1"></i><i class="qc qc2"></i><i class="qc qc3"></i><i class="qc qc4"></i>
             </div>
             <p class="qr-cap" data-i18n="qr.label">ফোনের ক্যামেরায় স্ক্যান করে অ্যাপ নিন</p>
@@ -664,7 +664,7 @@
     <div class="wrap">
       <div class="footer-top">
         <div class="footer-brand">
-          <img src="assets/logo-primenow-white.webp" alt="Prime NOW by Prime Bank" width="900" height="216">
+          <img src="assets/logo-primenow-white.webp" alt="Prime NOW by Prime Bank" width="520" height="125" loading="lazy" decoding="async">
           <p data-i18n="ft.tag">ব্যাংকিং চলুক আপনার ছন্দে।</p>
           <div class="social">
             <a href="https://www.facebook.com/YourPrimeNOW" target="_blank" rel="noopener" aria-label="Facebook"><svg class="ic"><use href="#i-fb"/></svg></a>

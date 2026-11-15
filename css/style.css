@@ -61,7 +61,7 @@ img { height: auto; }
 a { color: inherit; }
 button { font: inherit; color: inherit; cursor: pointer; }
 h1, h2, h3, h4 { font-family: var(--font-display); margin: 0; line-height: 1.15; font-weight: 600; }
-html[lang="bn"] h1, html[lang="bn"] h2, html[lang="bn"] h3 { line-height: 1.26; font-weight: 600; font-variation-settings: 'wdth' 104; }
+html[lang="bn"] h1, html[lang="bn"] h2, html[lang="bn"] h3 { line-height: 1.26; font-weight: 600; }
 /* English display type follows the brand's social posts: condensed heavy caps */
 html[lang="en"] h1, html[lang="en"] h2 { font-family: 'Anton', 'Montserrat', sans-serif; font-weight: 400; text-transform: uppercase; letter-spacing: .01em; line-height: 1.02; }
 /* One key word per heading: lime on dark sections, lime marker on light ones */
@@ -673,7 +673,7 @@ input[type="range"]::-moz-range-thumb { width: 16px; height: 16px; border-radius
 .pt-brush.pt-now { color: var(--lime); }
 .pt-brush { font-family: 'Knewave', 'Anton', sans-serif; font-weight: 400; font-size: clamp(4.2rem, 9vw, 7.6rem); line-height: .95; color: #fff; text-transform: uppercase; transform: rotate(-5deg); text-shadow: 0 7px 0 rgba(8, 3, 25, .45); }
 .pt-mob { display: none; }
-.pt-bubble { position: relative; display: inline-block; margin: 22px 0 34px .5em; padding: .1em .55em .22em; border-radius: 22px; background: var(--lime); color: var(--ink); font-family: 'Montserrat', 'Anek Bangla', sans-serif; font-weight: 800; font-variation-settings: 'wdth' 110; font-size: clamp(1.9rem, 4.2vw, 3.4rem); line-height: 1.15; transform: rotate(-4deg); box-shadow: 10px 10px 0 #0b0618; }
+.pt-bubble { position: relative; display: inline-block; margin: 22px 0 34px .5em; padding: .1em .55em .22em; border-radius: 22px; background: var(--lime); color: var(--ink); font-family: 'Montserrat', 'Anek Bangla', sans-serif; font-weight: 800; font-size: clamp(1.9rem, 4.2vw, 3.4rem); line-height: 1.15; transform: rotate(-4deg); box-shadow: 10px 10px 0 #0b0618; }
 .pt-bubble::after { content: ''; position: absolute; right: 18%; bottom: -24px; width: 0; height: 0; border-style: solid; border-width: 0 26px 26px 0; border-color: transparent var(--lime) transparent transparent; }
 html[lang="en"] .pt-bubble { font-family: 'Anton', 'Montserrat', sans-serif; font-weight: 400; text-transform: uppercase; }
 .final-visual { position: relative; display: flex; justify-content: center; }
