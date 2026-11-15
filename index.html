@@ -23,6 +23,9 @@
   <script>
     // Set language before first paint so returning English visitors don't see a Bangla flash.
     document.documentElement.classList.add('js');
+    // A reload starts at the top. Restoring the old offset lands in the wrong place on phones:
+    // the sections below the fold only know their estimated height (content-visibility).
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
     (function () {
       try {
         var q = new URLSearchParams(location.search).get('lang');
