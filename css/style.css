@@ -809,6 +809,8 @@ main > .section, .final, .footer { content-visibility: auto; contain-intrinsic-s
 }
 
 @media (max-width: 900px) {
+  /* phones: hero copy is there from the first paint (no fade-up), so the screen is complete sooner */
+  .hero-copy > * { animation: none; }
   :root { --header-h: 74px; }
   .header-inner { width: calc(100% - 24px); height: 58px; margin-top: 10px; border-radius: 20px; padding-inline: 16px 8px; }
   /* denser glass on phones: over the lime band and light sections the 72% tint let the
