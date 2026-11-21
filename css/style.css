@@ -374,6 +374,7 @@ html[lang="bn"] .hero h1 { font-size: clamp(2.6rem, 6vw, 4.7rem); }
 .facts-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
 .facts-grid li { display: flex; flex-direction: column; gap: 2px; padding-left: 18px; border-left: 2px solid rgba(19, 25, 39, .14); }
 .facts-grid b { font-family: var(--font-display); font-size: clamp(1.9rem, 3.4vw, 2.6rem); font-weight: 800; line-height: 1.1; }
+.facts-grid b small { font-size: .42em; font-weight: 700; vertical-align: .32em; margin-right: .1em; }
 .facts-grid span { font-weight: 600; font-size: .92rem; color: rgba(19, 25, 39, .78); }
 .facts-note { margin-top: 18px; font-size: .78rem; color: rgba(19, 25, 39, .66); }
 .facts-note a { font-weight: 600; }
@@ -496,7 +497,7 @@ html[lang="bn"] .hero h1 { font-size: clamp(2.6rem, 6vw, 4.7rem); }
 .head-split { position: relative; display: grid; grid-template-columns: 1.1fr .9fr; gap: 20px 64px; align-items: end; margin-bottom: clamp(36px, 5vw, 56px); }
 .head-split .sub { margin-top: 0; }
 .bento { position: relative; display: grid; grid-template-columns: repeat(12, 1fr); gap: 20px; }
-.b-tile { position: relative; overflow: hidden; border-radius: 32px; padding: clamp(24px, 3vw, 36px); }
+.b-tile { --pad: clamp(24px, 3vw, 36px); position: relative; overflow: hidden; border-radius: 32px; padding: var(--pad); }
 .b-tile h3 { font-size: clamp(1.4rem, 2.4vw, 1.95rem); margin-top: 0; }
 /* inline highlight: "Bangla QR" inside the QR heading */
 .b-qr h3 mark { background: var(--lime); color: var(--ink); padding: 0 .28em; border-radius: 8px; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
@@ -514,7 +515,9 @@ html[lang="bn"] .hero h1 { font-size: clamp(2.6rem, 6vw, 4.7rem); }
 .flow li { counter-increment: f; display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px 6px 6px; border-radius: 999px; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.16); font-size: .88rem; font-weight: 600; }
 .flow li::before { content: counter(f); width: 24px; height: 24px; flex: none; border-radius: 50%; display: grid; place-items: center; background: var(--lime); color: var(--ink); font-size: .78rem; font-weight: 800; }
 html[lang="bn"] .flow li::before { content: counter(f, bengali); }
-.b-qr-img { width: min(78%, 400px); margin-top: auto; align-self: flex-end; filter: drop-shadow(0 30px 40px rgba(10, 0, 50, .5)); }
+/* The photo is cut off at its right edge (sleeve) and bottom (hands): pin those edges to the tile's
+   right and bottom edges, and fade the left side, so no cut line shows inside the tile. */
+.b-qr-img { width: min(88%, 470px); margin-top: auto; margin-right: calc(-1 * var(--pad)); align-self: flex-end; -webkit-mask-image: linear-gradient(to right, transparent 0, #000 16%); mask-image: linear-gradient(to right, transparent 0, #000 16%); }
 
 .b-add { grid-column: span 5; background: var(--lav); }
 .b-add { display: flex; flex-direction: column; }
@@ -804,7 +807,7 @@ main > .section, .final, .footer { content-visibility: auto; contain-intrinsic-s
   .nav a { padding: 8px 9px; font-size: .86rem; }
   .b-qr { grid-column: span 12; grid-row: auto; min-height: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: end; }
   .b-qr .b-copy { align-self: center; padding-bottom: 36px; }
-  .b-qr-img { align-self: end; margin: 0; width: 100%; }
+  .b-qr-img { align-self: end; justify-self: end; margin: 0 calc(-1 * var(--pad)) 0 0; width: calc(100% + var(--pad)); }
   .b-add, .b-bills { grid-column: span 6; }
 }
 
@@ -881,7 +884,7 @@ main > .section, .final, .footer { content-visibility: auto; contain-intrinsic-s
   .hero-card--orange { right: 2%; top: 34%; }
   .b-qr { grid-template-columns: 1fr; }
   .b-qr .b-copy { padding-bottom: 8px; }
-  .b-qr-img { max-width: 380px; margin: 0 auto; }
+  .b-qr-img { width: min(100%, 420px); max-width: none; margin: 0 calc(-1 * var(--pad)) 0 auto; }
   .b-add, .b-bills { grid-column: span 12; }
   #calc .seg button { padding-inline: 4px; font-size: .8rem; white-space: nowrap; }
   .layers { padding: 2px 16px; }
