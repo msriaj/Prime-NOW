@@ -247,12 +247,12 @@ html[lang="bn"] .hero h1 { font-size: clamp(2.6rem, 6vw, 4.7rem); }
   animation: cardFloat 7s ease-in-out infinite; }
 .hero-card--purple { left: 6%; top: 20%; --r: -16deg; }
 .hero-card--orange { right: 4%; top: 30%; --r: 13deg; animation-delay: -3.5s; }
-/* The arm is cut off at the hero's bottom edge (it spans ~45–96% of the image width there). The phone leans by
-   rotating about the middle of that cut, like a wrist (origin 70% 100%), and sits 12px below the edge so the
+/* The arm is cut off at the hero's bottom edge (it spans ~50–100% of the image width there). The phone leans by
+   rotating about the middle of that cut, like a wrist (origin 75% 100%), and sits 12px below the edge so the
    small corner lift plus the ±4px vertical parallax never bring the cut into view. Centring lives in `translate`,
    not `transform`, because `transform` applies after `rotate` and would move the pivot off the arm. */
 .hero-phone { translate: calc(-50% + var(--px, 0px) + var(--kx, 0%)) var(--py, 0px);
-  rotate: var(--kr, 0deg); transform-origin: 70% 100%;
+  rotate: var(--kr, 0deg); transform-origin: 75% 100%;
   transition: translate .6s cubic-bezier(.2, .7, .3, 1), rotate .8s cubic-bezier(.34, 1.4, .64, 1); }
 .hero-visual[data-peek="purple"] .hero-card--purple { --kx: -20%; --ky: -6%; --kr: -7deg; --ks: 1.05; }
 .hero-visual[data-peek="purple"] .hero-card--orange { --kx: -7%; --ks: .96; }
