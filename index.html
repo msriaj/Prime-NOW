@@ -303,43 +303,9 @@
             <div class="phone-screen">
               <span class="island"></span>
 
-              <!-- Screen 1: register -->
-              <div class="scr is-active" data-screen="1">
-                <div class="scr-top"><img src="assets/logo.png" alt="" width="40" height="22" loading="lazy" decoding="async"><span class="scr-prog"><i style="width:33%"></i></span></div>
-                <p class="scr-title" data-i18n="scr.reg.title">চলুন শুরু করি</p>
-                <div class="fld"><span data-i18n="scr.reg.name">পুরো নাম</span><b data-i18n="scr.reg.nameV">MD RIAJ</b></div>
-                <div class="fld"><span data-i18n="scr.reg.phone">মোবাইল নম্বর</span><b data-i18n="scr.reg.phoneV">০১৭xx xxx xxx</b></div>
-                <div class="fld is-focus"><span data-i18n="scr.reg.user">ইউজারনেম</span><b>riaj.now<i class="caret"></i></b></div>
-                <span class="scr-btn" data-i18n="scr.next">পরবর্তী</span>
-              </div>
-
-              <!-- Screen 2: NID scan -->
-              <div class="scr scr--dark" data-screen="2">
-                <div class="scr-top"><img src="assets/logo.png" alt="" width="40" height="22" loading="lazy" decoding="async"><span class="scr-prog"><i style="width:66%"></i></span></div>
-                <p class="scr-title" data-i18n="scr.nid.title">NID-এর সামনের অংশ</p>
-                <div class="nid-frame">
-                  <div class="nid">
-                    <div class="nid-head"></div>
-                    <div class="nid-body">
-                      <span class="nid-photo"><svg class="ic"><use href="#i-user"/></svg></span>
-                      <span class="nid-lines"><i></i><i></i><i></i><i class="short"></i></span>
-                    </div>
-                  </div>
-                  <span class="scanline"></span>
-                </div>
-                <p class="scr-hint" data-i18n="scr.nid.hint">কার্ডটি ফ্রেমের ভেতরে রাখুন</p>
-                <span class="shutter"></span>
-              </div>
-
-              <!-- Screen 3: selfie -->
-              <div class="scr scr--dark" data-screen="3">
-                <div class="scr-top"><img src="assets/logo.png" alt="" width="40" height="22" loading="lazy" decoding="async"><span class="scr-prog"><i style="width:100%"></i></span></div>
-                <p class="scr-title" data-i18n="scr.selfie.title">লাইভ সেলফি</p>
-                <div class="face-ring">
-                  <div class="face"><svg viewBox="0 0 100 120"><circle cx="50" cy="44" r="24"/><path d="M12 120c2-26 18-40 38-40s36 14 38 40"/></svg></div>
-                </div>
-                <p class="scr-hint" data-i18n="scr.selfie.hint">ক্যামেরার দিকে তাকিয়ে চোখের পলক ফেলুন</p>
-              </div>
+              <!-- Onboarding video from the Figma OB screens. Steps: 01 sign-up 0s, 02 NID 18.48s, 03 face check 29.92s (js/main.js).
+                   The file loads when the section comes near (data-src), plays only while in view. -->
+              <video class="phone-video" id="kyc-video" data-src="assets/onboarding.mp4" poster="assets/onboarding-poster.webp" muted loop playsinline preload="none" width="536" height="1166"></video>
             </div>
           </div>
         </div>
@@ -568,21 +534,48 @@
     <section class="section" id="insights">
       <div class="wrap split split--rev">
         <div class="split-visual reveal">
-          <div class="spend" id="spend">
-            <div class="spend-head">
-              <p class="spend-title" data-i18n="w.title">মাসিক খরচ</p>
-              <div class="seg seg--sm" role="radiogroup" data-i18n-attr="aria-label:w.period" aria-label="সময়কাল">
-                <button type="button" role="radio" aria-checked="true" data-period="this" data-i18n="w.this">এই মাস</button>
-                <button type="button" role="radio" aria-checked="false" data-period="last" data-i18n="w.last">গত মাস</button>
-              </div>
+          <!-- App home blocks about money out (Figma "1.1b · Home · scrolled"): Transactions + Upcoming payment
+               widgets, the four money app tiles, and a NOW Buddy tip. Tile icons are the app's grey glass glyphs,
+               tinted by the panel through mix-blend-mode like in the app. -->
+          <div class="appblocks">
+            <div class="ab-grid">
+              <figure class="ab-widget">
+                <div class="ab-card ab-tx">
+                  <p class="ab-k" data-i18n="ab.net">নিট · অক্টোবর</p>
+                  <p class="ab-big ab-big--lime" data-i18n="ab.netV">+৳৭৪,২৫০</p>
+                  <div class="ab-rows">
+                    <p class="ab-row"><span data-i18n="ab.in">আয়</span><b data-i18n="ab.inV">৳১,০৬,৪০০</b></p>
+                    <span class="ab-bar"><i style="--w:100%"></i></span>
+                    <p class="ab-row"><span data-i18n="ab.out">খরচ</span><b data-i18n="ab.outV">৳৩২,১৫০</b></p>
+                    <span class="ab-bar ab-bar--out"><i style="--w:30%"></i></span>
+                  </div>
+                </div>
+                <figcaption data-i18n="ab.tx">লেনদেন</figcaption>
+              </figure>
+              <figure class="ab-widget">
+                <div class="ab-card ab-up">
+                  <p class="ab-k" data-i18n="ab.topay">এই মাসে দিতে হবে</p>
+                  <p class="ab-big" data-i18n="ab.topayV">৳৬৪,২৩০</p>
+                  <div class="ab-who">
+                    <span class="ab-av">RA<i aria-hidden="true"><svg viewBox="0 0 10 10"><path d="M2 4.2h5.2L5.6 2.6M8 5.8H2.8l1.6 1.6"/></svg></i></span>
+                    <b data-i18n="ab.payee">রিনা আক্তার</b>
+                    <span data-i18n="ab.when">আগামীকাল · ৳১,৫০০</span>
+                  </div>
+                </div>
+                <figcaption data-i18n="ab.up">আসন্ন পেমেন্ট</figcaption>
+              </figure>
             </div>
-            <p class="spend-total"><b id="spend-total">৳০</b><span class="delta" id="spend-delta"></span></p>
-            <div class="spend-bar" id="spend-bar" role="img"></div>
-            <div class="spend-tip" id="spend-tip" hidden></div>
-            <ul class="spend-list" id="spend-list"></ul>
-            <div class="spend-buddy">
+
+            <ul class="ab-apps">
+              <li><img src="assets/app-icons/expenditure.webp" alt="" width="48" height="48" loading="lazy" decoding="async"><span data-i18n="ab.a1">খরচ</span></li>
+              <li><img src="assets/app-icons/upcoming.webp" alt="" width="48" height="48" loading="lazy" decoding="async"><span data-i18n="ab.a2">আসন্ন</span></li>
+              <li><img src="assets/app-icons/history.webp" alt="" width="48" height="48" loading="lazy" decoding="async"><span data-i18n="ab.a3">ইতিহাস</span></li>
+              <li><img src="assets/app-icons/statement.webp" alt="" width="48" height="48" loading="lazy" decoding="async"><span data-i18n="ab.a4">স্টেটমেন্ট</span></li>
+            </ul>
+
+            <div class="ab-tip">
               <span class="chat-av" data-buddy="spend"></span>
-              <p id="spend-buddy-msg"></p>
+              <p data-i18n="ab.tip">দারুণ! এই মাসে শপিংয়ে ৳১,০০০ কম খরচ করেছেন।</p>
             </div>
           </div>
         </div>

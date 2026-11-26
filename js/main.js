@@ -435,40 +435,83 @@
   }
 
   /* ------------------------------------------------------------------
-     e-KYC stepper — auto-advances while in view, stops once the user clicks
+     e-KYC onboarding video + stepper
+     The phone plays assets/onboarding.mp4 (the Figma OB screens). The step
+     list follows the video: the active step and its progress bar come from
+     currentTime. Clicking a step jumps the video to that part. The file loads
+     when the section comes near and plays only while it is in view.
+     Reduced motion: no autoplay; a click shows that step's first screen.
      ------------------------------------------------------------------ */
   later(function () {
+    var section = document.getElementById('account');
+    var video = document.getElementById('kyc-video');
+    if (!section || !video) return;
     var steps = Array.prototype.slice.call(document.querySelectorAll('#kyc-steps .step'));
-    var screens = document.querySelectorAll('.scr');
-    var STEP_MS = 4200;
-    var auto = !reduceMotion, inView = false, timer = null, cur = 1;
+    var bars = steps.map(function (b) { return b.querySelector('.step-bar'); });
+    var START = [0, 18.48, 29.92];   // seconds where steps 01, 02, 03 begin in the video
+    var cur = 0, inView = false, raf = 0;
 
-    function go(n) {
-      cur = n;
-      clearTimeout(timer);
-      steps.forEach(function (b) {
-        var on = +b.dataset.step === n;
-        b.classList.toggle('is-active', on);
-        b.classList.remove('is-timing');
-        if (on) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current');
+    /* Load the whole file as a blob: a blob: URL can always seek, even from a server
+       that ignores Range requests (seeking a plain URL there jumps back to 0).
+       If fetch fails, fall back to the plain URL. Resolves once seeking works. */
+    var ready = null;
+    function load() {
+      if (ready) return ready;
+      ready = new Promise(function (done) {
+        var set = function (src) {
+          video.preload = 'auto'; video.src = src;
+          if (video.readyState >= 1) done(); else video.addEventListener('loadedmetadata', done, { once: true });
+          play();
+        };
+        if (!window.fetch || !window.URL) return set(video.dataset.src);
+        fetch(video.dataset.src).then(function (r) { if (!r.ok) throw r; return r.blob(); })
+          .then(function (b) { set(URL.createObjectURL(b)); }, function () { set(video.dataset.src); });
       });
-      screens.forEach(function (s) { s.classList.toggle('is-active', +s.dataset.screen === n); });
-      if (auto && inView) {
-        var active = steps[n - 1];
-        active.style.setProperty('--step-ms', STEP_MS + 'ms');
-        void active.offsetWidth; // restart the progress bar animation
-        active.classList.add('is-timing');
-        timer = setTimeout(function () { go(n % steps.length + 1); }, STEP_MS);
-      }
+      return ready;
     }
-    steps.forEach(function (b) {
-      b.addEventListener('click', function () { auto = false; go(+b.dataset.step); });
+    function stepAt(t) { var n = 0; START.forEach(function (s, i) { if (t >= s) n = i; }); return n; }
+
+    function render() {
+      var t = video.currentTime || 0, d = video.duration || 41;
+      var n = stepAt(t), end = START[n + 1] || d;
+      if (n !== cur) {
+        cur = n;
+        steps.forEach(function (b, i) {
+          b.classList.toggle('is-active', i === n);
+          if (i === n) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current');
+        });
+      }
+      bars.forEach(function (bar, i) {
+        bar.style.width = i === n ? Math.min(100, (t - START[n]) / (end - START[n]) * 100) + '%' : '0';
+      });
+    }
+    function tick() { render(); raf = video.paused ? 0 : requestAnimationFrame(tick); }
+    video.addEventListener('play', function () { if (!raf) raf = requestAnimationFrame(tick); });
+    video.addEventListener('seeked', render);
+
+    function play() {
+      if (reduceMotion || !inView || !video.src) return;
+      var p = video.play();
+      if (p && p.catch) p.catch(function () {});   // autoplay refused: the poster stays
+    }
+
+    steps.forEach(function (b, i) {
+      b.addEventListener('click', function () {
+        // +.25s lands just after the screen change, on the step's first screen (more when it won't play)
+        load().then(function () { video.currentTime = START[i] + (reduceMotion ? .6 : .25); render(); play(); });
+      });
     });
+
     if ('IntersectionObserver' in window) {
       new IntersectionObserver(function (entries) {
+        if (entries[0].isIntersecting) load();
+      }, { rootMargin: '300px 0px' }).observe(section);
+      new IntersectionObserver(function (entries) {
         inView = entries[0].isIntersecting;
-        if (inView) go(cur); else { clearTimeout(timer); steps.forEach(function (b) { b.classList.remove('is-timing'); }); }
-      }, { threshold: 0.35 }).observe(document.getElementById('account'));
+        if (inView) play(); else video.pause();
+      }, { threshold: 0.35 }).observe(section);
+    } else {
+      load(); inView = true; play();
     }
   });
 
@@ -586,7 +629,7 @@
   });
 
   /* ------------------------------------------------------------------
-     Spending widget data (shared with NOW Buddy's answer)
+     Spending data for NOW Buddy's answer about this month
      Colours: validated categorical palette, fixed per category.
      ------------------------------------------------------------------ */
   var CATS = [
@@ -604,71 +647,7 @@
   function sum(o) { return CATS.reduce(function (s, c) { return s + o[c.k]; }, 0); }
   var thisTotal = sum(SPEND.this), lastTotal = sum(SPEND.last);
   var dropPct = Math.round((lastTotal - thisTotal) / lastTotal * 100);
-
-  later(function () {
-    var wrap = document.getElementById('spend');
-    var bar = document.getElementById('spend-bar');
-    var list = document.getElementById('spend-list');
-    var totalEl = document.getElementById('spend-total');
-    var delta = document.getElementById('spend-delta');
-    var tip = document.getElementById('spend-tip');
-    var buddyMsg = document.getElementById('spend-buddy-msg');
-    var period = 'this';
-
-    var segs = CATS.map(function (c) {
-      var s = document.createElement('span');
-      s.style.background = c.c;
-      s.dataset.k = c.k;
-      bar.appendChild(s);
-      return s;
-    });
-
-    function render() {
-      var d = SPEND[period], total = sum(d);
-      totalEl.textContent = tk(total);
-      var cmp = period === 'this' ? lastTotal : SPEND.prev;
-      var ch = Math.round((total - cmp) / cmp * 100);
-      delta.classList.toggle('is-up', ch > 0);
-      delta.textContent = (ch > 0 ? '↑ ' : '↓ ') + t(ch > 0 ? 'spend.more' : 'spend.less', { pct: num(Math.abs(ch)) });
-
-      segs.forEach(function (s) { s.style.flexGrow = d[s.dataset.k]; s.style.flexBasis = '0'; });
-      bar.setAttribute('aria-label', t('spend.aria', {
-        total: tk(total),
-        parts: CATS.map(function (c) { return t('cat.' + c.k) + ' ' + tk(d[c.k]); }).join(', ')
-      }));
-
-      list.innerHTML = CATS.map(function (c) {
-        var v = d[c.k];
-        return '<li><i style="background:' + c.c + '"></i><span>' + t('cat.' + c.k) + '</span>' +
-          '<span class="pct">' + pct(v / total * 100) + '</span><span class="amt">' + tk(v) + '</span></li>';
-      }).join('');
-
-      buddyMsg.textContent = period === 'this'
-        ? t('spend.tip.this', { amt: tk(SPEND.last.shop - SPEND.this.shop) })
-        : t('spend.tip.last');
-      if (BUDDY.spend) BUDDY.spend.set(period === 'this' ? 'happy' : 'savvy');
-    }
-
-    // Hover tooltip on bar segments
-    function showTip(s) {
-      var d = SPEND[period], v = d[s.dataset.k], total = sum(d);
-      tip.innerHTML = '<b>' + t('cat.' + s.dataset.k) + '</b>' + tk(v) + ' · ' + pct(v / total * 100);
-      var wr = wrap.getBoundingClientRect(), r = s.getBoundingClientRect();
-      var x = r.left + r.width / 2 - wr.left;
-      x = Math.max(70, Math.min(wr.width - 70, x));
-      tip.style.left = x + 'px';
-      tip.style.top = (r.top - wr.top) + 'px';
-      tip.hidden = false;
-    }
-    segs.forEach(function (s) {
-      s.addEventListener('mouseenter', function () { showTip(s); });
-      s.addEventListener('mouseleave', function () { tip.hidden = true; });
-    });
-
-    radioGroup(wrap.querySelector('.seg'), function (b) { period = b.dataset.period; tip.hidden = true; render(); });
-    onLang(render);
-    render();
-  });
+  later(function () { if (BUDDY.spend) BUDDY.spend.set('happy'); });   // the money insights tip is good news
 
   /* ------------------------------------------------------------------
      NOW Buddy chat demo
